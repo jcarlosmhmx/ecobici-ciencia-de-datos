@@ -56,3 +56,19 @@ Cualquier integrante debe poder explicar cualquier celda del proyecto.
   - [ ] Clonar el repo en otra computadora y seguir el README desde cero para comprobar que es reproducible.
 - **Qué cambiamos o rechazamos:** _por completar_
 - **Verificado por:** _por completar_
+
+### IA-03 · Análisis exploratorio y propuesta de proyecto
+- **Fecha:** 2026-11-18
+- **Herramienta:** Claude Code (modelo Claude Opus 5.5).
+- **Qué se pidió:** con base en el PDF del proyecto final y en las pautas de estudio de caso del BID, analizar los CSV
+  y proponer un proyecto que cumpla la rúbrica.
+- **Qué produjo:** `docs/propuesta_proyecto.md`. Para generarlo se hicieron consultas exploratorias con DuckDB sobre una copia
+  temporal (no guardada en el repo), comparando los tres temas candidatos, y se consultó el catálogo público de estaciones (GBFS).
+  Durante el trabajo detectó que leer los 24 CSV juntos con DuckDB omitía sin aviso 2024-08 y 2024-09; lo corrigió leyendo
+  mes por mes y validando el total (42,377,769).
+- **Qué verificamos a mano:** _por completar por el equipo_. Sugerencias:
+  - [ ] Recalcular en `03_analisis.ipynb` las cifras clave (saldo matutino de 271-272 y de 014, 36 estaciones con saldo > capacidad).
+  - [ ] Confirmar en el mapa de ECOBICI que 266-267, 268-269, 271-272 y 273-274 están junto a Buenavista.
+  - [ ] Revisar que las metas del plan de acción estén redactadas como propuestas y no como resultados.
+- **Qué cambiamos o rechazamos:** _por completar_
+- **Verificado por:** _por completar_
