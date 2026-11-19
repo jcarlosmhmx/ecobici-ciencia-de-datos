@@ -1,0 +1,20 @@
+# Datos crudos (~2.7 GB): se reproducen con ./descargar_ecobici.sh
+datos/raw/
+# Intermedios Parquet: se regeneran ejecutando los notebooks
+*.parquet
+# Entorno de Python y Jupyter
+.venv/
+.ipynb_checkpoints/
+__pycache__/
+# Secretos / variables de entorno
+.env
+.env.*
+# Videos del proyecto (pesan demasiado para git; se comparten por Drive/YouTube)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.m4v
+*.webm
+# Sistema
+.DS_Store

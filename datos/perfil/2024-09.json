@@ -1,0 +1,80 @@
+{
+ "mes": "2024-09",
+ "filas": 1852179,
+ "vacios": {
+  "genero": 0,
+  "edad": 0,
+  "bici": 0,
+  "est_retiro": 0,
+  "fecha_retiro": 0,
+  "hora_retiro": 0,
+  "est_arribo": 0,
+  "fecha_arribo": 0,
+  "hora_arribo": 0
+ },
+ "genero": {
+  "M": 1279444,
+  "F": 537290,
+  "O": 35403,
+  "?": 25,
+  "NULL": 17
+ },
+ "edad": {
+  "no_numerica": 32,
+  "min": 16.0,
+  "max": 102.0,
+  "mediana": 32.0,
+  "menor_16": 0,
+  "mayor_80": 249
+ },
+ "formato_fecha": {
+  "fecha_retiro": {
+   "dd/mm/aaaa": 1852179,
+   "aaaa-mm-dd": 0,
+   "otro": 0,
+   "ejemplo_otro": []
+  },
+  "fecha_arribo": {
+   "dd/mm/aaaa": 1852179,
+   "aaaa-mm-dd": 0,
+   "otro": 0,
+   "ejemplo_otro": []
+  }
+ },
+ "fechas": {
+  "retiro_min": "2024-05-07 20:32:17",
+  "retiro_max": "2024-09-30 23:55:00",
+  "arribo_min": "2024-09-01 00:00:00",
+  "arribo_max": "2024-09-30 23:59:48",
+  "no_parseables": 0
+ },
+ "duracion_min": {
+  "negativa": 0,
+  "menor_1min": 152,
+  "mayor_3h": 800,
+  "mayor_24h": 61,
+  "mediana": 12.183333333333334
+ },
+ "misma_estacion": 51687,
+ "est_retiro": {
+  "unicas": 677,
+  "no_numericas": {
+   "271-272": 22285,
+   "237-238": 9724,
+   "107-108": 9017,
+   "192-193": 8298,
+   "158-159": 7906
+  }
+ },
+ "est_arribo": {
+  "unicas": 678,
+  "no_numericas": {
+   "271-272": 31390,
+   "266-267": 8705,
+   "107-108": 8481,
+   "158-159": 7572,
+   "237-238": 7275
+  }
+ },
+ "duplicados": 0
+}
