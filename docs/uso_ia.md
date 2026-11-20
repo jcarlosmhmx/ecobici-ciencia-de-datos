@@ -85,3 +85,22 @@ Cualquier integrante debe poder explicar cualquier celda del proyecto.
   - [ ] Que cada integrante lea la propuesta y esté de acuerdo con el tema (la decisión D-02 es del equipo, no de la IA).
 - **Qué cambiamos o rechazamos:** _por completar_
 - **Verificado por:** _por completar_
+
+### IA-05 · Pipeline medallion, notebooks 01 a 03 y resultados con 24 meses
+- **Fecha:** 2026-11-20
+- **Herramienta:** Claude Code (modelo Claude Sonnet 5.5).
+- **Qué se pidió:** revisar los esquemas de los archivos de 2024-11 a 2026-10; probar el diseño con un prototipo; construir el pipeline
+  (descarga leyendo el portal, bronze, silver, gold), regenerar los notebooks 01 a 03 con explicaciones en español, ejecutarlos con los 24 meses
+  y registrar las decisiones D-06 a D-12; borrar los archivos exploratorios de 2024–2025.
+- **Qué produjo:** `config/pipeline.toml`, el paquete `pipeline/`, `notebooks/01_perfilado.ipynb` a `03_analisis.ipynb` ejecutados, `datos/catalogo/`,
+  `datos/perfil/calidad_por_mes.csv` y `limpieza_resumen.csv`, las figuras `figuras/01_viajes_por_mes.png`, `03_perfil_horario.png` y `03_ranking_presion.png`,
+  y los documentos `arquitectura_pipeline.md` y `checklist_proyecto.md`. Los notebooks se generaron con un script temporal (no incluido en el repo) y luego se ejecutaron.
+- **Qué verificamos a mano:** _por completar por el equipo_. Sugerencias:
+  - [ ] Contar las filas de 2 o 3 CSV con otra herramienta (`wc -l` o DuckDB) y compararlas con la tabla de `01_perfilado.ipynb`.
+  - [ ] Recalcular a mano, con DuckDB o una hoja de cálculo sobre un mes, el saldo de la estación 014 entre las 7:00 y las 10:59 de un día laborable.
+  - [ ] Confirmar en el mapa de ECOBICI que 266-267, 268-269, 271-272 y 273-274 están junto a Buenavista.
+  - [ ] Revisar cada regla de limpieza (D-10) y decidir si la aceptan; confirmar la franja (P-10) y el día laborable (P-08).
+  - [ ] Ejecutar `python -m pipeline` en otra computadora siguiendo solo el README.
+  - [ ] Que cada integrante pueda explicar qué hace cada notebook y por qué cambió el saldo de 014 entre periodos (sin atribuirle una causa que los datos no demuestran).
+- **Qué cambiamos o rechazamos:** _por completar_. Observación: las cifras de la propuesta (IA-03) no se reproducen en su mayoría (D-08, D-12).
+- **Verificado por:** _por completar_

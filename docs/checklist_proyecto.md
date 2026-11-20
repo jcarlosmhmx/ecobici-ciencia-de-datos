@@ -1,6 +1,6 @@
 # Checklist del proyecto
 
-Estado al **2026-11-20**. Se actualiza cada vez que cambie algo (con la fecha en la columna de notas).
+Estado al **2026-11-20** (prueba preliminar con la ventana completa de 24 meses para revisión interna del equipo el sábado 2026-11-21, D-09 y D-11). Se actualiza cada vez que cambie algo (con la fecha en la columna de notas).
 
 **Leyenda:** ✅ hecho · 🔄 en progreso · ⬜ pendiente · ⏸ bloqueado por una decisión (ver sección 8)
 
@@ -26,7 +26,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Actualizar el `README.md` (tema, estructura, entregables, Ask y Act, validación, reglas) | 🔄 | Solo se cambió el problema. Falta lo listado en la revisión del README. |
 | Aprobar la arquitectura del pipeline (`docs/arquitectura_pipeline.md`) | ⏸ | P-06. |
 | Hacer commit de D-08, la arquitectura y este checklist | ⬜ | Los cambios siguen sin commit. |
-| Recolectar `station_status` (~7 días, cada 5 min) | ⏸ | P-05. Es lo que más tarda: cada día sin iniciar lo retrasa. |
+| Recolectar `station_status` (~7 días, cada 5 min) | ⬜ | Descartado para la prueba preliminar (D-09, P-05): no alcanza el tiempo. Opcional más adelante. |
 
 ## 3. Ask · Preguntar (10 pts)
 
@@ -41,10 +41,10 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 
 | Tarea | Estado | Notas |
 |---|---|---|
-| Perfilado de calidad de los datos | 🔄 | `01_perfilado.ipynb` existe pero es de 2024–2025: se regenera con la ventana nueva. |
+| Perfilado de calidad de los datos | 🔄 | `01_perfilado.ipynb` regenerado y ejecutado con los 24 meses. Retirados los archivos exploratorios de 2024–2025 (JSON de `datos/perfil/`, figuras `01_*` viejas, `01_perfilado.py`). |
 | Diccionario de datos | 🔄 | Existe; falta el formato de edad con decimal y los códigos `Temporal` (D-07, D-08). |
-| Script de descarga que lee el portal | ⬜ | Sustituye a `descargar_ecobici.sh` (URLs de 2024–2025 escritas a mano). |
-| Descarga y copia fechada del catálogo de estaciones | ⏸ | P-09. Solo se probó en un prototipo temporal. |
+| Script de descarga que lee el portal | 🔄 | `pipeline/descarga.py` hecho y probado con los 24 meses; `descargar_ecobici.sh` eliminado. |
+| Descarga y copia fechada del catálogo de estaciones | 🔄 | Copia en `datos/catalogo/` (2026-11-20). Falta confirmar si se versiona (P-09). |
 | Evaluar calidad, pertinencia y confiabilidad de las fuentes | ⬜ | Se redacta en el PDF. |
 | Fuente opcional: afluencia Tren Suburbano / Metro Buenavista | ⬜ | Opcional; ayuda a cumplir "múltiples fuentes". |
 
@@ -52,33 +52,33 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 
 | Tarea | Estado | Notas |
 |---|---|---|
-| `config/pipeline.toml` y paquete `pipeline/` | ⬜ | Estructura definida en la arquitectura. |
-| Bronze: CSV → Parquet por mes, validado contra el CSV | ⬜ | Funcionó en el prototipo (D-08). |
-| Decidir las reglas de limpieza (< 1 min, > 24 h, retiros anteriores a la ventana, códigos raros, edad) | ⬜ | Cada una va a la bitácora antes de programarse. |
-| Silver: limpieza, conteos antes y después, unión con el catálogo | ⬜ | `02_limpieza.ipynb`. |
-| Definir "día laborable" y la franja de la mañana | ⏸ | P-08 y P-10. |
-| Gold: tablas agregadas validadas contra silver | ⬜ | |
+| `config/pipeline.toml` y paquete `pipeline/` | ✅ | Versión mínima (descarga, bronze, silver, gold). Comando: `python -m pipeline`. |
+| Bronze: CSV → Parquet por mes, validado contra el CSV | ✅ | 24 meses, 39,235,386 viajes validados mes por mes. |
+| Decidir las reglas de limpieza (< 1 min, > 24 h, retiros anteriores a la ventana, códigos raros, edad) | 🔄 | Reglas provisionales aplicadas y registradas en D-10. El equipo debe confirmarlas. |
+| Silver: limpieza, conteos antes y después, unión con el catálogo | ✅ | `02_limpieza.ipynb` ejecutado con los 24 meses. |
+| Definir "día laborable" y la franja de la mañana | 🔄 | Provisionales: lunes a viernes y horas 7–10 (D-09). Confirmar P-08 y P-10. |
+| Gold: tablas agregadas validadas contra silver | ✅ | 5 tablas, validadas contra un recuento directo de silver. |
 | Ejecutar el pipeline en una máquina limpia siguiendo solo el README | ⬜ | Prueba de reproducibilidad final. |
 
 ## 6. Analyze · Analizar (15 pts)
 
 | Tarea | Estado | Notas |
 |---|---|---|
-| Saldo neto por estación, hora y día | ⬜ | `03_analisis.ipynb`. |
-| Persistencia (% de días laborales con saldo ≥ umbral) | ⬜ | |
-| Presión relativa (saldo ÷ capacidad) | ⬜ | La capacidad del catálogo es la actual. |
-| Matriz origen-destino del corredor Buenavista → Reforma | ⬜ | |
-| Comparación 2024-11→2025-10 contra 2025-11→2026-10 | ⬜ | |
-| Línea base con `station_status` | ⏸ | Depende de P-05. |
+| Saldo neto por estación, hora y día | ✅ | `03_analisis.ipynb` (24 meses, dos periodos). |
+| Persistencia (% de días laborales con saldo ≥ umbral) | ✅ | |
+| Presión relativa (saldo ÷ capacidad) | ✅ | La capacidad del catálogo es la actual. Incluye el indicador indirecto "bicis necesarias". |
+| Matriz origen-destino del corredor Buenavista → Reforma | 🔄 | Tabla de destinos hecha. Falta confirmar las 4 estaciones de Buenavista y la cifra "~580 diarios" de la propuesta (no se reproduce, D-10). |
+| Comparación 2024-11→2025-10 contra 2025-11→2026-10 | 🔄 | Hecha en el notebook 03 (D-12). Falta entender y explicar por qué baja el saldo de 014 (los viajes no lo explican). |
+| Línea base con `station_status` | ⬜ | No se hace en la prueba preliminar; se usa el indicador indirecto. |
 | Redactar limitaciones y no confundir correlación con causalidad | ⬜ | |
 
 ## 7. Share (5 pts), Act (10 pts) y documentos de apoyo
 
 | Tarea | Estado | Notas |
 |---|---|---|
-| Mapa de estaciones por saldo matutino | ⬜ | `04_visualizaciones.ipynb`. |
-| Perfil horario Buenavista contra 014 Reforma | ⬜ | |
-| Ranking de saldo ÷ capacidad | ⬜ | |
+| Mapa de estaciones por saldo matutino | ⬜ | `04_visualizaciones.ipynb` (no existe todavía). |
+| Perfil horario Buenavista contra 014 Reforma | 🔄 | Versión preliminar en `figuras/03_perfil_horario.png`. |
+| Ranking de saldo ÷ capacidad | 🔄 | Versión preliminar en `figuras/03_ranking_presion.png`. |
 | Diagrama o tabla de flujos desde Buenavista | ⬜ | |
 | Tres acciones con KPI, línea base, meta, responsable y plazo | 🔄 | Borrador en la propuesta; las líneas base dependen del análisis. Impacto = esperado, no comprobado. |
 | Aplicación Streamlit | ⏸ | P-02. Extra, no se pide en la rúbrica. |
@@ -97,7 +97,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | P-02 | Alcance de Streamlit (extra o requisito) | ⬜ |
 | P-03 | Descartar formalmente la nube (Databricks / warehouse) | ⬜ |
 | P-04 | Cómo versionar gold (`.gitignore` excluye `*.parquet`) | ⬜ |
-| P-05 | Máquina para recolectar `station_status` | ⬜ |
+| P-05 | Recolectar `station_status` | ✅ No para la preliminar (D-09) |
 | P-06 | Aprobar la arquitectura del pipeline | ⬜ |
 | P-07 | Versión mínima de Python (3.11 o 3.10) | ⬜ |
 | P-08 | Definición de "día laborable" (¿festivos?) | ⬜ |
@@ -106,6 +106,6 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 
 ## 9. Ruta crítica
 
-1. **Iniciar `station_status` ya** (P-05): son ~7 días de espera que no se pueden acelerar.
-2. Decidir P-06, P-08 y P-10 para poder construir el pipeline.
-3. Pipeline hasta silver y gold → recalcular cifras → documento, video y pitch.
+1. **Revisión de la prueba preliminar** con el equipo (sábado 2026-11-21).
+2. Decidir P-06, P-08 y P-10, confirmar las reglas de limpieza (D-10) y las estaciones de Buenavista.
+3. Visualizaciones finales (`04_visualizaciones.ipynb`) → documento, video y pitch con las cifras de D-12 (no las de la propuesta).

@@ -14,19 +14,26 @@ con los datos abiertos de viajes del sistema de bicicletas compartidas **ECOBICI
 ## Estructura del repositorio
 
 ```
-├── descargar_ecobici.sh      # descarga los 24 CSV originales a datos/raw/
 ├── requirements.txt          # librerías de Python necesarias
+├── config/pipeline.toml      # ventana de datos, franja de la mañana, reglas de limpieza
+├── pipeline/                 # código del pipeline: descarga, bronze, silver, gold (python -m pipeline)
 ├── datos/
-│   ├── raw/                  # CSV originales, uno por mes (NO se suben a git, ~2.7 GB)
-│   ├── procesados/           # datos limpios en Parquet (se regeneran con los notebooks)
+│   ├── raw/                  # CSV originales, uno por mes (NO se suben a git, ~2.4 GB)
+│   ├── bronze/               # los mismos datos en Parquet, sin cambios (se regenera; no va a git)
+│   ├── silver/               # viajes limpios en Parquet (se regenera; no va a git)
+│   ├── gold/                 # tablas agregadas para el análisis (se regenera)
+│   ├── catalogo/             # copia fechada del catálogo de estaciones (capacidad actual)
 │   └── perfil/               # tablas de diagnóstico de calidad (pequeñas, sí se suben)
 ├── notebooks/
-│   ├── 01_perfilado.ipynb    # Prepare: diagnóstico de calidad (sin limpiar nada)
-│   ├── 02_limpieza.ipynb     # Process: limpieza y transformación (pendiente)
-│   ├── 03_analisis.ipynb     # Analyze (pendiente)
+│   ├── 01_perfilado.ipynb    # Prepare: descarga, bronze y diagnóstico de calidad (sin limpiar nada)
+│   ├── 02_limpieza.ipynb     # Process: silver, limpieza y transformación
+│   ├── 03_analisis.ipynb     # Analyze: gold y análisis del desbalance
 │   └── 04_visualizaciones.ipynb  # Share (pendiente)
 ├── figuras/                  # gráficas exportadas para el documento y la presentación
 └── docs/
+    ├── propuesta_proyecto.md  # el caso: problema, fuentes, análisis y acciones propuestas (cifras preliminares)
+    ├── arquitectura_pipeline.md # diseño del pipeline (medallion local)
+    ├── checklist_proyecto.md  # estado de tareas y entregables
     ├── diccionario_datos.md   # qué significa cada columna y qué problemas tiene
     ├── bitacora_decisiones.md # registro de cada decisión de limpieza/transformación
     └── uso_ia.md              # registro del uso de herramientas de IA
@@ -34,7 +41,7 @@ con los datos abiertos de viajes del sistema de bicicletas compartidas **ECOBICI
 
 ## Instalación del entorno (una sola vez)
 
-Requisitos: **Python 3.10 o superior**, **VS Code** con las extensiones *Python* y *Jupyter*, y unos 4 GB libres en disco.
+Requisitos: **Python 3.11 o superior** (el pipeline lee su configuración con `tomllib`; decisión P-07 por confirmar), **VS Code** con las extensiones *Python* y *Jupyter*, y unos 4 GB libres en disco.
 Recomendado: 8 GB de RAM o más.
 
 Abre una terminal en la carpeta del proyecto y ejecuta:
@@ -58,26 +65,28 @@ intérprete de `.venv`.
 
 ## Cómo reproducir todo, paso a paso
 
-1. **Descargar los datos** (unos 2.7 GB; tarda según la conexión):
-   ```bash
-   bash descargar_ecobici.sh
-   ```
-   Quedan 24 archivos `datos/raw/2024-01.csv` … `datos/raw/2025-12.csv`. Si un archivo ya existe, no se vuelve a descargar.
-   En Windows, ejecútalo desde *Git Bash*, o descarga los archivos a mano con los enlaces del script y guárdalos con el nombre `AAAA-MM.csv`.
+**Atajo (prueba preliminar):** con el entorno activado, desde la carpeta del proyecto:
 
-2. **Ejecutar los notebooks en orden** desde VS Code (botón *Run All*), o desde la terminal con el entorno activado:
-   ```bash
-   cd notebooks
-   jupyter nbconvert --to notebook --execute --inplace 01_perfilado.ipynb
-   ```
-   | Notebook | Qué produce | Tiempo aprox. |
-   |---|---|---|
-   | `01_perfilado.ipynb` | `datos/perfil/calidad_por_mes.csv`, `datos/perfil/problemas_calidad.csv`, `figuras/01_*.png` | 5–10 min |
-   | `02_limpieza.ipynb` | Parquet limpio en `datos/procesados/` | pendiente |
-   | `03_analisis.ipynb` | tablas y resultados del análisis | pendiente |
-   | `04_visualizaciones.ipynb` | gráficas finales en `figuras/` | pendiente |
+```bash
+python -m pipeline                 # descarga + bronze + silver + gold (ejecuta los notebooks 01 a 03)
+python -m pipeline --desde silver  # repite solo desde una etapa (descarga, bronze, silver o gold)
+```
 
-3. **Guardar los notebooks con sus salidas.** Las salidas son la evidencia del trabajo, así que no hay que borrarlas antes de subirlos.
+El periodo de datos se define en `config/pipeline.toml`: la ventana fija **2024-11 a 2026-10** (24 meses, bitácora D-06 y D-11).
+La primera vez descarga ~2.4 GB y tarda unos 2 minutos con buena conexión; después, con los archivos ya descargados, unos 45 segundos.
+Si un archivo ya está descargado y completo, no se vuelve a bajar. Los archivos se descargan leyendo los enlaces de la
+página de datos abiertos (los nombres de archivo del portal no siguen un patrón).
+
+Cada etapa de datos se ejecuta a través de su notebook (desde VS Code también se pueden abrir y correr con *Run All*):
+
+| Notebook | Qué produce | Tiempo aprox. |
+|---|---|---|
+| `01_perfilado.ipynb` | descarga, `datos/bronze/`, `datos/perfil/calidad_por_mes.csv`, `figuras/01_viajes_por_mes.png` | ~30 s |
+| `02_limpieza.ipynb` | `datos/silver/viajes.parquet`, `datos/perfil/limpieza_resumen.csv` | ~10 s |
+| `03_analisis.ipynb` | `datos/gold/*.parquet`, `figuras/03_*.png` | ~10 s |
+| `04_visualizaciones.ipynb` | gráficas finales en `figuras/` | pendiente |
+
+**Guardar los notebooks con sus salidas.** Las salidas son la evidencia del trabajo, así que no hay que borrarlas antes de subirlos.
 
 ## Reglas de trabajo del equipo
 

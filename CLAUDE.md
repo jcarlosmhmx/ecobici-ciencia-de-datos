@@ -20,25 +20,25 @@ recalcular en `03_analisis.ipynb`. Fuentes extra: catálogo GBFS `station_inform
 - No confundir correlación con causalidad. No presentar impacto esperado como resultado comprobado.
 - Sencillez > complejidad: la complejidad tecnológica no da más puntos. No se requiere machine learning.
 - Rutas relativas a la raíz del repo; nada de rutas absolutas de una máquina.
-- Los CSV crudos NO van a git (son ~2.7 GB); se reproducen con `descargar_ecobici.sh`.
+- Los CSV crudos NO van a git (son ~2.7 GB); se reproducen con `python -m pipeline` (descarga leyendo el portal).
 
 ## Datos
-- `datos/raw/AAAA-MM.csv`: 24 meses (2024-01 a 2025-12), ~42.4 M viajes, 1.4–2.1 M filas por mes, ~100 MB c/u.
+- `datos/raw/AAAA-MM.csv`: ventana fija de 24 meses (2024-11 a 2026-10, bitácora D-06; se cambia en `config/pipeline.toml`), ~39.2 M viajes, ~1.4–1.7 M filas por mes, ~100 MB c/u.
 - Columnas: Genero_Usuario, Edad_Usuario, Bici, Ciclo_Estacion_Retiro, Fecha_Retiro, Hora_Retiro,
   Ciclo_EstacionArribo, Fecha_Arribo (en algunos meses "Fecha Arribo" con espacio), Hora_Arribo.
-  Algunos meses (2024-08, 2024-09) traen encabezados entre comillas. Fechas dd/mm/aaaa, horas HH:MM:SS.
+  Los 24 meses de la ventana traen el mismo encabezado (D-07); desde 2026-06 la edad viene con decimal ("26.0"). Fechas dd/mm/aaaa, horas HH:MM:SS.
 - Leer códigos de estación como texto (tienen ceros a la izquierda: "015").
 - Los archivos están organizados por fecha de ARRIBO (hay retiros del mes anterior).
-- Para procesar 42 M filas: procesar mes por mes o usar DuckDB; guardar intermedios en Parquet (`datos/procesados/`).
+- Para procesar ~40 M filas: procesar mes por mes con DuckDB; capas en Parquet (`datos/bronze`, `datos/silver`, `datos/gold`), código en `pipeline/`.
 
-## Hallazgos del perfilado preliminar (verificar al re-ejecutar)
+## Hallazgos del perfilado exploratorio de 2024-2025 (referencia; las cifras vigentes están en la bitácora D-12 y en los notebooks)
 - Sin vacíos ni duplicados exactos.
 - Género: M ~69%, F ~28%, O ~2%; valor "?" crece de ~10/mes (2024) a ~50 mil/mes (fin 2025); algunos "NULL".
 - Edad: mínimo 16, máximos absurdos (124, 143, 160); 200–700 registros/mes con >80 años; algunos no numéricos.
 - Duración: mediana ~12 min; 85–270 viajes/mes <1 min; 35–95/mes >24 h; retiros fechados hasta 2022 en archivos de 2024.
 - ~678 estaciones; códigos dobles tipo "271-272" (estaciones contiguas); ~3% de viajes regresan a la misma estación.
-- Existe un script preliminar `notebooks/01_perfilado.py` (lo generó la IA para explorar); debe migrarse a notebook.
 
 ## Estructura del repo
-datos/raw (ignorado) · datos/procesados (ignorado si pesa) · datos/perfil · notebooks/ (01_perfilado, 02_limpieza,
-03_analisis, 04_visualizaciones) · figuras/ · docs/ (bitacora_decisiones.md, uso_ia.md, diccionario_datos.md) · README.md
+config/pipeline.toml · pipeline/ (python -m pipeline) · datos/raw, bronze, silver (ignorados) · datos/gold, catalogo, perfil · notebooks/ (01_perfilado,
+02_limpieza, 03_analisis, 04_visualizaciones) · figuras/ · docs/ (propuesta_proyecto, arquitectura_pipeline, checklist_proyecto, bitacora_decisiones,
+uso_ia, diccionario_datos) · README.md

@@ -181,6 +181,100 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 - **Validación:** el prototipo está en la carpeta temporal de la sesión y no se versiona. Las cifras deben recalcularse en `03_analisis.ipynb`.
 - **Responsable:** _por completar por el equipo_
 
+### D-09 · Alcance de la prueba preliminar (revisión interna del equipo, sábado 2026-11-21)
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Process / Analyze — pipeline mínimo y notebooks 01 a 03
+- **Decisión:** la prueba preliminar la revisa **el equipo** (no el profesor) el 2026-11-21 y debe poder entenderse sin perfil técnico.
+  Alcance: pipeline mínimo (descarga → bronze → silver → gold) y notebooks 01 a 03 con salidas, sobre una **ventana parcial
+  (2026-06 a 2026-10)** y no sobre los 24 meses de D-06, que sigue siendo la ventana final. No se recolecta `station_status`
+  (no alcanza el tiempo: se necesitan varias mañanas laborales); la acción 1 usará un indicador indirecto calculado con los viajes
+  (saldo acumulado desde las 7:00 frente a la capacidad), que **no mide estaciones vacías** y se declara como limitación.
+  Valores **provisionales** que se confirman después: franja de la mañana = horas 7 a 10 (07:00–10:59, P-10) y día laborable = lunes a viernes sin excluir
+  festivos (P-08). Cualquier cifra de la prueba es preliminar y no se copia a documentos finales.
+- **Alternativa(s) descartada(s):** recolectar `station_status` hasta el sábado (solo habría 1 o 2 mañanas, no una muestra útil);
+  procesar los 24 meses (2.43 GB, horas de descarga y procesamiento, riesgo para la entrega).
+- **Justificación:** es lo que se puede validar de punta a punta en el plazo. La franja 7–10 h es la única con la que se reproduce
+  la cifra de la propuesta para la estación 014 (D-08), lo que permite comparar con la exploración.
+- **Registros afectados:** 0 (decisión de alcance). La ventana parcial son ≈3.1 M de viajes de 5 meses.
+- **Validación:** pendiente: al terminar, comprobar que los conteos por mes coinciden con los CSV y que el pipeline corre desde cero.
+- **Responsable:** _por completar por el equipo_
+
+### D-10 · Reglas de limpieza provisionales y primeros resultados de la prueba preliminar
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Process / Analyze — `notebooks/02_limpieza.ipynb`, `notebooks/03_analisis.ipynb`
+- **Decisión:** en la capa silver se excluye un viaje si incumple la **primera** de estas reglas (en este orden): fecha u hora no interpretable;
+  arribo anterior al retiro; duración menor a 60 s; duración mayor a 24 h; retiro anterior al mes previo al del archivo. **No se excluyen**
+  viajes con estaciones sin catálogo (`Temporal 1` a `4`, `1000`; ≈610 viajes) ni se corrige la edad o el género (no intervienen en el análisis).
+  Los umbrales viven en `config/pipeline.toml`. Son **provisionales** hasta que el equipo los confirme.
+- **Alternativa(s) descartada(s):** (a) no excluir nada (los viajes de segundos o de días distorsionan los conteos); (b) excluir también los viajes
+  que regresan a la misma estación (~3 %, son uso real); (c) excluir las estaciones `Temporal` (sus movimientos son reales, solo carecen de capacidad).
+- **Justificación:** son reglas simples, de efecto muy pequeño y fáciles de explicar. Se cuenta cuántos viajes se excluye por cada motivo.
+- **Registros afectados:** ventana 2026-06 a 2026-10: 7,558,447 viajes conservados (99.983 %); excluidos 1,049 por durar menos de 1 min (0.014 %)
+  y 254 por durar más de 24 h (0.003 %). Las demás reglas no excluyen ninguno (los retiros muy antiguos caen antes en la regla de las 24 h).
+- **Validación:** el pipeline comprueba que bronze = conservados + excluidos en cada mes, y que los totales de gold coinciden con un
+  recuento directo de silver (1,545,362 salidas y 1,539,497 llegadas en la franja de la mañana).
+- **Responsable:** _por completar por el equipo_
+- **Resultados preliminares (ventana 2026-06 a 2026-10, 110 días laborables, franja 7–10 h, día laborable = lunes a viernes).**
+  Ya NO coinciden con las de la propuesta, que son de 2024–2025 y salieron de una exploración con IA:
+
+  | Medida | Propuesta | Recalculado (preliminar) |
+  |---|---|---|
+  | Saldo medio de la mañana, estación 014 | +243 | +111.6 (gana ≥5 bicis el 100 % de los días) |
+  | Saldo medio de la mañana, estación 271-272 | −250 | −186.4 (pierde ≥5 bicis el 97.3 % de los días) |
+  | Estaciones con |saldo| > capacidad | 36 | 29 (de 677 con capacidad conocida) |
+  | Estaciones con |saldo| > mitad de la capacidad | 167 | 150 |
+  | Peso de las 100 estaciones con mayor desbalance | 42 % | 47 % |
+  | Viajes del corredor Buenavista → Reforma por la mañana | "~580 diarios" | 271-272 → 014: 585 viajes **en total** (≈5 al día); los 10 destinos principales desde las 4 estaciones de Buenavista suman ≈9,000 en 110 días (≈80 al día) |
+
+  El patrón de fondo se mantiene (Buenavista se vacía, Reforma se llena, y por la tarde se invierte: ver `figuras/03_perfil_horario.png`).
+  La cifra de "~580 viajes diarios" de la propuesta **no se reproduce** con ninguna definición probada; hay que revisar de dónde salió antes de usarla.
+  La medida indirecta "bicis necesarias a las 7:00" de 271-272 es de 187 en promedio (máximo 359) frente a una capacidad de 74 (ver limitaciones en el notebook 03).
+
+### D-11 · La prueba preliminar usa la ventana completa de 24 meses (revisa D-09)
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Prepare / Process / Analyze — `config/pipeline.toml`, notebooks 01 a 03
+- **Decisión:** por indicación del equipo, la prueba preliminar **descarga y procesa los 24 meses** (2024-11 a 2026-10, D-06) y no la ventana
+  parcial de 5 meses de D-09. El resto de D-09 sigue igual (revisión interna el 2026-11-21, sin `station_status`, franja y día laborable provisionales).
+  La configuración define dos periodos de 12 meses (2024-11 a 2025-10 y 2025-11 a 2026-10) para responder la pregunta 4. Para no cargar ~42 M de
+  filas en memoria, silver y gold usan vistas de DuckDB en lugar de tablas intermedias, y silver lee solo los archivos bronze de los meses de la ventana.
+- **Alternativa(s) descartada(s):** mantener la ventana de 5 meses de D-09 (más rápida, pero sin comparación entre periodos).
+- **Justificación:** el equipo quiere ver el pipeline y los resultados sobre los datos reales completos, y la comparación entre dos años de 12 meses
+  es una de las cuatro preguntas de investigación.
+- **Registros afectados:** los de la ventana completa; los conteos exactos se registran en el notebook 02 y en `datos/perfil/limpieza_resumen.csv`.
+- **Validación:** el pipeline valida cada mes contra su CSV y gold contra silver. Las cifras de D-10 (ventana de 5 meses) quedan **sustituidas** por las del notebook 03.
+- **Responsable:** _por completar por el equipo_
+
+### D-12 · Resultados preliminares con la ventana completa de 24 meses (sustituyen a los de D-10)
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Process / Analyze — `notebooks/02_limpieza.ipynb`, `notebooks/03_analisis.ipynb`
+- **Decisión:** se registran las cifras obtenidas al ejecutar el pipeline completo (descarga, bronze, silver y gold en ≈2 min con los archivos
+  ya descargados; ≈1.5 min más la primera vez) con la configuración de D-11. Son **preliminares**: dependen de las reglas provisionales (D-10),
+  de la franja 7–10 h (P-10) y de día laborable = lunes a viernes (P-08).
+- **Alternativa(s) descartada(s):** no aplica (registro de resultados).
+- **Justificación:** deja constancia de qué cifras salieron de los datos y cuáles de la propuesta no se reproducen.
+- **Registros afectados:** bronze 39,235,386 viajes (= suma de los 24 CSV validada mes por mes); silver 39,229,201 conservados (99.984 %);
+  excluidos 5,027 por durar menos de 1 min (0.013 %) y 1,158 por más de 24 h (0.003 %). 2,521 viajes (0.006 %) tienen una estación sin catálogo
+  (`Temporal …`, `1000`, algunos con comillas dobles dentro del código). 261 y 260 días laborables en cada periodo.
+- **Validación:** conteo por mes bronze = CSV; conservados + excluidos = bronze; gold = recuento directo de silver
+  (7,694,762 salidas y 7,659,576 llegadas en la franja de la mañana).
+- **Responsable:** _por completar por el equipo_
+- **Resultados:**
+
+  | Medida (día laborable, 7–10 h) | Propuesta (2024-2025, exploración IA) | 2024-11 a 2025-10 | 2025-11 a 2026-10 |
+  |---|---|---|---|
+  | Saldo medio, estación 014 Reforma | +243 | **+240.9** | +117.5 |
+  | Saldo medio, estación 271-272 Buenavista | −250 | −178.7 | −138.9 |
+  | Estaciones con \|saldo\| > capacidad | 36 | 44 | 32 |
+  | Estaciones con \|saldo\| > mitad de la capacidad | 167 | 160 | 155 |
+  | Peso de las 100 estaciones con mayor desbalance | 42 % | 49 % | 46 % |
+  | Viajes/día de los 10 destinos principales desde Buenavista (mañana) | "~580 diarios" | ≈103 | ≈75 |
+
+  Lectura (sin explicar causas): (1) el +243 de la propuesta para 014 **sí se reproduce** con el primer periodo (+241), lo que respalda que se usó la
+  franja 7–10 h; (2) el saldo de 014 **se redujo a la mitad** en el segundo periodo, y el de las estaciones de Buenavista bajó en magnitud, aunque la dirección
+  y la persistencia (≥ 88 % de los días en Buenavista, ≥ 94 % en 014) se mantienen; (3) el −250 de 271-272 y los "~580 viajes diarios" **no se reproducen** con
+  ninguna definición probada; hay que ubicar su origen antes de usarlos; (4) por qué cambió 014 entre periodos **no se sabe**: puede ser demanda, capacidad, estaciones
+  nuevas o cambios operativos, y los datos de viajes no lo distinguen.
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |
@@ -188,9 +282,9 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 | P-02 | Alcance de Streamlit | Extra que lee solo gold, o requisito del pipeline | La rúbrica no pide aplicación. Si bloquea el arranque, el pipeline debe correr aparte con progreso visible. |
 | P-03 | ¿Se descarta formalmente la nube (Databricks / warehouse)? | Sí (D-04) o mantener como opcional | Debe confirmarlo el equipo. |
 | P-04 | Gold en git | Añadir excepción en `.gitignore` o guardar como CSV | `.gitignore` excluye hoy `*.parquet`. |
-| P-05 | Máquina para recolectar `station_status` (~7 días) | Por definir | Es lo que más tarda. Falta el script. |
+| P-05 | Recolectar `station_status` (~7 días) | **No se hace para la prueba preliminar** (D-09); queda opcional para después | La línea base de la acción 1 usará el indicador indirecto de los viajes. |
 | P-06 | Aprobar la estructura de `docs/arquitectura_pipeline.md` | Aprobar o ajustar | Propuesta del 2026-11-20 (capas, carpetas, configuración, validaciones). |
-| P-07 | Versión mínima de Python | 3.11 (`tomllib`) o mantener 3.10 con otro formato de configuración | Afecta al README. |
+| P-07 | Versión mínima de Python | 3.11 (`tomllib`) o mantener 3.10 con otro formato de configuración | El pipeline ya usa `tomllib` y el README pide 3.11; confirmar. |
 | P-08 | Definición de "día laboral" | Lunes a viernes, o también excluir festivos oficiales | Cambia las cifras del análisis. |
 | P-10 | Definición de la franja "mañana" | 07:00–09:59 (horas 7, 8, 9) o 07:00–10:59 (horas 7 a 10) | La cifra +243 de la estación 014 en la propuesta solo sale con la hora 10 incluida (D-08). |
 | P-09 | Copia fechada del catálogo de estaciones en git | Sí (reproducible) o descargar siempre la versión vigente | La capacidad es la actual, no la de 2024–2026: limitación a declarar. |

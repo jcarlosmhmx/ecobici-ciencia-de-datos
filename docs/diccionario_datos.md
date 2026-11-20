@@ -1,6 +1,6 @@
 # Diccionario de datos: viajes ECOBICI CDMX (2024-01 a 2025-12)
 
-- **Fuente:** <https://ecobici.cdmx.gob.mx/datos-abiertos/> (descarga con `descargar_ecobici.sh`).
+- **Fuente:** <https://ecobici.cdmx.gob.mx/datos-abiertos/> (descarga con `python -m pipeline`).
 - **Unidad de observación:** un renglón = un viaje (retiro y devolución de una bicicleta).
 - **Archivos:** 24 CSV mensuales en `datos/raw/AAAA-MM.csv`, 42,377,769 viajes en total (de 1.45 M a 2.05 M por mes), 2.66 GB.
   Cada archivo agrupa los viajes por **fecha de arribo**, no de retiro.

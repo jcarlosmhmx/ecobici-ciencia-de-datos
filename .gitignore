@@ -1,4 +1,4 @@
-# Datos crudos (~2.7 GB): se reproducen con ./descargar_ecobici.sh
+# Datos crudos (~2.7 GB): se reproducen con python -m pipeline
 datos/raw/
 # Intermedios Parquet: se regeneran ejecutando los notebooks
 *.parquet
