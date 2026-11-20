@@ -72,3 +72,16 @@ Cualquier integrante debe poder explicar cualquier celda del proyecto.
   - [ ] Revisar que las metas del plan de acción estén redactadas como propuestas y no como resultados.
 - **Qué cambiamos o rechazamos:** _por completar_
 - **Verificado por:** _por completar_
+
+### IA-04 · Fase 0: decisión del tema y actualización de documentos
+- **Fecha:** 2026-11-20
+- **Herramienta:** Claude Code (modelo Claude Sonnet 5.5).
+- **Qué se pidió:** analizar la propuesta y armar un plan de trabajo; revisar el README contra el PDF del proyecto y las pautas
+  del BID; comprobar que el catálogo de estaciones y `station_status` estén disponibles; registrar la decisión del tema.
+- **Qué produjo:** entradas D-02 a D-05 y la lista de decisiones pendientes en la bitácora, esta entrada, y cambios en `CLAUDE.md`, `README.md` y la cabecera de
+  `docs/propuesta_proyecto.md`. Las consultas a los dos endpoints GBFS solo leyeron los datos (no se guardaron).
+- **Qué verificamos a mano:** _por completar por el equipo_. Sugerencias:
+  - [ ] Abrir las dos URL de GBFS en el navegador y confirmar que traen 677 estaciones y el campo `capacity`.
+  - [ ] Que cada integrante lea la propuesta y esté de acuerdo con el tema (la decisión D-02 es del equipo, no de la IA).
+- **Qué cambiamos o rechazamos:** _por completar_
+- **Verificado por:** _por completar_

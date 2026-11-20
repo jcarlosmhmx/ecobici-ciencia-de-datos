@@ -1,6 +1,7 @@
 # Propuesta de proyecto: desbalance de estaciones ECOBICI (corredor Buenavista → Reforma)
 
-> **Estado:** propuesta para discusión del equipo (2026-11-18). Todavía no es la versión final.
+> **Estado:** tema **adoptado** el 2026-11-20 (bitácora D-02), condicionado a la cobertura de datos (ver D-02). Las cifras
+> y las metas siguen siendo preliminares (propuesta del 2026-11-18).
 > **Base:** *Proyecto final: De los datos a la toma de decisiones* (Anáhuac Puebla) y *Pautas para la elaboración
 > de Estudios de Caso* (BID, 2011).
 >

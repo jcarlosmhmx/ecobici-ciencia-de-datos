@@ -7,7 +7,9 @@ con los datos abiertos de viajes del sistema de bicicletas compartidas **ECOBICI
 24 meses (enero 2024 a diciembre 2025), unos **42 millones de viajes**.
 
 - Fuente de datos: <https://ecobici.cdmx.gob.mx/datos-abiertos/>
-- Problema a investigar: *por definir* (candidatos: desbalance de estaciones, brecha de género, evolución de la demanda).
+- Problema a investigar: **desbalance de estaciones en el corredor Buenavista → Reforma** (cada mañana las estaciones
+  de Buenavista se vacían y las de Reforma se saturan). Detalle en [`docs/propuesta_proyecto.md`](docs/propuesta_proyecto.md);
+  la decisión de tema está en la bitácora (D-02).
 
 ## Estructura del repositorio
 
