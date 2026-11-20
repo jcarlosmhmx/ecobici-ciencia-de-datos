@@ -94,7 +94,7 @@ Cualquier integrante debe poder explicar cualquier celda del proyecto.
   y registrar las decisiones D-06 a D-12; borrar los archivos exploratorios de 2024–2025.
 - **Qué produjo:** `config/pipeline.toml`, el paquete `pipeline/`, `notebooks/01_perfilado.ipynb` a `03_analisis.ipynb` ejecutados, `datos/catalogo/`,
   `datos/perfil/calidad_por_mes.csv` y `limpieza_resumen.csv`, las figuras `figuras/01_viajes_por_mes.png`, `03_perfil_horario.png` y `03_ranking_presion.png`,
-  y los documentos `arquitectura_pipeline.md` y `checklist_proyecto.md`. Los notebooks se generaron con un script temporal (no incluido en el repo) y luego se ejecutaron.
+  y los documentos `arquitectura_pipeline.md` y `checklist_proyecto.md`. Después añadió las definiciones D-13 y el análisis de la estación 014 y del corredor (D-14, secciones 7 y 8 del notebook 03, figura `03_serie_014.png`). Los notebooks se generaron con un script temporal (no incluido en el repo) y luego se ejecutaron.
 - **Qué verificamos a mano:** _por completar por el equipo_. Sugerencias:
   - [ ] Contar las filas de 2 o 3 CSV con otra herramienta (`wc -l` o DuckDB) y compararlas con la tabla de `01_perfilado.ipynb`.
   - [ ] Recalcular a mano, con DuckDB o una hoja de cálculo sobre un mes, el saldo de la estación 014 entre las 7:00 y las 10:59 de un día laborable.

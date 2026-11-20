@@ -313,6 +313,29 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
   Buenavista en el primer periodo (565), no a la ruta hacia Reforma: la cifra de la propuesta estaba mal rotulada (hipótesis, no verificada); (3) el −250 de 271-272 sigue sin reproducirse
   (−193 y −151); (4) el saldo de 014 **bajó a la mitad** y las salidas de Buenavista bajaron ≈20 % entre periodos; los viajes no explican por qué.
 
+### D-14 · Qué se sabe (y qué no) sobre la caída de la estación 014, y definición de "Reforma" como destino del corredor
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Analyze — `notebooks/03_analisis.ipynb` (secciones 7 y 8), `pipeline/gold.py`
+- **Decisión:** (1) **"Reforma" como destino** = las estaciones del catálogo cuyo nombre contiene la palabra "Reforma" (24 estaciones; regla en `config/pipeline.toml`,
+  columna `en_reforma` de gold). (2) Se añaden a gold tres tablas: `serie_mensual_estacion`, `origenes_llegadas_foco` y `corredor_buenavista_reforma`.
+  (3) Se investiga la caída del saldo de 014 con tres comprobaciones sobre los viajes: serie mensual, comparación con estaciones vecinas y origen de las llegadas.
+- **Alternativa(s) descartada(s):** definir "Reforma" por un polígono geográfico (requeriría coordenadas que no se pueden comprobar aquí y es más fácil de discutir que una regla por nombre);
+  explicar la caída con datos externos (no se tienen en esta etapa).
+- **Justificación:** el nombre de la estación en el catálogo es una regla simple, verificable y reproducible. El análisis de vecinas y orígenes pone a prueba la hipótesis del transbordo en Buenavista
+  sin afirmar causas.
+- **Registros afectados:** 0 (análisis). Tablas gold nuevas de unos pocos cientos de KB.
+- **Validación:** los números del notebook coinciden con una exploración independiente hecha con DuckDB sobre silver (llegadas a 014, vecinas, salidas de Buenavista a Reforma).
+- **Responsable:** _por completar por el equipo_
+- **Hallazgos (sin atribuir causas):**
+  1. Las **llegadas a 014** pasan de ≈430 por día laborable (2024-11) a ≈130 (2026-10): caída mayormente gradual con un escalón entre 2025-11 y 2025-12; las **salidas** se mantienen en ≈30–45.
+  2. **No hay desplazamiento a las vecinas:** las 6 estaciones más cercanas a 014 bajan 9 % (319 → 290 llegadas por día); el resto de las estaciones de Reforma baja 13 % (1,109 → 967);
+     las demás estaciones del sistema, 8 % (14,079 → 12,972); 014 baja 44 % (284 → 158). Hay una caída general de la demanda matutina, más marcada en Reforma y mucho más en 014.
+  3. **Buenavista aporta solo ≈9 % de las llegadas a 014** (núcleo: 8.8 % en el primer periodo, 7.6 % en el segundo; ampliado ≈10 %). La hipótesis "Buenavista → Reforma" **no basta** para explicar 014.
+  4. **≈25 % de las salidas matutinas de Buenavista** (núcleo) termina en una estación de Reforma (25.2 % y 24.8 %), casi sin cambio entre periodos. Lo que baja es el volumen: 565 → 453 salidas por día.
+  5. **No se sabe por qué baja 014.** Faltan datos externos (cambios de capacidad por fecha, afluencia al transporte, obras u oficinas en la zona).
+- **Consecuencia para el caso:** presentar el problema como "Buenavista se vacía y Reforma recibe" es una simplificación. Las dos cosas ocurren, pero la mayoría de las bicis de Buenavista va a otros destinos y la
+  mayoría de las que llegan a 014 vienen de otros orígenes. La recomendación debe apoyarse en el **desbalance por estación** (que sí se mide), no en un flujo único Buenavista → Reforma.
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |

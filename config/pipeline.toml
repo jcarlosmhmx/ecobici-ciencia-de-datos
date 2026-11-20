@@ -46,4 +46,7 @@ festivos = [
 # Estaciones de Buenavista: las 4 de la propuesta (núcleo) y 3 más cercanas con gran pérdida de bicis (ampliado). Ver D-13.
 origenes_buenavista = ["266-267", "268-269", "271-272", "273-274"]
 origenes_buenavista_ampliado = ["266-267", "268-269", "271-272", "273-274", "548", "547", "176"]
+# Estación de Reforma que se analiza con más detalle (la más saturada según la propuesta).
 estaciones_reforma = ["014"]
+# Las estaciones "de Reforma" son las del catálogo cuyo nombre contiene este texto (24 estaciones, D-14).
+reforma_texto_en_nombre = "reforma"

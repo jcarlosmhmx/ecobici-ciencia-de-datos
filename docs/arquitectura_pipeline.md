@@ -113,6 +113,9 @@ Las validaciones comparan cada mes contra su propio archivo. No se escribe ning�
 | `od_corredor` | origen × destino × franja | P3: rutas que explican el corredor |
 | `resumen_periodos` | periodo (2024-11→2025-10 vs 2025-11→2026-10) | P4: cambio entre periodos |
 | `estaciones` | estación | nombre, coordenadas, capacidad (copia fechada) |
+| `serie_mensual_estacion` | estación × mes | llegadas y salidas matutinas por día de actividad (D-14) |
+| `origenes_llegadas_foco` | origen × estación foco × periodo | de dónde llegan las bicis a 014 (D-14) |
+| `corredor_buenavista_reforma` | grupo de Buenavista × periodo | salidas matutinas y % que termina en Reforma (D-14) |
 
 ## 7. Cómo se usa (objetivo del README)
 

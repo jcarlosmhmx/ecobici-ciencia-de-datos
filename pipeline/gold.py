@@ -115,6 +115,50 @@ def construir_gold(cfg):
           AND s.est_retiro IN ({origenes})
         GROUP BY 1, 2, 3""")
 
+    # Estaciones "de Reforma": las del catálogo cuyo nombre contiene el texto de la configuración
+    con.execute("ALTER TABLE estaciones ADD COLUMN en_reforma BOOLEAN")
+    con.execute("UPDATE estaciones SET en_reforma = lower(nombre) LIKE ?", [f"%{a['reforma_texto_en_nombre'].lower()}%"])
+
+    # Serie mensual de la franja de la mañana: llegadas y salidas por día de actividad, por estación y mes
+    con.execute(f"""
+        CREATE TABLE serie_mensual_estacion AS
+        WITH d AS (SELECT periodo, est, strftime(dia, '%Y-%m') AS mes, count(DISTINCT dia) AS n_dias FROM ev GROUP BY 1, 2, 3)
+        SELECT ev.periodo, strftime(ev.dia, '%Y-%m') AS mes, ev.est, any_value(d.n_dias) AS dias,
+               round(count(*) FILTER (WHERE ev.d = 1) / any_value(d.n_dias), 2) AS llegadas_por_dia,
+               round(count(*) FILTER (WHERE ev.d = -1) / any_value(d.n_dias), 2) AS salidas_por_dia
+        FROM ev JOIN d ON d.periodo = ev.periodo AND d.est = ev.est AND d.mes = strftime(ev.dia, '%Y-%m')
+        WHERE ev.hora BETWEEN {h0} AND {h1} GROUP BY 1, 2, 3""")
+
+    # De dónde vienen las llegadas de la mañana a la estación (o estaciones) foco de Reforma
+    foco = ", ".join(f"'{x}'" for x in a["estaciones_reforma"])
+    con.execute(f"""
+        CREATE TABLE origenes_llegadas_foco AS
+        SELECT p.nombre AS periodo, s.est_arribo AS destino, s.est_retiro AS origen, count(*) AS viajes,
+               round(count(*) / any_value(n.n_dias), 2) AS viajes_por_dia
+        FROM read_parquet('{silver}') s
+        JOIN periodos p ON CAST(s.ts_arribo AS DATE) >= p.ini AND CAST(s.ts_arribo AS DATE) < p.fin
+        JOIN dias_est n ON n.periodo = p.nombre AND n.est = s.est_arribo
+        WHERE dayofweek(s.ts_arribo) BETWEEN 1 AND 5 AND hour(s.ts_arribo) BETWEEN {h0} AND {h1}
+          AND CAST(s.ts_arribo AS DATE) NOT IN (SELECT dia FROM festivos) AND s.est_arribo IN ({foco})
+        GROUP BY 1, 2, 3""")
+
+    # Qué parte de las salidas matutinas de Buenavista termina en una estación "de Reforma"
+    con.execute("""CREATE TABLE corredor_buenavista_reforma(periodo VARCHAR, grupo VARCHAR, dias INTEGER, salidas_por_dia DOUBLE,
+                   salidas_a_reforma_por_dia DOUBLE, pct_a_reforma DOUBLE)""")
+    for grupo, lista in {"núcleo": a["origenes_buenavista"], "ampliado": a["origenes_buenavista_ampliado"]}.items():
+        est = ", ".join(f"'{x}'" for x in lista)
+        con.execute(f"""
+            INSERT INTO corredor_buenavista_reforma
+            SELECT p.nombre, '{grupo}', g.n_dias, round(count(*) / g.n_dias, 1),
+                   round(count(*) FILTER (WHERE s.est_arribo IN (SELECT codigo FROM estaciones WHERE en_reforma)) / g.n_dias, 1),
+                   round(100.0 * count(*) FILTER (WHERE s.est_arribo IN (SELECT codigo FROM estaciones WHERE en_reforma)) / count(*), 1)
+            FROM read_parquet('{silver}') s
+            JOIN periodos p ON CAST(s.ts_retiro AS DATE) >= p.ini AND CAST(s.ts_retiro AS DATE) < p.fin
+            JOIN (SELECT periodo, count(DISTINCT dia) AS n_dias FROM ev WHERE est IN ({est}) GROUP BY 1) g ON g.periodo = p.nombre
+            WHERE dayofweek(s.ts_retiro) BETWEEN 1 AND 5 AND hour(s.ts_retiro) BETWEEN {h0} AND {h1}
+              AND CAST(s.ts_retiro AS DATE) NOT IN (SELECT dia FROM festivos) AND s.est_retiro IN ({est})
+            GROUP BY p.nombre, g.n_dias""")
+
     # Validación independiente: se recuentan los viajes directamente de silver y se comparan con las sumas de gold
     esperado = con.execute(f"""
         SELECT count(*) FILTER (WHERE hour(s.ts_retiro) BETWEEN {h0} AND {h1}
@@ -138,6 +182,7 @@ def construir_gold(cfg):
     if not validaciones["coincide"].all():
         raise AssertionError(f"Gold no cuadra con silver:\n{validaciones}")
 
-    for tabla in ["estaciones", "manana_estacion_dia", "persistencia_estacion", "perfil_horario_estacion", "od_corredor"]:
+    for tabla in ["estaciones", "manana_estacion_dia", "persistencia_estacion", "perfil_horario_estacion", "od_corredor",
+                  "serie_mensual_estacion", "origenes_llegadas_foco", "corredor_buenavista_reforma"]:
         con.execute(f"COPY {tabla} TO '{(config.GOLD / (tabla + '.parquet')).as_posix()}' (FORMAT parquet)")
     return validaciones
