@@ -110,11 +110,49 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 - **Validación:** pendiente: revisar encabezados de los archivos de 2026 antes de definir la ventana.
 - **Responsable:** _por completar por el equipo_
 
+### D-06 · Ventana de datos fija: 2024-11 a 2026-10 (24 meses)
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Prepare — archivo de configuración del pipeline (por construir)
+- **Decisión:** el periodo de análisis es **fijo**: del **2024-11** al **2026-10**, ambos meses incluidos (24 meses). Se interpreta
+  "hasta el 2026-10-01" como el último archivo mensual publicado (2026-10). Resuelve P-01 y concreta D-05: el periodo sigue
+  viviendo en la configuración, pero con estos valores. La comparación entre periodos se hace entre **dos ventanas de 12 meses**:
+  2024-11 a 2025-10 contra 2025-11 a 2026-10.
+- **Alternativa(s) descartada(s):** ventana móvil ("últimos 24 meses"), porque los números del PDF no coincidirían si el profesor
+  ejecuta el pipeline meses después; 2025-01 a 2026-10 (22 meses), que deja la comparación anual desigual; solo los últimos 12 meses,
+  que impide comparar periodos.
+- **Justificación:** el documento, el pipeline y las cifras coinciden siempre. Mantiene el tamaño explorado (~2.7 GB, ~24 archivos) y
+  permite comparar 12 contra 12 meses, lo que evita comparar un año completo con uno parcial.
+- **Registros afectados:** se descartan del análisis los archivos 2024-01 a 2024-10 usados en la exploración. Cantidad de viajes por
+  mes y total: se miden en `02_limpieza.ipynb`.
+- **Validación:** pendiente: que el pipeline descargue exactamente los 24 archivos y que el conteo por mes coincida con cada CSV.
+  Falta revisar el esquema de los archivos de 2026 (ver D-05).
+- **Responsable:** _por completar por el equipo_
+
+### D-07 · Revisión del esquema de los 24 archivos de la ventana (2024-11 a 2026-10)
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Prepare — comprobación previa a la descarga completa (se repite dentro del pipeline)
+- **Decisión:** antes de descargar todo se leyeron **solo el encabezado y las primeras filas** (primeros ~1.5 KB) y el tamaño de cada
+  uno de los 24 archivos, tomados de los enlaces del portal. Resultado:
+  - Los 24 encabezados son **idénticos**: `Genero_Usuario, Edad_Usuario, Bici, Ciclo_Estacion_Retiro, Fecha_Retiro, Hora_Retiro,
+    Ciclo_EstacionArribo, Fecha_Arribo, Hora_Arribo`. Ninguno lleva comillas ni la variante `Fecha Arribo`; el cambio de nombre
+    de archivo desde 2026-06 (`public_data_web_...`) **no cambió las columnas**.
+  - Fechas `dd/mm/aaaa` y horas `HH:MM:SS` en todos. Códigos de estación como texto con ceros (`096`) y dobles (`107-108`).
+  - **Cambio de formato:** desde **2026-06** la edad viene con decimal (`26.0`) en lugar de entero (`26`). Hay que leerla como
+    texto y convertirla con una regla única, o se mezclarán dos formatos en la misma columna.
+  - Tamaño total de la ventana: 2.43 GB (88–119 MB por archivo). Todos los archivos terminan con salto de línea tipo Windows (CRLF).
+  - Cada archivo empieza con retiros del mes anterior (p. ej. `2026-10` abre con viajes del 30/09), como ya se sabía.
+- **Alternativa(s) descartada(s):** descargar los 2.4 GB para revisar el esquema; para ver encabezados no hace falta.
+- **Justificación:** confirma que el mismo código de lectura sirve para toda la ventana, salvo el formato de edad.
+- **Registros afectados:** 0 (solo lectura).
+- **Validación:** limitada. Se revisaron únicamente las primeras filas de cada archivo, así que **no** descarta problemas más
+  adelante en el archivo (p. ej. comillas en 2024-08 y 2024-09, que no están en la ventana). El pipeline debe validar cada archivo completo
+  (columnas, número de campos por fila y conteo de filas).
+- **Responsable:** _por completar por el equipo_
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |
 |---|---|---|---|
-| P-01 | ¿Ventana fija o móvil? | Fija (p. ej. 2025-01 a 2026-10, en la configuración) o "últimos 24 meses" | La IA recomienda fija: el PDF y el pipeline coinciden aunque se ejecute meses después. |
 | P-02 | Alcance de Streamlit | Extra que lee solo gold, o requisito del pipeline | La rúbrica no pide aplicación. Si bloquea el arranque, el pipeline debe correr aparte con progreso visible. |
 | P-03 | ¿Se descarta formalmente la nube (Databricks / warehouse)? | Sí (D-04) o mantener como opcional | Debe confirmarlo el equipo. |
 | P-04 | Gold en git | Añadir excepción en `.gitignore` o guardar como CSV | `.gitignore` excluye hoy `*.parquet`. |
