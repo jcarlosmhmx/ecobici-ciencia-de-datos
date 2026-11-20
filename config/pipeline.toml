@@ -2,7 +2,7 @@
 # Se lee con pipeline/config.py (requiere Python 3.11 o superior).
 
 [ventana]
-# Ventana fija del proyecto: 24 meses (bitácora D-06). La prueba preliminar también usa la ventana completa (D-09).
+# Ventana fija del proyecto: 24 meses (bitácora D-06).
 desde = "2024-11"
 hasta = "2026-10"
 
@@ -22,18 +22,28 @@ pagina = "https://ecobici.cdmx.gob.mx/datos-abiertos/"
 
 [catalogo]
 url = "https://gbfs.mex.lyftbikes.com/gbfs/es/station_information.json"
-usar_copia_versionada = true   # true: usa la copia fechada de datos/catalogo/ si existe (P-09)
+usar_copia_versionada = true   # true: usa la copia fechada de datos/catalogo/ si existe
 
 [limpieza]
-# Reglas provisionales; cada una se confirma en la bitácora (D-10).
+# Reglas de limpieza (bitácora D-10 y D-13).
 duracion_minima_segundos = 60
 duracion_maxima_horas = 24
 
 [analisis]
-# Franja de la mañana PROVISIONAL (P-10): horas 7 a 10 incluidas, es decir 07:00 a 10:59.
+# Franja de la mañana: horas 7 a 10 incluidas, es decir de 07:00 a 10:59 (D-13).
 hora_inicio = 7
 hora_fin = 10
 umbral_persistencia_bicis = 5          # "gana o pierde >= 5 bicis" en la franja (propuesta, sección 2.4)
-# Estaciones de Buenavista según la propuesta; falta confirmarlas en el mapa (IA-03).
+
+# Día laborable = lunes a viernes, excepto los días de descanso obligatorio (Ley Federal del Trabajo, art. 74) dentro de la ventana (D-13).
+# No se excluyen otros días con poco tráfico (Semana Santa, fin de año): ver limitaciones en el notebook 03.
+festivos = [
+  "2024-11-18", "2024-12-25",
+  "2025-01-01", "2025-02-03", "2025-03-17", "2025-05-01", "2025-09-16", "2025-11-17", "2025-12-25",
+  "2026-01-01", "2026-02-02", "2026-03-16", "2026-05-01", "2026-09-16",
+]
+
+# Estaciones de Buenavista: las 4 de la propuesta (núcleo) y 3 más cercanas con gran pérdida de bicis (ampliado). Ver D-13.
 origenes_buenavista = ["266-267", "268-269", "271-272", "273-274"]
+origenes_buenavista_ampliado = ["266-267", "268-269", "271-272", "273-274", "548", "547", "176"]
 estaciones_reforma = ["014"]

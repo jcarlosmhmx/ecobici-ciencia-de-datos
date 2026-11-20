@@ -32,7 +32,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 
 | Tarea | Estado | Notas |
 |---|---|---|
-| Problema delimitado (corredor, horario, periodo) | 🔄 | Está en la propuesta. La franja horaria no está definida (P-10). |
+| Problema delimitado (corredor, horario, periodo) | 🔄 | Está en la propuesta. La franja quedó definida en D-13 (7:00 a 10:59); el texto de la propuesta aún no la refleja. |
 | Cinco porqués y análisis de brechas | 🔄 | Borrador en la propuesta. Los porqués 2 y 5 son hipótesis. |
 | Cuatro preguntas de investigación y unidad de análisis | ✅ | En la propuesta; revisar si el periodo cambia su redacción. |
 | Reemplazar las cifras preliminares por las recalculadas | ⬜ | Depende de `03_analisis.ipynb`. No usar las cifras actuales (D-08). |
@@ -54,9 +54,9 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 |---|---|---|
 | `config/pipeline.toml` y paquete `pipeline/` | ✅ | Versión mínima (descarga, bronze, silver, gold). Comando: `python -m pipeline`. |
 | Bronze: CSV → Parquet por mes, validado contra el CSV | ✅ | 24 meses, 39,235,386 viajes validados mes por mes. |
-| Decidir las reglas de limpieza (< 1 min, > 24 h, retiros anteriores a la ventana, códigos raros, edad) | 🔄 | Reglas provisionales aplicadas y registradas en D-10. El equipo debe confirmarlas. |
+| Decidir las reglas de limpieza (< 1 min, > 24 h, retiros anteriores a la ventana, códigos raros, edad) | ✅ | Reglas de D-10 confirmadas como definitivas en D-13. |
 | Silver: limpieza, conteos antes y después, unión con el catálogo | ✅ | `02_limpieza.ipynb` ejecutado con los 24 meses. |
-| Definir "día laborable" y la franja de la mañana | 🔄 | Provisionales: lunes a viernes y horas 7–10 (D-09). Confirmar P-08 y P-10. |
+| Definir "día laborable" y la franja de la mañana | ✅ | D-13: lunes a viernes sin festivos oficiales; horas 7 a 10. |
 | Gold: tablas agregadas validadas contra silver | ✅ | 5 tablas, validadas contra un recuento directo de silver. |
 | Ejecutar el pipeline en una máquina limpia siguiendo solo el README | ⬜ | Prueba de reproducibilidad final. |
 
@@ -67,7 +67,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Saldo neto por estación, hora y día | ✅ | `03_analisis.ipynb` (24 meses, dos periodos). |
 | Persistencia (% de días laborales con saldo ≥ umbral) | ✅ | |
 | Presión relativa (saldo ÷ capacidad) | ✅ | La capacidad del catálogo es la actual. Incluye el indicador indirecto "bicis necesarias". |
-| Matriz origen-destino del corredor Buenavista → Reforma | 🔄 | Tabla de destinos hecha. Falta confirmar las 4 estaciones de Buenavista y la cifra "~580 diarios" de la propuesta (no se reproduce, D-10). |
+| Matriz origen-destino del corredor Buenavista → Reforma | 🔄 | Tabla de destinos hecha. Falta confirmar en el mapa el grupo de Buenavista (D-13) y definir qué estaciones de Reforma son el destino. Los "~580 diarios" de la propuesta se parecen a las salidas totales de Buenavista, no a la ruta hacia Reforma. |
 | Comparación 2024-11→2025-10 contra 2025-11→2026-10 | 🔄 | Hecha en el notebook 03 (D-12). Falta entender y explicar por qué baja el saldo de 014 (los viajes no lo explican). |
 | Línea base con `station_status` | ⬜ | No se hace en la prueba preliminar; se usa el indicador indirecto. |
 | Redactar limitaciones y no confundir correlación con causalidad | ⬜ | |
@@ -100,12 +100,12 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | P-05 | Recolectar `station_status` | ✅ No para la preliminar (D-09) |
 | P-06 | Aprobar la arquitectura del pipeline | ⬜ |
 | P-07 | Versión mínima de Python (3.11 o 3.10) | ⬜ |
-| P-08 | Definición de "día laborable" (¿festivos?) | ⬜ |
+| P-08 | Definición de "día laborable" | ✅ D-13 |
 | P-09 | Versionar la copia fechada del catálogo | ⬜ |
-| P-10 | Franja de la mañana (¿incluye la hora 10?) | ⬜ |
+| P-10 | Franja de la mañana | ✅ D-13 |
 
 ## 9. Ruta crítica
 
 1. **Revisión de la prueba preliminar** con el equipo (sábado 2026-11-21).
-2. Decidir P-06, P-08 y P-10, confirmar las reglas de limpieza (D-10) y las estaciones de Buenavista.
+2. Decidir P-06 y confirmar en el mapa el grupo de Buenavista (D-13).
 3. Visualizaciones finales (`04_visualizaciones.ipynb`) → documento, video y pitch con las cifras de D-12 (no las de la propuesta).

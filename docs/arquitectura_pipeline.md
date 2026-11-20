@@ -72,7 +72,7 @@ url = "https://gbfs.mex.lyftbikes.com/gbfs/es/station_information.json"
 usar_copia_versionada = true      # reproduce con la copia fechada; false = descargar la de hoy
 
 [analisis]
-franja_manana = ["07:00", "10:00"]   # PENDIENTE P-10: ¿incluye la hora 10 (hasta 10:59)?
+franja_manana = ["07:00", "10:59"]   # horas 7 a 10 incluidas (D-13)
 umbral_persistencia_bicis = 5     # "gana o pierde >= 5 bicis" (propuesta, sección 2.4)
 ```
 

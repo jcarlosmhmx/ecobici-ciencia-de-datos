@@ -275,6 +275,44 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
   ninguna definición probada; hay que ubicar su origen antes de usarlos; (4) por qué cambió 014 entre periodos **no se sabe**: puede ser demanda, capacidad, estaciones
   nuevas o cambios operativos, y los datos de viajes no lo distinguen.
 
+### D-13 · Definiciones finales del análisis: franja, día laborable, reglas de limpieza y grupo de Buenavista (sustituye lo "provisional" de D-09, D-10 y D-12)
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Process / Analyze — `config/pipeline.toml`, `pipeline/gold.py`, `notebooks/03_analisis.ipynb`
+- **Decisión:** por indicación del equipo ("quita lo provisional") se fijan estas definiciones, que antes eran provisionales (P-08, P-10 y D-10 quedan resueltas):
+  1. **Franja de la mañana:** horas 7 a 10 incluidas (07:00 a 10:59).
+  2. **Día laborable:** lunes a viernes, **sin los 14 días de descanso obligatorio** de la ventana (Ley Federal del Trabajo, art. 74): 2024-11-18, 2024-12-25,
+     2025-01-01, 2025-02-03, 2025-03-17, 2025-05-01, 2025-09-16, 2025-11-17, 2025-12-25, 2026-01-01, 2026-02-02, 2026-03-16, 2026-05-01 y 2026-09-16.
+     Otros días de poco tráfico (Semana Santa, fin de año) **no** se excluyen.
+  3. **Solo cuentan los días con actividad de la estación** (al menos un viaje ese día, a cualquier hora). Un día sin ningún viaje no se trata como un saldo de 0, sino como
+     "sin observación". Cambia el método anterior, que rellenaba con 0 esos días y subestimaba el desbalance.
+  4. **Reglas de limpieza de D-10** confirmadas sin cambios (duración mínima 60 s y máxima 24 h; retiros anteriores al mes previo; fechas inválidas).
+  5. **Grupo de Buenavista:** *núcleo* = las 4 estaciones de la propuesta (266-267, 268-269, 271-272, 273-274); *ampliado* = núcleo + 548, 547 y 176, que son las tres
+     más cercanas al punto de la estación (por coordenadas del catálogo; el punto de referencia es aproximado) y también pierden decenas de bicis cada mañana.
+     **El equipo debe confirmarlo en el mapa**; no se pudo comprobar aquí.
+- **Alternativa(s) descartada(s):** (a) franja 7:00–9:59 (no reproduce la cifra de la propuesta para la estación 014, D-08); (b) incluir como no laborables los días de poco
+  tráfico que no son festivos oficiales (la definición sería arbitraria; se declara como limitación); (c) mantener el relleno con 0 (sesga los promedios de estaciones sin servicio ciertos días).
+- **Justificación:** los festivos oficiales tienen entre 8 % y 50 % del tráfico de un día laborable normal (comprobado en silver para la franja 7–10 h), así que mezclarlos distorsiona el promedio.
+  Las estaciones de Buenavista no registran ningún viaje en vacaciones de fin de año, Semana Santa y el 15–16 de septiembre (hecho observado; no se conoce la causa).
+- **Registros afectados:** 14 días excluidos; 254 y 253 días laborables en cada periodo. 13 a 21 días por año sin actividad en cada estación del núcleo de Buenavista.
+- **Validación:** gold coincide con un recuento directo de silver (7,633,768 salidas y 7,602,688 llegadas en la franja de la mañana, ya sin festivos).
+- **Responsable:** _por completar por el equipo_
+- **Resultados finales de la prueba preliminar (sustituyen a los de D-12):**
+
+  | Medida (día laborable, 7–10 h) | Propuesta (2024-2025, exploración IA) | 2024-11 a 2025-10 | 2025-11 a 2026-10 |
+  |---|---|---|---|
+  | Saldo medio, estación 014 Reforma | +243 | **+247.3** | +120.6 |
+  | Saldo medio, estación 271-272 Buenavista | −250 | −192.6 | −151.1 |
+  | % de días en que 014 gana ≥5 bicis / 271-272 pierde ≥5 | — | 99.6 % / 98.8 % | 100 % / 99.2 % |
+  | Estaciones con \|saldo\| > capacidad | 36 | 45 | 34 |
+  | Estaciones con \|saldo\| > mitad de la capacidad | 167 | 166 | 163 |
+  | Peso de las 100 estaciones con mayor desbalance | 42 % | 49 % | 46 % |
+  | Salidas por día laborable, núcleo de Buenavista (7–10 h) | "~580 diarios" | **565** | 453 |
+  | Salidas por día laborable, grupo ampliado (7 estaciones) | — | 725 | 606 |
+
+  Lectura (sin explicar causas): (1) el +243 de la propuesta para 014 se aproxima al primer periodo (+247); (2) los "~580 viajes diarios" **se parecen al total de salidas** del núcleo de
+  Buenavista en el primer periodo (565), no a la ruta hacia Reforma: la cifra de la propuesta estaba mal rotulada (hipótesis, no verificada); (3) el −250 de 271-272 sigue sin reproducirse
+  (−193 y −151); (4) el saldo de 014 **bajó a la mitad** y las salidas de Buenavista bajaron ≈20 % entre periodos; los viajes no explican por qué.
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |
@@ -285,6 +323,6 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 | P-05 | Recolectar `station_status` (~7 días) | **No se hace para la prueba preliminar** (D-09); queda opcional para después | La línea base de la acción 1 usará el indicador indirecto de los viajes. |
 | P-06 | Aprobar la estructura de `docs/arquitectura_pipeline.md` | Aprobar o ajustar | Propuesta del 2026-11-20 (capas, carpetas, configuración, validaciones). |
 | P-07 | Versión mínima de Python | 3.11 (`tomllib`) o mantener 3.10 con otro formato de configuración | El pipeline ya usa `tomllib` y el README pide 3.11; confirmar. |
-| P-08 | Definición de "día laboral" | Lunes a viernes, o también excluir festivos oficiales | Cambia las cifras del análisis. |
-| P-10 | Definición de la franja "mañana" | 07:00–09:59 (horas 7, 8, 9) o 07:00–10:59 (horas 7 a 10) | La cifra +243 de la estación 014 en la propuesta solo sale con la hora 10 incluida (D-08). |
+| P-08 | ~~Definición de "día laboral"~~ | **Resuelta en D-13** (lunes a viernes sin festivos oficiales) | |
+| P-10 | ~~Definición de la franja "mañana"~~ | **Resuelta en D-13** (horas 7 a 10, hasta 10:59) | |
 | P-09 | Copia fechada del catálogo de estaciones en git | Sí (reproducible) o descargar siempre la versión vigente | La capacidad es la actual, no la de 2024–2026: limitación a declarar. |

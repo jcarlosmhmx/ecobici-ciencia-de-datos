@@ -37,7 +37,11 @@ def construir_gold(cfg):
     con.executemany("INSERT INTO periodos VALUES (?,?,?)",
                     [(p["nombre"], _primer_dia(p["desde"]), _primer_dia_siguiente(p["hasta"])) for p in cfg["periodos"]])
 
-    # Un registro por movimiento (salida = -1, llegada = +1), solo días laborables (lunes a viernes)
+    # Días de descanso obligatorio (festivos oficiales): no cuentan como días laborables
+    con.execute("CREATE TABLE festivos(dia DATE)")
+    con.executemany("INSERT INTO festivos VALUES (?)", [(f,) for f in a["festivos"]])
+
+    # Un registro por movimiento (salida = -1, llegada = +1), solo días laborables (lunes a viernes, sin festivos)
     con.execute(f"""
         CREATE VIEW ev AS
         SELECT p.nombre AS periodo, e.est, e.ts, e.d, CAST(e.ts AS DATE) AS dia, hour(e.ts) AS hora
@@ -45,10 +49,14 @@ def construir_gold(cfg):
               UNION ALL
               SELECT est_arribo, ts_arribo, 1 FROM read_parquet('{silver}')) e
         JOIN periodos p ON CAST(e.ts AS DATE) >= p.ini AND CAST(e.ts AS DATE) < p.fin
-        WHERE dayofweek(e.ts) BETWEEN 1 AND 5""")
+        WHERE dayofweek(e.ts) BETWEEN 1 AND 5 AND CAST(e.ts AS DATE) NOT IN (SELECT dia FROM festivos)""")
     con.execute("CREATE TABLE dias AS SELECT periodo, count(DISTINCT dia) AS n_dias FROM ev GROUP BY 1")
+    # Días en que cada estación tuvo actividad (al menos un viaje, a cualquier hora). Si estuvo cerrada o sin servicio ese día,
+    # no se cuenta como un día con saldo 0: no hay observación.
+    con.execute("CREATE TABLE dias_est AS SELECT periodo, est, count(DISTINCT dia) AS n_dias FROM ev GROUP BY 1, 2")
 
-    # Saldo de la franja de la mañana, por estación y día. Se rellenan con 0 los días sin movimiento.
+    # Saldo de la franja de la mañana, por estación y día de actividad. Si la estación operó ese día pero no hubo movimiento
+    # en la franja, el saldo es 0.
     con.execute(f"""
         CREATE TABLE mov AS
         SELECT *, SUM(d) OVER (PARTITION BY periodo, est, dia ORDER BY ts, d ROWS UNBOUNDED PRECEDING) AS acum
@@ -56,9 +64,7 @@ def construir_gold(cfg):
     con.execute("""
         CREATE TABLE manana_estacion_dia AS
         WITH grilla AS (
-          SELECT e.periodo, e.est, d.dia
-          FROM (SELECT DISTINCT periodo, est FROM mov) e
-          JOIN (SELECT DISTINCT periodo, dia FROM ev) d USING (periodo)
+          SELECT DISTINCT periodo, est, dia FROM ev
         ), agg AS (
           SELECT periodo, est, dia,
                  count(*) FILTER (WHERE d = -1) AS salidas, count(*) FILTER (WHERE d = 1) AS llegadas,
@@ -75,6 +81,7 @@ def construir_gold(cfg):
         CREATE TABLE persistencia_estacion AS
         SELECT m.periodo, m.est, e.nombre, e.capacidad,
                count(*) AS dias_laborables,
+               any_value(n.n_dias) - count(*) AS dias_sin_actividad,
                round(avg(m.saldo), 1) AS saldo_medio,
                round(avg((m.saldo >= {umbral})::INT) * 100, 1) AS pct_dias_gana,
                round(avg((m.saldo <= -{umbral})::INT) * 100, 1) AS pct_dias_pierde,
@@ -83,7 +90,9 @@ def construir_gold(cfg):
                round(avg(m.espacios_necesarios), 1) AS espacios_necesarios_media,
                max(m.espacios_necesarios) AS espacios_necesarios_max,
                round(avg(m.saldo) / nullif(e.capacidad, 0), 2) AS presion
-        FROM manana_estacion_dia m LEFT JOIN estaciones e ON e.codigo = m.est
+        FROM manana_estacion_dia m
+        LEFT JOIN estaciones e ON e.codigo = m.est
+        JOIN dias n ON n.periodo = m.periodo
         GROUP BY m.periodo, m.est, e.nombre, e.capacidad""")
 
     con.execute("""
@@ -91,7 +100,7 @@ def construir_gold(cfg):
         SELECT ev.periodo, ev.est, ev.hora,
                round(count(*) FILTER (WHERE ev.d = -1) / any_value(n.n_dias), 2) AS salidas_por_dia,
                round(count(*) FILTER (WHERE ev.d = 1) / any_value(n.n_dias), 2) AS llegadas_por_dia
-        FROM ev JOIN dias n USING (periodo) GROUP BY ev.periodo, ev.est, ev.hora""")
+        FROM ev JOIN dias_est n USING (periodo, est) GROUP BY ev.periodo, ev.est, ev.hora""")
 
     origenes = ", ".join(f"'{o}'" for o in a["origenes_buenavista"])
     con.execute(f"""
@@ -100,8 +109,9 @@ def construir_gold(cfg):
                round(count(*) / any_value(n.n_dias), 1) AS viajes_por_dia
         FROM read_parquet('{silver}') s
         JOIN periodos p ON CAST(s.ts_retiro AS DATE) >= p.ini AND CAST(s.ts_retiro AS DATE) < p.fin
-        JOIN dias n ON n.periodo = p.nombre
+        JOIN dias_est n ON n.periodo = p.nombre AND n.est = s.est_retiro
         WHERE dayofweek(s.ts_retiro) BETWEEN 1 AND 5 AND hour(s.ts_retiro) BETWEEN {h0} AND {h1}
+          AND CAST(s.ts_retiro AS DATE) NOT IN (SELECT dia FROM festivos)
           AND s.est_retiro IN ({origenes})
         GROUP BY 1, 2, 3""")
 
@@ -109,10 +119,12 @@ def construir_gold(cfg):
     esperado = con.execute(f"""
         SELECT count(*) FILTER (WHERE hour(s.ts_retiro) BETWEEN {h0} AND {h1}
                                   AND dayofweek(s.ts_retiro) BETWEEN 1 AND 5
+                                  AND CAST(s.ts_retiro AS DATE) NOT IN (SELECT dia FROM festivos)
                                   AND CAST(s.ts_retiro AS DATE) >= (SELECT min(ini) FROM periodos)
                                   AND CAST(s.ts_retiro AS DATE) < (SELECT max(fin) FROM periodos)),
                count(*) FILTER (WHERE hour(s.ts_arribo) BETWEEN {h0} AND {h1}
                                   AND dayofweek(s.ts_arribo) BETWEEN 1 AND 5
+                                  AND CAST(s.ts_arribo AS DATE) NOT IN (SELECT dia FROM festivos)
                                   AND CAST(s.ts_arribo AS DATE) >= (SELECT min(ini) FROM periodos)
                                   AND CAST(s.ts_arribo AS DATE) < (SELECT max(fin) FROM periodos))
         FROM read_parquet('{silver}') s""").fetchone()
