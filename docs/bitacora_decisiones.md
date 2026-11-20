@@ -149,6 +149,38 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
   (columnas, número de campos por fila y conteo de filas).
 - **Responsable:** _por completar por el equipo_
 
+### D-08 · Prueba del diseño con un prototipo desechable (3 meses)
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Prepare / Process / Analyze — prueba previa, no forma parte del repo (se hizo en una carpeta temporal)
+- **Decisión:** antes de escribir el pipeline se probaron sus partes más riesgosas con 2026-06, 2026-10 y 2025-05 (DuckDB, lectura como
+  texto, `strict_mode`). Resultados:
+  - **Bronze:** filas del Parquet = filas del CSV en los 2 meses probados (1,494,265 y 1,599,384). La validación por mes funciona.
+  - **Edad:** en 2026-06 y 2026-10 todas las edades traen decimal (`26.0`) y no hay otros formatos; unas 30–36 por mes vienen vacías.
+  - **Calidad (2026-06 + 2026-10, 3,093,649 viajes):** 406 viajes de menos de 1 min, 102 de más de 24 h, 0 fechas inválidas.
+    Hay retiros de noviembre de 2025 dentro de archivos de 2026 (regla de retiros fuera de ventana, por decidir).
+  - **Catálogo:** los 677 códigos del catálogo coinciden **directamente** con los de los viajes (incluidos los dobles como `271-272`);
+    no hace falta normalizar ceros. Quedan sin catálogo 5 códigos: `Temporal 1` a `Temporal 4` y `1000` (≈570 viajes).
+  - **Las cifras de la propuesta no se reproducen igual.** Saldo medio por día laboral entre 7 y 10 h:
+
+    | Estación | 2025-05 (h 7–9) | 2025-05 (h 7–10) | 2026-10 (h 7–9) | 2026-10 (h 7–10) | Propuesta |
+    |---|---|---|---|---|---|
+    | 014 Reforma – Río de Plata | +220.8 | **+243.0** | +75.1 | +86.7 | +243 |
+    | 271-272 Buenavista | −57.9 | −68.1 | −124.6 | −136.0 | −250 |
+
+    1. La cifra de 014 de la propuesta (+243) **solo sale si la franja incluye la hora 10** (07:00 a 10:59). Entonces "entre 7 y 10 h"
+       es ambiguo y hay que definirlo (P-10).
+    2. La de 271-272 (−250) no coincide en ninguno de los dos meses; puede tratarse de otra definición (p. ej. suma del clúster
+       de Buenavista o promedio de otro periodo). **No se sabe**: hay que revisar de dónde salió.
+    3. **El patrón cambió entre meses:** 014 pasó de +221/+243 (2025-05) a +75/+87 (2026-10), y 271-272 se hizo más negativa. La dirección y la
+       persistencia se mantienen (en 2026-10, 014 gana ≥5 bicis el 100 % de los días laborales y 271-272 pierde ≥5 el 100 %),
+       pero **la afirmación "6 veces su capacidad" no se sostiene con 2026-10** (75 ÷ 39 ≈ 1.9). Es una observación de un solo mes
+       y puede ser estacional; se resuelve con la ventana completa.
+- **Alternativa(s) descartada(s):** construir todo el pipeline sin probarlo antes.
+- **Justificación:** detecta temprano que la franja horaria no está bien definida y que las cifras de la propuesta no son estables entre periodos.
+- **Registros afectados:** 0 (se leyó una copia temporal; no se guardó nada en el repo).
+- **Validación:** el prototipo está en la carpeta temporal de la sesión y no se versiona. Las cifras deben recalcularse en `03_analisis.ipynb`.
+- **Responsable:** _por completar por el equipo_
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |
@@ -157,3 +189,8 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 | P-03 | ¿Se descarta formalmente la nube (Databricks / warehouse)? | Sí (D-04) o mantener como opcional | Debe confirmarlo el equipo. |
 | P-04 | Gold en git | Añadir excepción en `.gitignore` o guardar como CSV | `.gitignore` excluye hoy `*.parquet`. |
 | P-05 | Máquina para recolectar `station_status` (~7 días) | Por definir | Es lo que más tarda. Falta el script. |
+| P-06 | Aprobar la estructura de `docs/arquitectura_pipeline.md` | Aprobar o ajustar | Propuesta del 2026-11-20 (capas, carpetas, configuración, validaciones). |
+| P-07 | Versión mínima de Python | 3.11 (`tomllib`) o mantener 3.10 con otro formato de configuración | Afecta al README. |
+| P-08 | Definición de "día laboral" | Lunes a viernes, o también excluir festivos oficiales | Cambia las cifras del análisis. |
+| P-10 | Definición de la franja "mañana" | 07:00–09:59 (horas 7, 8, 9) o 07:00–10:59 (horas 7 a 10) | La cifra +243 de la estación 014 en la propuesta solo sale con la hora 10 incluida (D-08). |
+| P-09 | Copia fechada del catálogo de estaciones en git | Sí (reproducible) o descargar siempre la versión vigente | La capacidad es la actual, no la de 2024–2026: limitación a declarar. |
