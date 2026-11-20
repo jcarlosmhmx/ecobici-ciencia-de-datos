@@ -375,6 +375,56 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 - **Limitaciones:** solo se compararon dos fechas con detalle (el resto de capturas, por totales); no se estudió el efecto de las 9 estaciones que sí cambiaron; la fuente son capturas de un tercero, no del operador.
 - **Consecuencia para el caso:** la limitación de la capacidad pasa de "desconocida" a "pequeña y medida". Se redacta así en el documento.
 
+### D-17 · Visualizaciones finales para el documento y el video (fase Share)
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Share — `notebooks/04_visualizaciones.ipynb`, `pipeline/__main__.py` (nueva etapa `visualizaciones`)
+- **Decisión:** (1) Se generan **cinco figuras** en `figuras/`: `04_mapa_saldo.png`, `04_perfil_horario_corredor.png`, `04_ranking_prioritarias.png`, `04_destinos_buenavista.png` y `04_linea_base_prioritarias.png`.
+  (2) El notebook **solo lee `datos/gold/`** y no calcula nada nuevo; las cifras clave se imprimen desde las tablas para que el documento use los mismos números que las gráficas. (3) Se usa **solo matplotlib**
+  (ya era dependencia) y el mapa se dibuja por coordenadas, **sin mapa de calles de fondo**. (4) Código de color único (modificado en D-19: rojo = la estación se llena, azul = se vacía). (5) El pipeline gana la etapa `visualizaciones` (notebook 04).
+- **Alternativa(s) descartada(s):** mapa interactivo con folium o plotly (agrega dependencias y necesita internet para los mapas de fondo; la rúbrica de Share no premia la complejidad); mapa de calles estático
+  con contextily (también descarga mapas de internet y rompe la reproducibilidad sin conexión); dejar las gráficas del notebook 03 como versión final (eran preliminares y no tenían la comparación entre periodos).
+- **Justificación:** reproducibilidad (todo corre sin internet con las librerías ya instaladas) y sencillez. Cada gráfica lleva como título la idea que muestra y una lectura en lenguaje simple.
+- **Registros afectados:** 0.
+- **Validación:** se revisó cada imagen contra sus tablas de gold y contra los hallazgos de D-14 y D-15; la lectura de cada gráfica se corrigió tras verla (por ejemplo, se añadió el regreso por la tarde a Buenavista,
+  con máximo hacia las 18:00, que no estaba en el texto inicial).
+- **Responsable:** _por completar por el equipo_
+- **Hallazgos adicionales que muestran las gráficas (sin atribuir causas):**
+  1. **Perfil horario:** las salidas de Buenavista alcanzan su máximo hacia las 7:00 (≈215 por día laborable en el primer periodo y ≈180 en el segundo); las llegadas a 014, hacia las 8:00 (≈105 y ≈58).
+     Por la tarde ocurre lo contrario: a Buenavista llegan muchas bicis (máximo hacia las 18:00, ≈330 y ≈275). Entre periodos el volumen baja más en 014 que en Buenavista.
+  2. **Destinos:** 8 de los 10 destinos más frecuentes desde Buenavista son estaciones de Reforma, pero ninguna recibe más de ≈12 viajes por día; en total solo ≈25 % de las salidas termina en Reforma.
+  3. **Línea base:** en las 15 prioritarias el saldo supera la capacidad entre 75 % y 98 % de los días laborables según la estación y el periodo.
+- **Limitaciones:** el mapa sin calles no muestra referencias geográficas (se añadió el contorno de la ciudad en D-18); para el documento puede convenir añadir a mano el nombre de las colonias. El grupo de Buenavista sigue pendiente de confirmarse en el mapa (D-13).
+- **Consecuencia para el caso:** el documento y el video pueden usar estas figuras directamente. La figura de la serie mensual de 014 sigue siendo `figuras/03_serie_014.png`.
+
+### D-18 · Contorno de la Ciudad de México como fondo del mapa
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Share — `notebooks/04_visualizaciones.ipynb`, `datos/mapa/cdmx_contorno.geojson`, `pipeline/config.py` (ruta `MAPA`)
+- **Decisión:** el mapa de estaciones (`figuras/04_mapa_saldo.png`) pasa a tener **tres niveles**: la ciudad completa con su contorno, la zona donde hay estaciones y un acercamiento a Buenavista–Reforma.
+  El contorno se guarda en el repositorio (85 KB) y se dibuja con matplotlib, sin librerías de mapas nuevas.
+- **Fuente:** capa `geonode:cdmx_de_seduvi` del Sistema de Información Estratégica y Geográfica (SIEG) de la Ciudad de México, descargada el 2026-11-20 del servicio WFS
+  `https://sieg.cdmx.gob.mx/geoserver/ows` (GeoJSON, sistema de coordenadas EPSG:4326). Es un polígono múltiple de 2,161 puntos con extensión longitud -99.365 a -98.940 y latitud 19.048 a 19.593.
+- **Alternativa(s) descartada(s):** mapa de calles con contextily u OpenStreetMap (descarga mapas de internet cada vez que se ejecuta y rompe la reproducibilidad sin conexión); límites por alcaldía
+  (no se encontró una capa pública de alcaldías en ese servicio; solo se verificó la de la ciudad completa); folium o plotly (D-17).
+- **Justificación:** da contexto geográfico (el servicio cubre una zona central y no todo el territorio) sin dependencias nuevas ni conexión a internet al ejecutar el notebook.
+- **Registros afectados:** 0.
+- **Validación:** se comprobó que el archivo tenga una sola entidad, geometría de tipo polígono múltiple y una extensión coherente con la Ciudad de México, y que **las 677 estaciones del catálogo caen dentro del contorno** (prueba de punto dentro de polígono, 0 fuera).
+- **Responsable:** _por completar por el equipo_
+- **Limitaciones:** no se revisaron los metadatos ni la licencia de uso de la capa (el equipo debe hacerlo antes de publicar el documento y citar la fuente en `docs/referencias.md`); el contorno no incluye
+  alcaldías ni calles, así que el equipo puede querer añadir referencias de colonias a mano. El archivo es estático: el pipeline no lo descarga de nuevo.
+- **Consecuencia para el caso:** la figura sirve para mostrar que ECOBICI cubre una zona central de la ciudad y dónde está el corredor del caso.
+
+### D-19 · Convención de colores de las gráficas: rojo = se llena, azul = se vacía
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Share y Analyze — `notebooks/03_analisis.ipynb` (figuras 03_*) y `notebooks/04_visualizaciones.ipynb` (figuras 04_*)
+- **Decisión:** en todas las gráficas, **rojo = la estación se llena o se satura** (llegan más bicis de las que salen) y **azul = la estación se vacía** (salen más bicis de las que llegan). En las curvas por hora,
+  las llegadas van en rojo y las salidas en azul. Los elementos que no son un estado de la estación (destinos de Reforma, periodo reciente) usan gris oscuro y gris. Colores usados: rojo `#b2182b`, azul `#2166ac`.
+- **Alternativa(s) descartada(s):** la convención anterior (D-17: naranja = se vacía, azul = se llena), que el equipo encontró confusa; dejar azul para elementos neutros (se confundía con "se vacía").
+- **Justificación:** pedido del equipo. Rojo evoca saturación y azul vacío, y la misma convención sirve en el mapa, el ranking y las gráficas por hora.
+- **Registros afectados:** 0 (solo presentación).
+- **Validación:** se revisó cada figura después del cambio para comprobar que el color coincide con el significado y que las leyendas y los textos del notebook hablan de rojo y azul.
+- **Responsable:** _por completar por el equipo_
+- **Limitaciones:** rojo y azul se distinguen bien para la mayoría de las personas, incluidas las que tienen daltonismo rojo-verde; la figura `01_viajes_por_mes.png` conserva su azul neutro porque no representa el estado de una estación.
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |

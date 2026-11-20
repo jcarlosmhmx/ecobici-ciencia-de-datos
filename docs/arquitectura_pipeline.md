@@ -128,7 +128,7 @@ python -m pipeline              # descarga + bronze + silver + gold + notebooks
 streamlit run app/app.py        # abre la aplicación
 ```
 
-Opciones: `--desde silver` para repetir desde una capa; `--hasta gold` para no ejecutar los notebooks. La primera ejecución
+Etapas: `descarga`, `bronze`, `silver`, `gold` y `visualizaciones` (notebook 04, que solo lee `gold/`). Opciones: `--desde silver` para repetir desde una capa; `--hasta gold` para no generar las gráficas. La primera ejecución
 descarga ~2.4 GB, por lo que el comando muestra el avance por etapa y por mes. Las siguientes omiten lo que ya está listo.
 
 ## 8. Preguntas abiertas (también en la bitácora)

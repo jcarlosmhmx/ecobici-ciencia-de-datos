@@ -76,10 +76,10 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 
 | Tarea | Estado | Notas |
 |---|---|---|
-| Mapa de estaciones por saldo matutino | ⬜ | `04_visualizaciones.ipynb` (no existe todavía). |
-| Perfil horario Buenavista contra 014 Reforma | 🔄 | Versión preliminar en `figuras/03_perfil_horario.png`. |
-| Ranking de saldo ÷ capacidad | 🔄 | Versión preliminar en `figuras/03_ranking_presion.png`. |
-| Diagrama o tabla de flujos desde Buenavista | ⬜ | |
+| Mapa de estaciones por saldo matutino | ✅ | `figuras/04_mapa_saldo.png` (D-17). Mapa por coordenadas con el contorno de la CDMX de fondo, sin calles (D-17, D-18). Falta citar la fuente en `docs/referencias.md`. |
+| Perfil horario Buenavista contra 014 Reforma | ✅ | `figuras/04_perfil_horario_corredor.png`, con los dos periodos (D-17). |
+| Ranking de saldo ÷ capacidad | ✅ | `figuras/04_ranking_prioritarias.png` (las 15 prioritarias) y `04_linea_base_prioritarias.png` (D-15, D-17). |
+| Diagrama o tabla de flujos desde Buenavista | ✅ | `figuras/04_destinos_buenavista.png`: destinos más frecuentes (D-17). |
 | Tres acciones con KPI, línea base, meta, responsable y plazo | 🔄 | Líneas base medidas (D-15, notebook 03 sección 9). Faltan metas, responsables y plazos, que propone el equipo. Impacto = esperado, no comprobado. |
 | Aplicación Streamlit | ⏸ | P-02. Extra, no se pide en la rúbrica. |
 | `docs/documento_caso.md` (texto fuente del PDF, con portada y resumen ejecutivo ≤ 250 palabras) | ⬜ | |
@@ -108,4 +108,4 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 
 1. **Revisión de la prueba preliminar** con el equipo (sábado 2026-11-21).
 2. Decidir P-06 y confirmar en el mapa el grupo de Buenavista (D-13).
-3. Visualizaciones finales (`04_visualizaciones.ipynb`) → documento, video y pitch con las cifras de D-12 (no las de la propuesta).
+3. Revisar las figuras `figuras/04_*.png` y usarlas en el documento, el video y el pitch con las cifras de D-12 a D-16 (no las de la propuesta).

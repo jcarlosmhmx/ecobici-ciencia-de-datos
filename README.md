@@ -22,13 +22,14 @@ con los datos abiertos de viajes del sistema de bicicletas compartidas **ECOBICI
 │   ├── bronze/               # los mismos datos en Parquet, sin cambios (se regenera; no va a git)
 │   ├── silver/               # viajes limpios en Parquet (se regenera; no va a git)
 │   ├── gold/                 # tablas agregadas para el análisis (se regenera)
-│   ├── catalogo/             # copia fechada del catálogo de estaciones (capacidad actual)
+│   ├── catalogo/             # copias fechadas del catálogo de estaciones (capacidad actual y una captura de 2024-11)
+│   ├── mapa/                 # contorno de la Ciudad de México para los mapas (capa del SIEG CDMX, D-18)
 │   └── perfil/               # tablas de diagnóstico de calidad (pequeñas, sí se suben)
 ├── notebooks/
 │   ├── 01_perfilado.ipynb    # Prepare: descarga, bronze y diagnóstico de calidad (sin limpiar nada)
 │   ├── 02_limpieza.ipynb     # Process: silver, limpieza y transformación
 │   ├── 03_analisis.ipynb     # Analyze: gold y análisis del desbalance
-│   └── 04_visualizaciones.ipynb  # Share (pendiente)
+│   └── 04_visualizaciones.ipynb  # Share: gráficas finales para el documento y el video
 ├── figuras/                  # gráficas exportadas para el documento y la presentación
 └── docs/
     ├── propuesta_proyecto.md  # el caso: problema, fuentes, análisis y acciones propuestas (cifras preliminares)
@@ -68,8 +69,8 @@ intérprete de `.venv`.
 **Atajo (prueba preliminar):** con el entorno activado, desde la carpeta del proyecto:
 
 ```bash
-python -m pipeline                 # descarga + bronze + silver + gold (ejecuta los notebooks 01 a 03)
-python -m pipeline --desde silver  # repite solo desde una etapa (descarga, bronze, silver o gold)
+python -m pipeline                 # descarga + bronze + silver + gold + gráficas (ejecuta los notebooks 01 a 04)
+python -m pipeline --desde silver  # repite solo desde una etapa (descarga, bronze, silver, gold o visualizaciones)
 ```
 
 El periodo de datos se define en `config/pipeline.toml`: la ventana fija **2024-11 a 2026-10** (24 meses, bitácora D-06 y D-11).
@@ -84,7 +85,7 @@ Cada etapa de datos se ejecuta a través de su notebook (desde VS Code también 
 | `01_perfilado.ipynb` | descarga, `datos/bronze/`, `datos/perfil/calidad_por_mes.csv`, `figuras/01_viajes_por_mes.png` | ~30 s |
 | `02_limpieza.ipynb` | `datos/silver/viajes.parquet`, `datos/perfil/limpieza_resumen.csv` | ~10 s |
 | `03_analisis.ipynb` | `datos/gold/*.parquet`, `figuras/03_*.png` | ~10 s |
-| `04_visualizaciones.ipynb` | gráficas finales en `figuras/` | pendiente |
+| `04_visualizaciones.ipynb` | `figuras/04_*.png` (5 gráficas) | ~5 s |
 
 **Guardar los notebooks con sus salidas.** Las salidas son la evidencia del trabajo, así que no hay que borrarlas antes de subirlos.
 

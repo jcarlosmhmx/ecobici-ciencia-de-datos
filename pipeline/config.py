@@ -9,6 +9,7 @@ SILVER = RAIZ / "datos" / "silver"
 GOLD = RAIZ / "datos" / "gold"
 CATALOGO = RAIZ / "datos" / "catalogo"
 PERFIL = RAIZ / "datos" / "perfil"
+MAPA = RAIZ / "datos" / "mapa"
 FIGURAS = RAIZ / "figuras"
 
 

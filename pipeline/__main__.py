@@ -1,6 +1,6 @@
 """Ejecuta el pipeline completo:  python -m pipeline [--desde ETAPA] [--hasta ETAPA]
 
-Etapas: descarga → bronze (01_perfilado) → silver (02_limpieza) → gold (03_analisis).
+Etapas: descarga → bronze (01_perfilado) → silver (02_limpieza) → gold (03_analisis) → visualizaciones (04_visualizaciones).
 Cada etapa de datos se ejecuta a través de su notebook, para que las salidas queden guardadas como evidencia.
 """
 import argparse
@@ -10,8 +10,9 @@ import time
 
 from . import catalogo, config, descarga
 
-ETAPAS = ["descarga", "bronze", "silver", "gold"]
-NOTEBOOKS = {"bronze": "01_perfilado.ipynb", "silver": "02_limpieza.ipynb", "gold": "03_analisis.ipynb"}
+ETAPAS = ["descarga", "bronze", "silver", "gold", "visualizaciones"]
+NOTEBOOKS = {"bronze": "01_perfilado.ipynb", "silver": "02_limpieza.ipynb", "gold": "03_analisis.ipynb",
+             "visualizaciones": "04_visualizaciones.ipynb"}
 
 
 def ejecutar_notebook(nombre):
@@ -26,7 +27,7 @@ def ejecutar_notebook(nombre):
 def main():
     parser = argparse.ArgumentParser(description="Pipeline de datos ECOBICI")
     parser.add_argument("--desde", choices=ETAPAS, default="descarga")
-    parser.add_argument("--hasta", choices=ETAPAS, default="gold")
+    parser.add_argument("--hasta", choices=ETAPAS, default=ETAPAS[-1])
     args = parser.parse_args()
     primera, ultima = ETAPAS.index(args.desde), ETAPAS.index(args.hasta)
     if primera > ultima:
