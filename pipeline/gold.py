@@ -159,6 +159,46 @@ def construir_gold(cfg):
               AND CAST(s.ts_retiro AS DATE) NOT IN (SELECT dia FROM festivos) AND s.est_retiro IN ({est})
             GROUP BY p.nombre, g.n_dias""")
 
+    # Fase Act: estaciones prioritarias, indicadores de línea base y contraflujo
+    n_prior, min_pers = int(a["prioritarias_n"]), float(a["prioritarias_min_persistencia"])
+    reciente = cfg["periodos"][-1]["nombre"]
+    con.execute(f"""
+        CREATE TABLE estaciones_prioritarias AS
+        SELECT row_number() OVER (ORDER BY abs(presion) DESC) AS posicion, *
+        FROM (SELECT est, nombre, capacidad, saldo_medio, presion, pct_dias_gana, pct_dias_pierde,
+                     CASE WHEN saldo_medio < 0 THEN 'se vacía' ELSE 'se llena' END AS tipo
+              FROM persistencia_estacion
+              WHERE periodo = '{reciente}' AND capacidad IS NOT NULL AND greatest(pct_dias_gana, pct_dias_pierde) >= {min_pers}
+              ORDER BY abs(presion) DESC LIMIT {n_prior})""")
+    # Por estación prioritaria y periodo: en qué % de los días el saldo y la necesidad matutina superan la capacidad
+    con.execute("""
+        CREATE TABLE kpi_prioritarias AS
+        SELECT m.periodo, p.posicion, p.est, p.nombre, p.tipo, p.capacidad, count(*) AS dias,
+               round(100 * avg(((CASE WHEN p.tipo = 'se vacía' THEN -m.saldo ELSE m.saldo END) > p.capacidad)::INT), 1)
+                   AS pct_dias_saldo_mayor_capacidad,
+               round(100 * avg(((CASE WHEN p.tipo = 'se vacía' THEN m.bicis_necesarias ELSE m.espacios_necesarios END) > p.capacidad)::INT), 1)
+                   AS pct_dias_necesidad_mayor_capacidad,
+               round(avg(CASE WHEN p.tipo = 'se vacía' THEN m.bicis_necesarias ELSE m.espacios_necesarios END), 1) AS necesidad_media
+        FROM manana_estacion_dia m JOIN estaciones_prioritarias p ON p.est = m.est
+        GROUP BY m.periodo, p.posicion, p.est, p.nombre, p.tipo, p.capacidad""")
+    # Contraflujo: viajes de la franja de la mañana en el sentido Reforma -> Buenavista, frente al flujo principal Buenavista -> Reforma
+    con.execute("""CREATE TABLE contraflujo_corredor(periodo VARCHAR, grupo VARCHAR, dias INTEGER, flujo_principal_por_dia DOUBLE,
+                   contraflujo_por_dia DOUBLE)""")
+    for grupo, lista in {"núcleo": a["origenes_buenavista"], "ampliado": a["origenes_buenavista_ampliado"]}.items():
+        est = ", ".join(f"'{x}'" for x in lista)
+        reforma_sql = "(SELECT codigo FROM estaciones WHERE en_reforma)"
+        con.execute(f"""
+            INSERT INTO contraflujo_corredor
+            SELECT p.nombre, '{grupo}', g.n_dias,
+                   round(count(*) FILTER (WHERE s.est_retiro IN ({est}) AND s.est_arribo IN {reforma_sql}) / g.n_dias, 1),
+                   round(count(*) FILTER (WHERE s.est_arribo IN ({est}) AND s.est_retiro IN {reforma_sql}) / g.n_dias, 1)
+            FROM read_parquet('{silver}') s
+            JOIN periodos p ON CAST(s.ts_retiro AS DATE) >= p.ini AND CAST(s.ts_retiro AS DATE) < p.fin
+            JOIN (SELECT periodo, count(DISTINCT dia) AS n_dias FROM ev WHERE est IN ({est}) GROUP BY 1) g ON g.periodo = p.nombre
+            WHERE dayofweek(s.ts_retiro) BETWEEN 1 AND 5 AND hour(s.ts_retiro) BETWEEN {h0} AND {h1}
+              AND CAST(s.ts_retiro AS DATE) NOT IN (SELECT dia FROM festivos)
+            GROUP BY p.nombre, g.n_dias""")
+
     # Validación independiente: se recuentan los viajes directamente de silver y se comparan con las sumas de gold
     esperado = con.execute(f"""
         SELECT count(*) FILTER (WHERE hour(s.ts_retiro) BETWEEN {h0} AND {h1}
@@ -183,6 +223,7 @@ def construir_gold(cfg):
         raise AssertionError(f"Gold no cuadra con silver:\n{validaciones}")
 
     for tabla in ["estaciones", "manana_estacion_dia", "persistencia_estacion", "perfil_horario_estacion", "od_corredor",
-                  "serie_mensual_estacion", "origenes_llegadas_foco", "corredor_buenavista_reforma"]:
+                  "serie_mensual_estacion", "origenes_llegadas_foco", "corredor_buenavista_reforma",
+                  "estaciones_prioritarias", "kpi_prioritarias", "contraflujo_corredor"]:
         con.execute(f"COPY {tabla} TO '{(config.GOLD / (tabla + '.parquet')).as_posix()}' (FORMAT parquet)")
     return validaciones

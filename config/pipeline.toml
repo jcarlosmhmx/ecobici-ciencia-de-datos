@@ -48,5 +48,9 @@ origenes_buenavista = ["266-267", "268-269", "271-272", "273-274"]
 origenes_buenavista_ampliado = ["266-267", "268-269", "271-272", "273-274", "548", "547", "176"]
 # Estación de Reforma que se analiza con más detalle (la más saturada según la propuesta).
 estaciones_reforma = ["014"]
+# Estaciones prioritarias del plan de acción (fase Act): las N de mayor presión (|saldo medio| / capacidad) del periodo más reciente,
+# entre las que el desbalance se repite en al menos este % de los días laborables (D-15).
+prioritarias_n = 15
+prioritarias_min_persistencia = 80
 # Las estaciones "de Reforma" son las del catálogo cuyo nombre contiene este texto (24 estaciones, D-14).
 reforma_texto_en_nombre = "reforma"

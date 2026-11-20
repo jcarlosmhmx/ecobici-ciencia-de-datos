@@ -336,6 +336,45 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 - **Consecuencia para el caso:** presentar el problema como "Buenavista se vacía y Reforma recibe" es una simplificación. Las dos cosas ocurren, pero la mayoría de las bicis de Buenavista va a otros destinos y la
   mayoría de las que llegan a 014 vienen de otros orígenes. La recomendación debe apoyarse en el **desbalance por estación** (que sí se mide), no en un flujo único Buenavista → Reforma.
 
+### D-15 · Estaciones prioritarias y línea base de indicadores para el plan de acción
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Analyze → Act — `notebooks/03_analisis.ipynb` (sección 9), `pipeline/gold.py`
+- **Decisión:** (1) **Estaciones prioritarias** = las 15 con mayor presión absoluta (saldo medio de la mañana ÷ capacidad) del periodo más reciente, entre las que el desbalance se repite en al menos el 80 % de los días
+  laborables (`prioritarias_n` y `prioritarias_min_persistencia` en `config/pipeline.toml`). (2) **Indicadores de línea base** en ambos periodos: % de días con saldo mayor que la capacidad, necesidad media de bicis o espacios
+  por mañana y viajes a contraflujo Reforma → Buenavista. (3) Las tablas gold nuevas son `estaciones_prioritarias`, `kpi_prioritarias` y `contraflujo_corredor`.
+- **Alternativa(s) descartada(s):** elegir las prioritarias solo por saldo absoluto (favorece estaciones grandes); elegir las 15 de Buenavista y Reforma (el caso quedaría limitado a lo que ya se suponía);
+  fijar metas numéricas de mejora (sería presentar un impacto esperado como resultado).
+- **Justificación:** la presión normaliza por capacidad y el filtro de persistencia deja fuera saldos grandes pero erráticos. Las metas las debe proponer el equipo; aquí solo se mide de dónde se parte.
+- **Registros afectados:** 0 (análisis). Tablas gold pequeñas.
+- **Validación:** los números del notebook se leen de gold; los de gold se calculan sobre las mismas tablas ya validadas contra silver (D-13).
+- **Responsable:** _por completar por el equipo_
+- **Hallazgos (sin atribuir causas):**
+  1. De las 15 prioritarias, **12 se llenan y solo 3 se vacían** (208, 271-272 y 273-274). Incluyen 4 estaciones de Reforma (014, 015, 017 y 018), pero también estaciones de otras zonas: el problema no se limita al corredor.
+  2. En las prioritarias el saldo de la mañana supera su capacidad en **≈89 % de los días** (2024-11→2025-10) y **≈87 %** (2025-11→2026-10). Para 014: 98.0 % y 95.7 %.
+  3. **Contraflujo:** unos 6 viajes por día de Reforma a Buenavista (núcleo) frente a 112–142 en el sentido principal (≈5 %). Un incentivo a contraflujo tendría poco margen por sí solo.
+- **Limitaciones:** la capacidad es la actual del catálogo, no la de cada mes (diferencia pequeña y medida en D-16); la necesidad de bicis es una medida indirecta que ignora el rebalanceo del operador; la lista de prioritarias depende del periodo reciente.
+- **Consecuencia para el caso:** las acciones deben dirigirse a un conjunto de estaciones con desbalance crónico en varias zonas, no solo a Buenavista → Reforma, y cualquier mejora debe presentarse como hipótesis medible contra esta línea base.
+
+### D-16 · Verificación de la capacidad de las estaciones con una captura histórica del catálogo
+- **Fecha:** 2026-11-20
+- **Fase / notebook:** Analyze — `notebooks/03_analisis.ipynb` (sección 9, comprobación de capacidad)
+- **Decisión:** se **mantiene** la capacidad actual del catálogo (copia del 2026-11-20) para todo el análisis, y la limitación se declara con su magnitud medida. Se guarda en el repositorio una segunda copia fechada,
+  `datos/catalogo/station_information_2024-11-07.json`, que es una captura pública del mismo feed (Internet Archive, Wayback Machine, marca 20241107193422), solo como evidencia de la comparación.
+- **Alternativa(s) descartada(s):** usar la capacidad de 2024-11 para el primer periodo y la actual para el segundo (cambiaría 9 de 677 estaciones, ninguna prioritaria, y complicaría el pipeline por un efecto mínimo);
+  tratar la capacidad como desconocida (no tiene sustento: la diferencia está acotada).
+- **Justificación:** el catálogo oficial solo publica el estado actual. Se buscó una fuente histórica y existen capturas mensuales del feed entre 2024-07 y 2025-10 en el Internet Archive. Se comparó la de 2024-11-07 (inicio de la ventana)
+  con la actual.
+- **Registros afectados:** 0.
+- **Validación:** la comparación se reproduce en el notebook con los dos JSON guardados en el repositorio, sin conexión. Además, se contrastaron las 11 capturas disponibles (2024-07 a 2025-10) con la copia actual:
+  la cantidad de estaciones con capacidad distinta baja de 20 (2024-07) a entre 5 y 9 desde 2024-11, y la capacidad total del sistema se mantiene entre 17,984 y 18,197.
+- **Responsable:** _por completar por el equipo_
+- **Hallazgos:**
+  1. Entre 2024-11-07 y 2026-11-20, **9 de 677 estaciones (1.3 %)** cambiaron de capacidad; el total del sistema pasó de 18,185 a 18,183.
+  2. **Ninguna de las 15 prioritarias cambió.** De las estaciones de Buenavista solo 266-267 (75 → 74).
+  3. Las diferencias grandes están en estaciones aisladas (487: 7 → 23; 699: 23 → 3), ninguna relacionada con el corredor.
+- **Limitaciones:** solo se compararon dos fechas con detalle (el resto de capturas, por totales); no se estudió el efecto de las 9 estaciones que sí cambiaron; la fuente son capturas de un tercero, no del operador.
+- **Consecuencia para el caso:** la limitación de la capacidad pasa de "desconocida" a "pequeña y medida". Se redacta así en el documento.
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |
@@ -348,4 +387,4 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 | P-07 | Versión mínima de Python | 3.11 (`tomllib`) o mantener 3.10 con otro formato de configuración | El pipeline ya usa `tomllib` y el README pide 3.11; confirmar. |
 | P-08 | ~~Definición de "día laboral"~~ | **Resuelta en D-13** (lunes a viernes sin festivos oficiales) | |
 | P-10 | ~~Definición de la franja "mañana"~~ | **Resuelta en D-13** (horas 7 a 10, hasta 10:59) | |
-| P-09 | Copia fechada del catálogo de estaciones en git | Sí (reproducible) o descargar siempre la versión vigente | La capacidad es la actual, no la de 2024–2026: limitación a declarar. |
+| P-09 | Copia fechada del catálogo de estaciones en git | Sí (reproducible) o descargar siempre la versión vigente | Ambas copias (2026-11-20 y la captura 2024-11-07, D-16) están en `datos/catalogo/`; falta que el equipo confirme que se versionan. |

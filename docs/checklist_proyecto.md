@@ -44,7 +44,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Perfilado de calidad de los datos | 🔄 | `01_perfilado.ipynb` regenerado y ejecutado con los 24 meses. Retirados los archivos exploratorios de 2024–2025 (JSON de `datos/perfil/`, figuras `01_*` viejas, `01_perfilado.py`). |
 | Diccionario de datos | 🔄 | Existe; falta el formato de edad con decimal y los códigos `Temporal` (D-07, D-08). |
 | Script de descarga que lee el portal | 🔄 | `pipeline/descarga.py` hecho y probado con los 24 meses; `descargar_ecobici.sh` eliminado. |
-| Descarga y copia fechada del catálogo de estaciones | 🔄 | Copia en `datos/catalogo/` (2026-11-20). Falta confirmar si se versiona (P-09). |
+| Descarga y copia fechada del catálogo de estaciones | 🔄 | Copias en `datos/catalogo/` (2026-11-20 y captura histórica 2024-11-07, D-16). Falta confirmar si se versionan (P-09). |
 | Evaluar calidad, pertinencia y confiabilidad de las fuentes | ⬜ | Se redacta en el PDF. |
 | Fuente opcional: afluencia Tren Suburbano / Metro Buenavista | ⬜ | Opcional; ayuda a cumplir "múltiples fuentes". |
 
@@ -80,7 +80,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Perfil horario Buenavista contra 014 Reforma | 🔄 | Versión preliminar en `figuras/03_perfil_horario.png`. |
 | Ranking de saldo ÷ capacidad | 🔄 | Versión preliminar en `figuras/03_ranking_presion.png`. |
 | Diagrama o tabla de flujos desde Buenavista | ⬜ | |
-| Tres acciones con KPI, línea base, meta, responsable y plazo | 🔄 | Borrador en la propuesta; las líneas base dependen del análisis. Impacto = esperado, no comprobado. |
+| Tres acciones con KPI, línea base, meta, responsable y plazo | 🔄 | Líneas base medidas (D-15, notebook 03 sección 9). Faltan metas, responsables y plazos, que propone el equipo. Impacto = esperado, no comprobado. |
 | Aplicación Streamlit | ⏸ | P-02. Extra, no se pide en la rúbrica. |
 | `docs/documento_caso.md` (texto fuente del PDF, con portada y resumen ejecutivo ≤ 250 palabras) | ⬜ | |
 | `docs/referencias.md` (APA 7) | ⬜ | |

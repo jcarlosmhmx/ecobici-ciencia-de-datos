@@ -116,6 +116,9 @@ Las validaciones comparan cada mes contra su propio archivo. No se escribe ning�
 | `serie_mensual_estacion` | estación × mes | llegadas y salidas matutinas por día de actividad (D-14) |
 | `origenes_llegadas_foco` | origen × estación foco × periodo | de dónde llegan las bicis a 014 (D-14) |
 | `corredor_buenavista_reforma` | grupo de Buenavista × periodo | salidas matutinas y % que termina en Reforma (D-14) |
+| `estaciones_prioritarias` | estación | las 15 de mayor presión del periodo reciente (D-15) |
+| `kpi_prioritarias` | estación prioritaria × periodo | % de días con saldo > capacidad y necesidad media (D-15) |
+| `contraflujo_corredor` | grupo de Buenavista × periodo | flujo principal y contraflujo matutino (D-15) |
 
 ## 7. Cómo se usa (objetivo del README)
 
@@ -134,4 +137,4 @@ descarga ~2.4 GB, por lo que el comando muestra el avance por etapa y por mes. L
 2. **Días laborales:** ¿se excluyen solo sábados y domingos, o también festivos oficiales? Cambia el resultado y debe quedar en la bitácora.
 3. **Librerías nuevas:** `streamlit`, `folium` o `plotly` (mapa) y `tqdm` (avance). Hay que añadirlas a `requirements.txt` con versiones fijas.
 4. **Copia del catálogo:** se propone versionar el JSON fechado para que el resultado no cambie si el feed cambia (el catálogo trae la
-   capacidad *actual*, no la de la ventana: limitación a declarar).
+   capacidad *actual*, no la de la ventana: limitación a declarar; medida en D-16, diferencia pequeña).
