@@ -32,7 +32,7 @@
 - [ ] Abrir la aplicación: `python -m pipeline --desde app` (o `streamlit run app/app.py`). Dejarla lista en la pestaña **Inicio**.
 - [ ] En VS Code, subir el zoom a 150 % (`Cmd +` en macOS) y usar el tema claro. El texto del código debe leerse en una pantalla de laptop.
 - [ ] Tener abiertas en pestañas: `README.md`, `config/pipeline.toml`, `docs/bitacora_decisiones.md` y los 4 notebooks **con sus salidas**.
-- [ ] Tener las 9 figuras de `figuras/` abiertas en un visor de imágenes, en este orden: `04_mapa_saldo`, `04_perfil_horario_corredor`, `04_ranking_prioritarias`, `04_destinos_buenavista`, `04_linea_base_prioritarias`, `03_serie_014`.
+- [ ] Tener abiertas en un visor de imágenes las figuras que se muestran, en este orden: `04_mapa_saldo`, `04_perfil_horario_corredor`, `04_ranking_prioritarias`, `04_destinos_buenavista`, `04_linea_base_prioritarias`, `03_serie_014`.
 - [ ] Cerrar notificaciones (Slack, correo, WhatsApp Web) y ocultar el escritorio.
 
 ### Grabación
@@ -156,7 +156,7 @@
 
 🗣️ Una decisión de método: solo contamos los días en que la estación tuvo actividad. Al principio rellenábamos con cero los días sin viajes, y eso subestimaba el desbalance (D-13).
 
-🗣️ Los resultados del periodo más reciente, noviembre de 2025 a octubre de 2026: la estación **014, Reforma y Río de Plata**, con capacidad de 39 bicis, **gana en promedio 121 bicis cada mañana**: una presión de 3.1, la más alta del sistema. Recibe más de lo que sale el 100 % de los días laborables. En el lado contrario, la **271-272 de Buenavista**, con capacidad de 74, **pierde 151 bicis**. Y en todo el sistema, **34 estaciones** tienen un saldo mayor que su capacidad completa.
+🗣️ Los resultados del periodo más reciente, noviembre de 2025 a octubre de 2026: la estación **014, Reforma y Río de Plata**, con capacidad de 39 bicis, **gana en promedio 121 bicis cada mañana**: una presión de 3.1, la más alta del sistema. Recibe más de lo que sale el 100 % de los días laborables. En el lado contrario, la **271-272 de Buenavista**, con capacidad de 74, **pierde 151 bicis** en promedio (saldo). Y en todo el sistema, **34 estaciones** tienen un saldo mayor que su capacidad completa.
 
 #### 4b · Lo que cambió y lo que corregimos (Juan, 9:15–10:45)
 
@@ -170,9 +170,9 @@
 
 🎥 Gráfica de destinos desde Buenavista.
 
-🗣️ El hallazgo más importante para el caso es que **la historia inicial era una simplificación**. Solo **25 %** de las bicis que salen de Buenavista termina en Reforma; el resto se reparte entre muchísimos destinos. Y solo cerca del **9 %** de las bicis que llegan a 014 viene de Buenavista. Hay un movimiento de Buenavista a Reforma, pero el desbalance es un problema **de muchas estaciones**, no de un solo corredor.
+🗣️ El hallazgo más importante para el caso es que **la historia inicial era una simplificación**. Solo **25 %** de las bicis que salen de Buenavista termina en Reforma; el resto se reparte entre muchísimos destinos. Y solo cerca del **9 %** de las bicis que llegan a 014 viene de Buenavista (entre 7.6 % y 9.6 % según el grupo de estaciones que se cuente). Hay un movimiento de Buenavista a Reforma, pero el desbalance es un problema **de muchas estaciones**, no de un solo corredor.
 
-🗣️ Esto también nos sirvió para **verificar el trabajo inicial hecho con inteligencia artificial**. Recalculamos las cifras de la propuesta: el +243 de la estación 014 sí se reprodujo; pero el −250 de Buenavista no salió con ninguna definición, y los "580 viajes diarios hacia Reforma" en realidad eran las salidas **totales** de Buenavista. Todo el uso de IA y lo que verificamos está registrado en `docs/uso_ia.md`.
+🗣️ Esto también nos sirvió para **verificar el trabajo inicial hecho con inteligencia artificial**. Recalculamos las cifras de la propuesta: el +243 de la estación 014 sí se reprodujo; pero el −250 de Buenavista no salió con ninguna definición, y los "580 viajes diarios hacia Reforma" se parecen a las salidas **totales** de Buenavista (565 al día), pero no sabemos de dónde salió esa cifra. Todo el uso de IA y lo que verificamos está registrado en `docs/uso_ia.md`.
 
 ---
 
@@ -188,7 +188,7 @@
 
 🎥 Ranking de prioritarias.
 
-🗣️ Con estos datos elegimos **15 estaciones prioritarias**: las de mayor presión en las que el desbalance se repite en al menos el 80 % de los días. **Doce se llenan y solo tres se vacían.** Cuatro son de Reforma y dos de Buenavista, pero la mayoría de las demás está en otras zonas, sobre todo en Polanco.
+🗣️ Con estos datos elegimos **15 estaciones prioritarias**: las de mayor presión en las que el desbalance se repite en al menos el 80 % de los días. **Doce se llenan y solo tres se vacían.** Cuatro son de Reforma y dos de Buenavista, pero las otras nueve están en otras zonas de la ciudad.
 
 🎥 Línea base.
 
@@ -211,12 +211,13 @@
 | 3 | Medir el inventario real con `station_status` (cada 5 min) antes y después de las acciones 1 y 2 | Minutos con la estación vacía o llena entre 7:00 y 10:59 | No existe hoy | Línea base en el primer mes | Operador / continuo |
 
 \* Las metas las propone el equipo (están pendientes en el checklist). El impacto es **esperado, no comprobado**.
+En la acción 2 las cantidades son las **bicis necesarias** (indicador indirecto), por eso 271-272 es 152 y no 151, que es su saldo medio.
 
 🗣️ **Paulina Gallardo:** Con base en lo que encontramos, proponemos tres acciones. Cada una tiene un indicador, una línea base que ya medimos, un responsable y una frecuencia.
 
 🗣️ La **primera** es un **rebalanceo programado** en las 15 estaciones prioritarias: llevar bicis a las que se vacían antes de las 7 de la mañana y retirar bicis de las que se llenan entre las 9 y las 10. Se mide con el porcentaje de días en que el saldo supera la capacidad; hoy es 87 %.
 
-🗣️ La **segunda** es **más capacidad**, o un servicio de resguardo temporal, en las estaciones con el desbalance más grande: la 014 necesitaría en promedio 121 espacios más cada mañana, y la 271-272 de Buenavista, 152 bicis más.
+🗣️ La **segunda** es **más capacidad**, o un servicio de resguardo temporal, en las estaciones con el desbalance más grande: la 014 necesitaría en promedio 121 espacios más cada mañana, y la 271-272 de Buenavista, 152 bicis más (medida indirecta: las que harían falta a las 7:00 para que no se vacíe).
 
 🗣️ **Day:** La **tercera** es **medir el inventario real**. Nuestros datos muestran viajes, no cuántas bicis había en cada estación. El catálogo de ECOBICI publica el estado de cada estación en tiempo real; si el operador lo registra cada 5 minutos, puede saber cuántos minutos pasa una estación vacía o llena, y comprobar si las acciones 1 y 2 funcionan.
 

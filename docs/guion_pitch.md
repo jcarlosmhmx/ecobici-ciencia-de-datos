@@ -49,7 +49,7 @@
 
 🗣️ Segundo: es crónico. En las 15 estaciones con más presión, el saldo de la mañana supera la capacidad en el 87 % de los días.
 
-🗣️ Tercero, y nos sorprendió: no es un solo corredor. Solo una de cada cuatro bicis que salen de Buenavista termina en Reforma, y 9 de las 15 estaciones prioritarias están en otras zonas, sobre todo en Polanco.
+🗣️ Tercero, y nos sorprendió: no es un solo corredor. Solo una de cada cuatro bicis que salen de Buenavista termina en Reforma, y 9 de las 15 estaciones prioritarias están en otras zonas de la ciudad.
 
 ### Bloque 4 · Recomendación e impacto esperado (2:00–2:45) — Day · ≈100 palabras
 
@@ -57,12 +57,12 @@
 
 🗣️ **Day:** Nuestra recomendación: un **rebalanceo programado** en esas 15 estaciones. Llevar bicis a las que se vacían antes de las 7 de la mañana y retirarlas de las que se llenan entre las 9 y las 10. Y en la 014 y en Buenavista, sumar capacidad o un resguardo temporal.
 
-🗣️ El impacto **esperado** es que menos usuarios se queden sin bici o sin lugar. Es una hipótesis, no un resultado: por eso dejamos medida la línea base, el 87 % de los días. Con el estado de las estaciones en tiempo real, el operador puede comprobar en pocas semanas si funciona.
+🗣️ El impacto **esperado** es que menos usuarios se queden sin bici o sin lugar. Es una hipótesis, no un resultado: por eso dejamos medida la línea base, el 87 % de los días. Con el estado de las estaciones en tiempo real, el operador puede comprobar con datos si funciona.
 
 | Acción | Indicador | Línea base | Responsable |
 |---|---|---|---|
 | Rebalanceo programado en 15 estaciones | % de días con saldo mayor que la capacidad | 87 % | Operador, revisión semanal |
-| Capacidad o resguardo en 014 y Buenavista | Bicis o espacios que faltan por mañana | 014: 121 · 271-272: 152 | SEMOVI y operador, mensual |
+| Capacidad o resguardo en 014 y Buenavista | Bicis o espacios que faltan por mañana (indicador indirecto) | 014: 121 · 271-272: 152 | SEMOVI y operador, mensual |
 
 ### Bloque 5 · Cierre (2:45–2:55) — Paulina Gallardo · ≈20 palabras
 
@@ -80,7 +80,7 @@
 | Explican brevemente la metodología | Bloque 2: seis fases, dos fuentes oficiales, validación, limpieza y medida de saldo contra capacidad, en 35 segundos |
 | Comunican los hallazgos más relevantes | Bloque 3: tamaño (014, 3 veces su capacidad), frecuencia (87 % de los días) y alcance (no es un solo corredor) |
 | Presentan su recomendación y el impacto esperado | Bloque 4: rebalanceo programado y capacidad, con el impacto como **esperado** y su indicador para medirlo |
-| El video no supera los tres minutos | Unas 405 palabras habladas ≈ 2:45; cada bloque lleva su tiempo |
+| El video no supera los tres minutos | Unas 420 palabras habladas ≈ 2:48; cada bloque lleva su tiempo |
 
 ---
 
