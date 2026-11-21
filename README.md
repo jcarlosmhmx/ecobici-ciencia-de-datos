@@ -17,6 +17,7 @@ con los datos abiertos de viajes del sistema de bicicletas compartidas **ECOBICI
 ├── requirements.txt          # librerías de Python necesarias
 ├── config/pipeline.toml      # ventana de datos, franja de la mañana, reglas de limpieza
 ├── pipeline/                 # código del pipeline: descarga, bronze, silver, gold (python -m pipeline)
+├── app/                      # aplicación Streamlit que presenta el proyecto por etapas (streamlit run app/app.py)
 ├── datos/
 │   ├── raw/                  # CSV originales, uno por mes (NO se suben a git, ~2.4 GB)
 │   ├── bronze/               # los mismos datos en Parquet, sin cambios (se regenera; no va a git)
@@ -42,7 +43,7 @@ con los datos abiertos de viajes del sistema de bicicletas compartidas **ECOBICI
 
 ## Instalación del entorno (una sola vez)
 
-Requisitos: **Python 3.11 o superior** (el pipeline lee su configuración con `tomllib`; decisión P-07 por confirmar), **VS Code** con las extensiones *Python* y *Jupyter*, y unos 4 GB libres en disco.
+Requisitos: **Python 3.11 o superior** (el pipeline lee su configuración con `tomllib`; probado con 3.12 y 3.15, decisión P-07 por confirmar), **VS Code** con las extensiones *Python* y *Jupyter*, y unos 4 GB libres en disco.
 Recomendado: 8 GB de RAM o más.
 
 Abre una terminal en la carpeta del proyecto y ejecuta:
@@ -69,8 +70,10 @@ intérprete de `.venv`.
 **Atajo (prueba preliminar):** con el entorno activado, desde la carpeta del proyecto:
 
 ```bash
-python -m pipeline                 # descarga + bronze + silver + gold + gráficas (ejecuta los notebooks 01 a 04)
-python -m pipeline --desde silver  # repite solo desde una etapa (descarga, bronze, silver, gold o visualizaciones)
+python -m pipeline                              # todo: descarga + bronze + silver + gold + gráficas, y al final abre la aplicación
+python -m pipeline --hasta visualizaciones      # solo procesa (notebooks 01 a 04), sin abrir la aplicación
+python -m pipeline --desde silver               # repite desde una etapa (descarga, bronze, silver, gold, visualizaciones o app)
+python -m pipeline --desde app                  # solo abre la aplicación (igual que streamlit run app/app.py)
 ```
 
 El periodo de datos se define en `config/pipeline.toml`: la ventana fija **2024-11 a 2026-10** (24 meses, bitácora D-06 y D-11).
@@ -88,6 +91,16 @@ Cada etapa de datos se ejecuta a través de su notebook (desde VS Code también 
 | `04_visualizaciones.ipynb` | `figuras/04_*.png` (5 gráficas) | ~5 s |
 
 **Guardar los notebooks con sus salidas.** Las salidas son la evidencia del trabajo, así que no hay que borrarlas antes de subirlos.
+
+## Ver el proyecto en una aplicación
+
+Con el entorno activado, desde la carpeta del proyecto:
+
+```bash
+streamlit run app/app.py
+```
+
+(También se abre sola al final de `python -m pipeline`; para cerrarla, `Ctrl+C` en la terminal.) Se abre en el navegador, con una pestaña por cada etapa (**Inicio** y los notebooks **01 a 04**) y un explorador de estaciones. La aplicación muestra los notebooks ya ejecutados, así que no hace falta volver a procesar los datos; las cifras de *Inicio* y el explorador usan `datos/gold`, que se genera con `python -m pipeline`.
 
 ## Reglas de trabajo del equipo
 

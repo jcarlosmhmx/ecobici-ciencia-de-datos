@@ -425,16 +425,61 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 - **Responsable:** _por completar por el equipo_
 - **Limitaciones:** rojo y azul se distinguen bien para la mayoría de las personas, incluidas las que tienen daltonismo rojo-verde; la figura `01_viajes_por_mes.png` conserva su azul neutro porque no representa el estado de una estación.
 
+### D-20 · Prueba en limpio: reintentos de descarga y versiones fijas de las librerías
+- **Fecha:** 2026-11-21
+- **Fase / notebook:** Process (reproducibilidad) — `pipeline/descarga.py`, `requirements.txt`, `README.md`
+- **Decisión:** (1) La descarga **reintenta** hasta 4 veces ante fallas de red (esperas de 5, 15 y 45 s) y, si se agotan, termina con un mensaje que indica volver a ejecutar `python -m pipeline`, que retoma donde se quedó.
+  (2) `requirements.txt` fija **versiones exactas** (antes eran mínimos con `>=`). (3) Se quitan `seaborn` (ningún notebook ni módulo lo usa) y el metapaquete `jupyter` (el pipeline solo necesita `ipykernel` y `nbconvert`);
+  se agrega `numpy`, que el notebook 04 usa directamente. (4) El README indica con qué versiones de Python se probó.
+- **Cómo se probó:** se clonó la rama publicada en GitHub a una carpeta nueva (sin `datos/` ni `.venv`) y se siguió el README: `py -m venv .venv`, `pip install -r requirements.txt` y `python -m pipeline`.
+- **Hallazgos:**
+  1. **Instalación y ejecución en limpio funcionan:** con Python 3.15.0 (el `py` por defecto de esa máquina) el pipeline completo terminó sin errores y generó las 11 tablas gold y las 9 figuras.
+  2. **La descarga se cortó** por un tiempo de espera de la red (WinError 10060) tras 17 de 24 meses, sin reintentos ni mensaje claro. Al volver a ejecutar, omitió los 17 completos y bajó los 7 faltantes. Eso motivó los reintentos.
+  3. **Con `>=`, pip instaló DuckDB 2.0.1** (aquí se usó la 2.0.0) y **3 valores de unas 30,000 filas** en dos tablas (`perfil_horario_estacion` y `persistencia_estacion`) cambiaron en el último decimal
+     (diferencias de 0.01, 0.01 y 0.1, en empates de redondeo). Ninguna conclusión cambia, pero el resultado no era idéntico al dígito.
+  4. **Con versiones fijas** (DuckDB 2.0.0 y las demás de `requirements.txt`) en un entorno nuevo con Python 3.12.10, las **11 tablas gold salen idénticas al dígito** a las de la máquina de desarrollo. La instalación tardó 107 s
+     (antes 200 s con `jupyter`) y el pipeline desde bronze hasta las figuras, 77 s con los CSV ya descargados.
+- **Alternativa(s) descartada(s):** dejar versiones mínimas (`>=`), que ya produjo una diferencia; quitar el redondeo de gold (cambiaría tablas ya validadas y no impediría otras diferencias entre versiones).
+- **Registros afectados:** 0 (no cambia ninguna cifra del análisis).
+- **Validación:** comparación exacta de las 11 tablas gold entre la máquina de desarrollo y el entorno limpio; prueba simulada de los reintentos (fallar dos veces y funcionar a la tercera; agotar los intentos).
+- **Responsable:** _por completar por el equipo_
+- **Limitaciones:** la prueba se hizo solo en Windows; no se ha probado en macOS ni Linux, ni con Python 3.11. Se atribuye la diferencia de redondeo a la versión de DuckDB porque con la 2.0.0 desaparece, pero
+  en esa prueba también cambió la versión de Python (3.15 → 3.12), así que no se separó el efecto de cada una. La descarga depende de que el portal conserve la estructura de sus enlaces. El equipo debe repetir la prueba
+  en otra computadora real (ver `docs/uso_ia.md`).
+
+### D-21 · Aplicación Streamlit que presenta el proyecto por etapas
+- **Fecha:** 2026-11-21
+- **Fase / notebook:** Share — `app/app.py`, `app/visor.py`, `.streamlit/config.toml`
+- **Decisión:** se crea una aplicación Streamlit que presenta el proyecto en pestañas: **Inicio**, **01 · Perfilado**, **02 · Limpieza**, **03 · Análisis** y **04 · Visualizaciones** (una por notebook).
+  Se ejecuta con `streamlit run app/app.py`. Resuelve P-02 (ver abajo).
+  - **Cada pestaña de notebook muestra el notebook ya ejecutado** (explicaciones en español, tablas y gráficas guardadas), leído directamente del archivo `.ipynb`. La aplicación no recalcula nada ni duplica texto:
+    lo que se ve es la misma evidencia del análisis. En la barra lateral se puede activar la muestra del código de cada paso.
+  - **Inicio** presenta el problema, cuatro cifras clave (calculadas desde `datos/gold`), cómo recorrer la aplicación y lo que hay que tener presente (limitaciones).
+  - **La pestaña 04 añade un explorador de estaciones:** al elegir una estación se ven sus indicadores de los dos periodos, su serie mensual y su perfil por hora (rojo = llegadas, azul = salidas, como en D-19).
+- **Alternativa(s) descartada(s):** reescribir en la aplicación el texto y las gráficas de cada etapa (duplicaría el contenido y podría desfasarse del análisis); mapa interactivo con mapa de calles (D-17, D-18: depende de internet);
+  hacer que la aplicación ejecute el pipeline al abrirse (bloquearía el arranque 2 a 4 minutos y complicaría los errores de descarga).
+- **Integración con el pipeline:** `python -m pipeline` tiene una etapa final `app` que abre la aplicación al terminar el procesamiento, para que un solo comando haga todo.
+  Como Streamlit es un servidor que no termina solo, esa etapa queda esperando hasta `Ctrl+C`; para ejecuciones sin supervisión se usa `--hasta visualizaciones`. Cada parte se puede correr por separado
+  (`--desde app` o `streamlit run app/app.py` abren solo la aplicación). La aplicación nunca descarga ni procesa datos por sí misma.
+- **Justificación:** pedido del equipo para poder presentar todo el proceso etapa por etapa. Leer los notebooks ejecutados mantiene una sola fuente de verdad y sigue la regla de sencillez del proyecto.
+- **Registros afectados:** 0.
+- **Validación:** (1) prueba automática de Streamlit (`AppTest`) sin excepciones ni errores, cambiando de estación y activando el código, también sin `datos/gold`; (2) revisión visual de las cinco pestañas en el
+  navegador Edge, sin errores de consola. Se corrigieron dos detalles (texto truncado en las tarjetas y encabezados largos en la tabla del explorador).
+- **Responsable:** _por completar por el equipo_
+- **Limitaciones:** la aplicación depende de que los notebooks estén ejecutados y guardados con sus salidas (`python -m pipeline` los regenera); sin `datos/gold` se muestran los notebooks, pero no las cifras de Inicio
+  ni el explorador, y la aplicación lo avisa. Solo se revisó visualmente en Edge, en Windows. Si se cambia la versión de Streamlit puede cambiar su aspecto. El estilo de las tablas está definido en `app/visor.py`.
+- **Consecuencia para el caso:** la presentación y el video pueden recorrer la aplicación etapa por etapa. No cambia ninguna cifra.
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |
 |---|---|---|---|
-| P-02 | Alcance de Streamlit | Extra que lee solo gold, o requisito del pipeline | La rúbrica no pide aplicación. Si bloquea el arranque, el pipeline debe correr aparte con progreso visible. |
+| P-02 | ~~Alcance de Streamlit~~ | **Resuelta en D-21** (extra que presenta los notebooks ejecutados; se abre como etapa final del pipeline, pero no procesa datos) | |
 | P-03 | ¿Se descarta formalmente la nube (Databricks / warehouse)? | Sí (D-04) o mantener como opcional | Debe confirmarlo el equipo. |
 | P-04 | Gold en git | Añadir excepción en `.gitignore` o guardar como CSV | `.gitignore` excluye hoy `*.parquet`. |
 | P-05 | Recolectar `station_status` (~7 días) | **No se hace para la prueba preliminar** (D-09); queda opcional para después | La línea base de la acción 1 usará el indicador indirecto de los viajes. |
 | P-06 | Aprobar la estructura de `docs/arquitectura_pipeline.md` | Aprobar o ajustar | Propuesta del 2026-11-20 (capas, carpetas, configuración, validaciones). |
-| P-07 | Versión mínima de Python | 3.11 (`tomllib`) o mantener 3.10 con otro formato de configuración | El pipeline ya usa `tomllib` y el README pide 3.11; confirmar. |
+| P-07 | Versión mínima de Python | 3.11 (`tomllib`) o mantener 3.10 con otro formato de configuración | El pipeline ya usa `tomllib` y el README pide 3.11; confirmar. Probado con Python 3.12 y 3.15 (D-20); 3.11 sin probar. |
 | P-08 | ~~Definición de "día laboral"~~ | **Resuelta en D-13** (lunes a viernes sin festivos oficiales) | |
 | P-10 | ~~Definición de la franja "mañana"~~ | **Resuelta en D-13** (horas 7 a 10, hasta 10:59) | |
 | P-09 | Copia fechada del catálogo de estaciones en git | Sí (reproducible) o descargar siempre la versión vigente | Ambas copias (2026-11-20 y la captura 2024-11-07, D-16) están en `datos/catalogo/`; falta que el equipo confirme que se versionan. |

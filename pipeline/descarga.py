@@ -4,6 +4,8 @@ Los nombres de archivo no siguen un patrón (2024-02.csv, datos_abiertos_2024_03
 public_data_web_2026-06.csv...), por eso se leen los enlaces del portal en vez de construirlos.
 """
 import re
+import time
+import urllib.error
 import urllib.request
 from urllib.parse import urljoin
 
@@ -14,10 +16,24 @@ from . import config
 ENLACE = re.compile(r"""(?:https?://[^"'\s<>]+)?/wp-content/uploads/\d{4}/\d{2}/[^"'\s<>]+\.csv""", re.I)
 MES = re.compile(r"(20\d{2})[-_](\d{2})")
 CABECERAS = {"User-Agent": "Mozilla/5.0 (proyecto academico ecobici)"}
+ESPERAS = (5, 15, 45)   # segundos de espera antes de cada reintento; en total 4 intentos
 
 
 def _abrir(url, metodo="GET"):
     return urllib.request.urlopen(urllib.request.Request(url, headers=CABECERAS, method=metodo), timeout=60)
+
+
+def con_reintentos(accion, descripcion):
+    """Ejecuta accion(); si falla por la red (tiempo de espera, conexión cortada, tamaño incompleto) reintenta con espera creciente."""
+    for intento, espera in enumerate((*ESPERAS, None), start=1):
+        try:
+            return accion()
+        except (OSError, urllib.error.URLError, RuntimeError) as error:
+            if espera is None:
+                raise RuntimeError(f"{descripcion}: no se pudo después de {intento} intentos ({error}). "
+                                   "Revise su conexión y vuelva a ejecutar python -m pipeline: retoma donde se quedó.") from error
+            print(f"  {descripcion}: falló ({error}); reintento {intento} de {len(ESPERAS)} en {espera} s")
+            time.sleep(espera)
 
 
 def enlaces_portal(pagina):
@@ -57,13 +73,13 @@ def descargar_mes(mes, url, destino):
 def descargar_ventana(cfg):
     """Descarga todos los meses de la ventana. Devuelve una lista de (mes, estado, bytes)."""
     config.RAW.mkdir(parents=True, exist_ok=True)
-    enlaces = enlaces_portal(cfg["portal"]["pagina"])
+    enlaces = con_reintentos(lambda: enlaces_portal(cfg["portal"]["pagina"]), "Página del portal")
     faltan = [m for m in config.meses(cfg) if m not in enlaces]
     if faltan:
         raise RuntimeError(f"El portal no publica estos meses de la ventana: {faltan}")
     resultado = []
     for mes in config.meses(cfg):
         destino = config.RAW / f"{mes}.csv"
-        estado = descargar_mes(mes, enlaces[mes], destino)
+        estado = con_reintentos(lambda: descargar_mes(mes, enlaces[mes], destino), mes)
         resultado.append((mes, estado, destino.stat().st_size))
     return resultado

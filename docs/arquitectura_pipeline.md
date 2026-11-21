@@ -9,7 +9,7 @@ Un solo comando descarga los datos oficiales y los transforma en tres capas. Cad
 paso deja evidencia en un notebook explicado en español.
 
 ```
-portal ECOBICI ──► raw ──► BRONZE ──► SILVER ──► GOLD ──► notebooks 03/04 ──► Streamlit
+portal ECOBICI ──► raw ──► BRONZE ──► SILVER ──► GOLD ──► notebooks 01 a 04 ──► Streamlit
 (CSV mensuales)  (CSV)   (Parquet,   (limpio +   (agregados  (análisis y      (solo lee
                          sin cambios) catálogo)   pequeños)   gráficas)        gold)
 GBFS station_information ───────────────► SILVER (capacidad y coordenadas)
@@ -38,9 +38,10 @@ Share) sigue teniendo su evidencia en un notebook con salidas.
 │   ├── validaciones.py        # conteos por mes y por capa, columnas, campos por fila
 │   ├── manifiesto.py          # registra qué se procesó y con qué tamaño/huella
 │   ├── recolectar_status.py   # (opcional) captura periódica de station_status
-│   └── __main__.py            # python -m pipeline [--desde etapa] [--hasta etapa]
+│   └── __main__.py            # python -m pipeline [--desde etapa] [--hasta etapa] (la etapa final abre la app)
 ├── app/
-│   └── app.py                 # Streamlit: solo lee datos/gold
+│   ├── app.py                 # Streamlit: pestañas Inicio y notebooks 01 a 04 (D-21)
+│   └── visor.py               # muestra un notebook ya ejecutado dentro de Streamlit
 ├── notebooks/                 # 01_perfilado, 02_limpieza, 03_analisis, 04_visualizaciones
 ├── datos/
 │   ├── raw/                   # CSV (ignorado)
@@ -124,11 +125,12 @@ Las validaciones comparan cada mes contra su propio archivo. No se escribe ning�
 
 ```bash
 pip install -r requirements.txt
-python -m pipeline              # descarga + bronze + silver + gold + notebooks
-streamlit run app/app.py        # abre la aplicación
+python -m pipeline              # descarga + bronze + silver + gold + notebooks, y al final abre la aplicación
+streamlit run app/app.py        # abre solo la aplicación (no procesa nada)
 ```
 
-Etapas: `descarga`, `bronze`, `silver`, `gold` y `visualizaciones` (notebook 04, que solo lee `gold/`). Opciones: `--desde silver` para repetir desde una capa; `--hasta gold` para no generar las gráficas. La primera ejecución
+Etapas: `descarga`, `bronze`, `silver`, `gold`, `visualizaciones` (notebook 04, que solo lee `gold/`) y `app` (abre Streamlit y queda esperando hasta `Ctrl+C`).
+Opciones: `--desde silver` para repetir desde una capa; `--hasta visualizaciones` para procesar sin abrir la aplicación (úsese en ejecuciones desatendidas); `--desde app` para abrir solo la aplicación. La primera ejecución
 descarga ~2.4 GB, por lo que el comando muestra el avance por etapa y por mes. Las siguientes omiten lo que ya está listo.
 
 ## 8. Preguntas abiertas (también en la bitácora)

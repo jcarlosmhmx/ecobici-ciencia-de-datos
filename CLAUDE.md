@@ -39,6 +39,6 @@ recalcular en `03_analisis.ipynb`. Fuentes extra: catálogo GBFS `station_inform
 - ~678 estaciones; códigos dobles tipo "271-272" (estaciones contiguas); ~3% de viajes regresan a la misma estación.
 
 ## Estructura del repo
-config/pipeline.toml · pipeline/ (python -m pipeline) · datos/raw, bronze, silver (ignorados) · datos/gold, catalogo, perfil · notebooks/ (01_perfilado,
+config/pipeline.toml · pipeline/ (python -m pipeline) · app/ (streamlit run app/app.py) · datos/raw, bronze, silver (ignorados) · datos/gold, catalogo, perfil · notebooks/ (01_perfilado,
 02_limpieza, 03_analisis, 04_visualizaciones) · figuras/ · docs/ (propuesta_proyecto, arquitectura_pipeline, checklist_proyecto, bitacora_decisiones,
 uso_ia, diccionario_datos) · README.md

@@ -1,10 +1,12 @@
-pandas>=2.2
-duckdb>=1.1
-pyarrow>=16
-matplotlib>=3.8
-seaborn>=0.13
-jupyter>=1.0
-ipykernel>=6.29
-nbconvert>=7.16
-nbformat>=5.10
-tqdm>=4.66
+# Versiones exactas con las que se obtuvieron los resultados del análisis (bitácora D-20).
+# Con otras versiones de DuckDB el redondeo de unos pocos valores cambia en el último decimal.
+pandas==3.1.1
+numpy==2.5.5
+duckdb==2.0.0
+pyarrow==26.0.1
+matplotlib==3.11.2
+ipykernel==7.4.0
+nbconvert==7.17.2
+nbformat==5.11.1
+tqdm==4.70.1
+streamlit==1.67.0

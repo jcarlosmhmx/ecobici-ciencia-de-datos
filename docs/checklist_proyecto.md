@@ -52,13 +52,13 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 
 | Tarea | Estado | Notas |
 |---|---|---|
-| `config/pipeline.toml` y paquete `pipeline/` | ✅ | Versión mínima (descarga, bronze, silver, gold). Comando: `python -m pipeline`. |
+| `config/pipeline.toml` y paquete `pipeline/` | ✅ | Versión mínima (descarga, bronze, silver, gold). Comando: `python -m pipeline` (`--hasta visualizaciones` para no abrir la app). |
 | Bronze: CSV → Parquet por mes, validado contra el CSV | ✅ | 24 meses, 39,235,386 viajes validados mes por mes. |
 | Decidir las reglas de limpieza (< 1 min, > 24 h, retiros anteriores a la ventana, códigos raros, edad) | ✅ | Reglas de D-10 confirmadas como definitivas en D-13. |
 | Silver: limpieza, conteos antes y después, unión con el catálogo | ✅ | `02_limpieza.ipynb` ejecutado con los 24 meses. |
 | Definir "día laborable" y la franja de la mañana | ✅ | D-13: lunes a viernes sin festivos oficiales; horas 7 a 10. |
 | Gold: tablas agregadas validadas contra silver | ✅ | 5 tablas, validadas contra un recuento directo de silver. |
-| Ejecutar el pipeline en una máquina limpia siguiendo solo el README | ⬜ | Prueba de reproducibilidad final. |
+| Ejecutar el pipeline en una máquina limpia siguiendo solo el README | 🔄 | Probado por la IA en un clon limpio, en Windows y con Python 3.12 y 3.15 (D-20): resultados idénticos. Falta que el equipo lo repita en otra computadora, de preferencia macOS o Linux. |
 
 ## 6. Analyze · Analizar (15 pts)
 
@@ -81,7 +81,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Ranking de saldo ÷ capacidad | ✅ | `figuras/04_ranking_prioritarias.png` (las 15 prioritarias) y `04_linea_base_prioritarias.png` (D-15, D-17). |
 | Diagrama o tabla de flujos desde Buenavista | ✅ | `figuras/04_destinos_buenavista.png`: destinos más frecuentes (D-17). |
 | Tres acciones con KPI, línea base, meta, responsable y plazo | 🔄 | Líneas base medidas (D-15, notebook 03 sección 9). Faltan metas, responsables y plazos, que propone el equipo. Impacto = esperado, no comprobado. |
-| Aplicación Streamlit | ⏸ | P-02. Extra, no se pide en la rúbrica. |
+| Aplicación Streamlit | ✅ | `app/app.py` (D-21): pestañas Inicio y notebooks 01 a 04, más explorador de estaciones. Extra, no se pide en la rúbrica. Se abre al final de `python -m pipeline` (etapa `app`) o sola con `streamlit run app/app.py`. |
 | `docs/documento_caso.md` (texto fuente del PDF, con portada y resumen ejecutivo ≤ 250 palabras) | ⬜ | |
 | `docs/referencias.md` (APA 7) | ⬜ | |
 | `docs/reflexion_equipo.md` | ⬜ | La escribe el equipo, al final. |
@@ -94,7 +94,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 
 | # | Decisión | Estado |
 |---|---|---|
-| P-02 | Alcance de Streamlit (extra o requisito) | ⬜ |
+| P-02 | Alcance de Streamlit | ✅ D-21 |
 | P-03 | Descartar formalmente la nube (Databricks / warehouse) | ⬜ |
 | P-04 | Cómo versionar gold (`.gitignore` excluye `*.parquet`) | ⬜ |
 | P-05 | Recolectar `station_status` | ✅ No para la preliminar (D-09) |
