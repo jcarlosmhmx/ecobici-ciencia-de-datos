@@ -480,16 +480,32 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 - **Registros afectados:** 0. No cambia ninguna cifra ni el código de análisis; solo textos (los notebooks se editaron sin reejecutarse, así que sus salidas siguen siendo las mismas).
 - **Limitaciones:** las decisiones pendientes de la lista de abajo (P-03, P-04, P-06, P-07, P-09) siguen figurando como no resueltas hasta que el equipo registre qué se decidió.
 
+### D-23 · Cierre de las decisiones técnicas pendientes (P-03, P-04, P-07, P-09)
+- **Fecha:** 2026-11-21
+- **Fase / notebook:** Process / infraestructura — `README.md`, `config/pipeline.toml`, `docs/arquitectura_pipeline.md`
+- **Decisión (del equipo):**
+  - **P-03 — la nube se descarta.** Todo el proyecto corre en local (DuckDB + Parquet + Jupyter), como en D-04. No se usan Databricks ni un warehouse.
+  - **P-04 — las tablas `gold` no se versionan.** Se mantiene `*.parquet` en `.gitignore`; se generan con `python -m pipeline`.
+  - **P-07 — Python 3.12.** Es la versión con la que se hicieron y reprodujeron los resultados (D-20). `tomllib` exige 3.11 o más, pero 3.11 no se probó, por eso no se promete.
+  - **P-09 — se versionan las copias fechadas del catálogo de estaciones** (`datos/catalogo/`: 2026-11-20 y la captura histórica de 2024-11-07, D-16), para que el resultado no cambie si el feed cambia.
+- **Alternativa(s) descartada(s):** nube (complica la reproducción y no aporta puntos); versionar `gold` o guardarlo como CSV (ensucia el historial con archivos regenerables); exigir 3.11 o 3.10 (sin probar); descargar siempre el catálogo vigente (el resultado dependería del día en que se ejecute).
+- **Justificación:** sencillez y reproducibilidad (regla del proyecto): mismos datos y mismas versiones dan las mismas cifras.
+- **Registros afectados:** 0.
+- **Limitaciones:** (1) sin `gold` generado, la app muestra los notebooks completos pero no las cifras de Inicio ni el explorador (D-21); quien clone el repositorio debe correr `python -m pipeline` una vez.
+  (2) Los resultados solo se reprodujeron en Windows y con Python 3.12 (y 3.15); no se han probado macOS, Linux ni 3.11.
+- **P-06 (aprobar `docs/arquitectura_pipeline.md`)** sigue **pendiente**: el equipo no la ha aprobado.
+- **Responsable:** _por completar por el equipo_
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |
 |---|---|---|---|
 | P-02 | ~~Alcance de Streamlit~~ | **Resuelta en D-21** (extra que presenta los notebooks ejecutados; se abre como etapa final del pipeline, pero no procesa datos) | |
-| P-03 | ¿Se descarta formalmente la nube (Databricks / warehouse)? | Sí (D-04) o mantener como opcional | Debe confirmarlo el equipo. |
-| P-04 | Gold en git | Añadir excepción en `.gitignore` o guardar como CSV | `.gitignore` excluye hoy `*.parquet`. |
+| P-03 | ~~¿Se descarta la nube?~~ | **Resuelta en D-23:** sí, se descarta | |
+| P-04 | ~~Gold en git~~ | **Resuelta en D-23:** no se versionan (siguen ignoradas) | |
 | P-05 | Recolectar `station_status` (~7 días) | **No se hace para la prueba preliminar** (D-09); queda opcional para después | La línea base de la acción 1 usará el indicador indirecto de los viajes. |
 | P-06 | Aprobar la estructura de `docs/arquitectura_pipeline.md` | Aprobar o ajustar | Propuesta del 2026-11-20 (capas, carpetas, configuración, validaciones). |
-| P-07 | Versión mínima de Python | 3.11 (`tomllib`) o mantener 3.10 con otro formato de configuración | El pipeline ya usa `tomllib` y el README pide 3.11; confirmar. Probado con Python 3.12 y 3.15 (D-20); 3.11 sin probar. |
+| P-07 | ~~Versión mínima de Python~~ | **Resuelta en D-23:** Python 3.12 | |
 | P-08 | ~~Definición de "día laboral"~~ | **Resuelta en D-13** (lunes a viernes sin festivos oficiales) | |
 | P-10 | ~~Definición de la franja "mañana"~~ | **Resuelta en D-13** (horas 7 a 10, hasta 10:59) | |
-| P-09 | Copia fechada del catálogo de estaciones en git | Sí (reproducible) o descargar siempre la versión vigente | Ambas copias (2026-11-20 y la captura 2024-11-07, D-16) están en `datos/catalogo/`; falta que el equipo confirme que se versionan. |
+| P-09 | ~~Copia fechada del catálogo en git~~ | **Resuelta en D-23:** sí, se versionan | |

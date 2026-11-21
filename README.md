@@ -43,7 +43,7 @@ con los datos abiertos de viajes del sistema de bicicletas compartidas **ECOBICI
 
 ## Instalación del entorno (una sola vez)
 
-Requisitos: **Python 3.11 o superior** (el pipeline lee su configuración con `tomllib`; probado con 3.12 y 3.15, decisión P-07 por confirmar), **VS Code** con las extensiones *Python* y *Jupyter*, y unos 4 GB libres en disco.
+Requisitos: **Python 3.12** (versión con la que se obtuvieron y reprodujeron los resultados, D-20 y D-23; el pipeline lee su configuración con `tomllib`, que exige 3.11 o más), **VS Code** con las extensiones *Python* y *Jupyter*, y unos 4 GB libres en disco.
 Recomendado: 8 GB de RAM o más.
 
 Abre una terminal en la carpeta del proyecto y ejecuta:

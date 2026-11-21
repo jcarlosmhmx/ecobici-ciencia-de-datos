@@ -44,7 +44,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Perfilado de calidad de los datos | 🔄 | `01_perfilado.ipynb` regenerado y ejecutado con los 24 meses. Retirados los archivos exploratorios de 2024–2025 (JSON de `datos/perfil/`, figuras `01_*` viejas, `01_perfilado.py`). |
 | Diccionario de datos | 🔄 | Existe; falta el formato de edad con decimal y los códigos `Temporal` (D-07, D-08). |
 | Script de descarga que lee el portal | 🔄 | `pipeline/descarga.py` hecho y probado con los 24 meses; `descargar_ecobici.sh` eliminado. |
-| Descarga y copia fechada del catálogo de estaciones | 🔄 | Copias en `datos/catalogo/` (2026-11-20 y captura histórica 2024-11-07, D-16). Falta confirmar si se versionan (P-09). |
+| Descarga y copia fechada del catálogo de estaciones | 🔄 | Copias en `datos/catalogo/` (2026-11-20 y captura histórica 2024-11-07, D-16). Se versionan (P-09, D-23). |
 | Evaluar calidad, pertinencia y confiabilidad de las fuentes | ⬜ | Se redacta en el PDF. |
 | Fuente opcional: afluencia Tren Suburbano / Metro Buenavista | ⬜ | Opcional; ayuda a cumplir "múltiples fuentes". |
 
@@ -95,17 +95,17 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | # | Decisión | Estado |
 |---|---|---|
 | P-02 | Alcance de Streamlit | ✅ D-21 |
-| P-03 | Descartar formalmente la nube (Databricks / warehouse) | ⬜ |
-| P-04 | Cómo versionar gold (`.gitignore` excluye `*.parquet`) | ⬜ |
+| P-03 | Descartar formalmente la nube (Databricks / warehouse) | ✅ D-23 (se descarta) |
+| P-04 | Cómo versionar gold (`.gitignore` excluye `*.parquet`) | ✅ D-23 (no se versionan) |
 | P-05 | Recolectar `station_status` | ✅ No se hace (D-09) |
 | P-06 | Aprobar la arquitectura del pipeline | ⬜ |
-| P-07 | Versión mínima de Python (3.11 o 3.10) | ⬜ |
+| P-07 | Versión mínima de Python | ✅ D-23 (3.12) |
 | P-08 | Definición de "día laborable" | ✅ D-13 |
-| P-09 | Versionar la copia fechada del catálogo | ⬜ |
+| P-09 | Versionar la copia fechada del catálogo | ✅ D-23 (sí) |
 | P-10 | Franja de la mañana | ✅ D-13 |
 
 ## 9. Ruta crítica
 
 1. **Revisión de la versión final** con el equipo (sábado 2026-11-21).
-2. Decidir P-06 y confirmar en el mapa el grupo de Buenavista (D-13).
+2. Decidir P-06 (única decisión técnica abierta) y confirmar en el mapa el grupo de Buenavista (D-13).
 3. Revisar las figuras `figuras/04_*.png` y usarlas en el documento, el video y el pitch con las cifras de D-12 a D-16 (no las de la propuesta).

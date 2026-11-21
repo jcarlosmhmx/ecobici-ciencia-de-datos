@@ -135,8 +135,8 @@ descarga ~2.4 GB, por lo que el comando muestra el avance por etapa y por mes. L
 
 ## 8. Preguntas abiertas (también en la bitácora)
 
-1. **Versión de Python:** `tomllib` (leer el `.toml`) viene desde Python 3.11; el README dice 3.10. ¿Se exige 3.11 o se usa otro formato?
+1. **Versión de Python:** resuelta en D-23: Python 3.12 (`tomllib` viene desde 3.11).
 2. **Días laborales:** ¿se excluyen solo sábados y domingos, o también festivos oficiales? Cambia el resultado y debe quedar en la bitácora.
 3. **Librerías nuevas:** `streamlit`, `folium` o `plotly` (mapa) y `tqdm` (avance). Hay que añadirlas a `requirements.txt` con versiones fijas.
-4. **Copia del catálogo:** se propone versionar el JSON fechado para que el resultado no cambie si el feed cambia (el catálogo trae la
+4. **Copia del catálogo:** resuelta en D-23: se versiona el JSON fechado para que el resultado no cambie si el feed cambia (el catálogo trae la
    capacidad *actual*, no la de la ventana: limitación a declarar; medida en D-16, diferencia pequeña).

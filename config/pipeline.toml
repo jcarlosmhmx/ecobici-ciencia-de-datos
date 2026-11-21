@@ -1,5 +1,5 @@
 # Configuración del pipeline. Todo lo que cambia el resultado vive aquí, no dentro del código.
-# Se lee con pipeline/config.py (requiere Python 3.11 o superior).
+# Se lee con pipeline/config.py (requiere Python 3.11 o superior; se usa y prueba 3.12, D-23).
 
 [ventana]
 # Ventana fija del proyecto: 24 meses (bitácora D-06).
