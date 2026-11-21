@@ -35,6 +35,7 @@ con los datos abiertos de viajes del sistema de bicicletas compartidas **ECOBICI
 └── docs/
     ├── propuesta_proyecto.md  # el caso: problema, fuentes, análisis y acciones propuestas (cifras iniciales de la propuesta; las vigentes están en los notebooks 03 y 04)
     ├── arquitectura_pipeline.md # diseño del pipeline (medallion local)
+    ├── capas_medallion.md     # qué contiene cada capa (bronze, silver, gold) y cada tabla gold, con diagrama
     ├── checklist_proyecto.md  # estado de tareas y entregables
     ├── diccionario_datos.md   # qué significa cada columna y qué problemas tiene
     ├── bitacora_decisiones.md # registro de cada decisión de limpieza/transformación

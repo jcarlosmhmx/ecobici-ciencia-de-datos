@@ -20,7 +20,7 @@ GBFS station_information ───────────────► SILVER
 | `raw` | CSV tal como los publica el portal | `pipeline/descarga.py` | No (~2.4 GB) |
 | `bronze` | Los mismos datos en Parquet, todo como texto, un archivo por mes, con el mes de origen | `01_perfilado.ipynb` | No |
 | `silver` | Viajes limpios, tipos correctos, códigos de estación normalizados, capacidad unida | `02_limpieza.ipynb` | No |
-| `gold` | Tablas agregadas que usan el análisis y la aplicación (pocos MB) | `03_analisis.ipynb` | Sí (ver P-04) |
+| `gold` | Tablas agregadas que usan el análisis y la aplicación (≈ 3 MB) | `03_analisis.ipynb` | No (D-23) |
 
 Las capas mantienen los nombres de notebook que ya tiene el repo, y así cada fase de la rúbrica (Prepare, Process, Analyze,
 Share) sigue teniendo su evidencia en un notebook con salidas.
@@ -31,13 +31,13 @@ Share) sigue teniendo su evidencia en un notebook con salidas.
 ├── config/
 │   └── pipeline.toml          # ventana de datos, URL del portal, rutas, reglas de validación
 ├── pipeline/                  # código reutilizable; los notebooks lo importan
-│   ├── config.py              # lee pipeline.toml
-│   ├── descarga.py            # lee el portal, baja solo lo que falta, verifica tamaño
-│   ├── catalogo.py            # descarga GBFS station_information con fecha
-│   ├── lectura.py             # lectura de un CSV mensual como texto (con sus excepciones)
-│   ├── validaciones.py        # conteos por mes y por capa, columnas, campos por fila
-│   ├── manifiesto.py          # registra qué se procesó y con qué tamaño/huella
-│   ├── recolectar_status.py   # (opcional) captura periódica de station_status
+│   ├── config.py              # lee pipeline.toml y define las rutas
+│   ├── descarga.py            # lee el portal, baja solo lo que falta, verifica tamaño y reintenta
+│   ├── catalogo.py            # catálogo GBFS station_information (usa la copia fechada)
+│   ├── lectura.py             # lectura de un CSV mensual como texto
+│   ├── bronze.py              # CSV → Parquet sin cambios, valida filas contra el CSV
+│   ├── silver.py              # reglas de limpieza y tipos; cuenta lo que excluye
+│   ├── gold.py                # las 11 tablas resumidas (ver docs/capas_medallion.md)
 │   └── __main__.py            # python -m pipeline [--desde etapa] [--hasta etapa] (la etapa final abre la app)
 ├── app/
 │   ├── app.py                 # Streamlit: pestañas Inicio y notebooks 01 a 04 (D-21)
@@ -47,11 +47,10 @@ Share) sigue teniendo su evidencia en un notebook con salidas.
 │   ├── raw/                   # CSV (ignorado)
 │   ├── bronze/AAAA-MM.parquet # (ignorado)
 │   ├── silver/                # (ignorado)
-│   ├── gold/                  # tablas pequeñas (se versionan)
+│   ├── gold/                  # tablas pequeñas (ignorado; se regenera, D-23)
 │   ├── catalogo/station_information_AAAA-MM-DD.json   # copia fechada (se versiona)
-│   ├── status/                # capturas de station_status (ver P-05)
 │   ├── perfil/                # diagnósticos de calidad (se versionan)
-│   └── manifiesto.json        # estado del último procesamiento
+│   └── mapa/                  # contorno de la CDMX para los mapas (se versiona)
 ├── figuras/  ·  docs/
 ```
 
@@ -104,22 +103,10 @@ Las validaciones comparan cada mes contra su propio archivo. No se escribe ning�
 - Cada regla de limpieza (viajes < 1 min o > 24 h, retiros anteriores a la ventana, códigos raros) se registra en la bitácora
   antes de programarse.
 
-## 6. Tablas gold previstas (borrador)
+## 6. Tablas de cada capa
 
-| Tabla | Grano | Responde |
-|---|---|---|
-| `saldo_estacion_hora` | estación × día × hora (llegadas, salidas, saldo) | P1: dónde y cuándo se concentra el desbalance |
-| `persistencia_estacion` | estación × periodo (12 meses) | P1: % de días laborales con saldo ≥ umbral |
-| `presion_estacion` | estación × periodo | P2: saldo matutino ÷ capacidad |
-| `od_corredor` | origen × destino × franja | P3: rutas que explican el corredor |
-| `resumen_periodos` | periodo (2024-11→2025-10 vs 2025-11→2026-10) | P4: cambio entre periodos |
-| `estaciones` | estación | nombre, coordenadas, capacidad (copia fechada) |
-| `serie_mensual_estacion` | estación × mes | llegadas y salidas matutinas por día de actividad (D-14) |
-| `origenes_llegadas_foco` | origen × estación foco × periodo | de dónde llegan las bicis a 014 (D-14) |
-| `corredor_buenavista_reforma` | grupo de Buenavista × periodo | salidas matutinas y % que termina en Reforma (D-14) |
-| `estaciones_prioritarias` | estación | las 15 de mayor presión del periodo reciente (D-15) |
-| `kpi_prioritarias` | estación prioritaria × periodo | % de días con saldo > capacidad y necesidad media (D-15) |
-| `contraflujo_corredor` | grupo de Buenavista × periodo | flujo principal y contraflujo matutino (D-15) |
+El detalle de cada capa y de las **11 tablas de gold** (grano, columnas, cómo se calculan, qué resultado dieron y dónde se usan) está en
+[`capas_medallion.md`](capas_medallion.md), con un diagrama de cómo se relacionan.
 
 ## 7. Cómo se usa (objetivo del README)
 

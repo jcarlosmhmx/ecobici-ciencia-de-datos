@@ -40,5 +40,5 @@ las vigentes están en `03_analisis.ipynb`, `04_visualizaciones.ipynb` y la bit�
 
 ## Estructura del repo
 config/pipeline.toml · pipeline/ (python -m pipeline) · app/ (streamlit run app/app.py) · datos/raw, bronze, silver (ignorados) · datos/gold, catalogo, perfil · notebooks/ (01_perfilado,
-02_limpieza, 03_analisis, 04_visualizaciones) · figuras/ · docs/ (propuesta_proyecto, arquitectura_pipeline, checklist_proyecto, bitacora_decisiones,
+02_limpieza, 03_analisis, 04_visualizaciones) · figuras/ · docs/ (propuesta_proyecto, arquitectura_pipeline, capas_medallion, checklist_proyecto, bitacora_decisiones,
 uso_ia, diccionario_datos) · README.md
