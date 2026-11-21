@@ -49,7 +49,7 @@ with st.sidebar:
     st.write(f"Datos: **{cfg['ventana']['desde']} a {cfg['ventana']['hasta']}** (24 meses de viajes).")
     codigo = st.checkbox("Mostrar el código de cada paso", value=False)
     st.divider()
-    st.caption("Prueba preliminar: las cifras deben revisarse antes de copiarse a los documentos finales.")
+    st.caption("Versión final del análisis. Las cifras vigentes salen de los notebooks 03 y 04.")
     st.caption("Fuente de los viajes: datos abiertos de ECOBICI.")
 
 
@@ -128,7 +128,7 @@ def inicio():
 
     st.subheader("Qué hay que tener presente")
     st.markdown(
-        "- **Prueba preliminar:** las cifras deben revisarse antes de usarse en el documento final.\n"
+        "- **Cifras vigentes:** son las del periodo 2025-11 a 2026-10 y su comparación con el periodo anterior; salen de los notebooks 03 y 04.\n"
         "- **Se describe qué ocurre, no por qué.** Que dos cosas coincidan en el tiempo no demuestra que una cause la otra.\n"
         "- **No hay inventario:** los viajes muestran movimientos, no cuántas bicis había en cada estación ni la demanda que se quedó sin atender.\n"
         "- **Capacidad:** se usa la capacidad actual del catálogo de estaciones; se comparó con una captura de 2024 y la diferencia es pequeña.\n"

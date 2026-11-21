@@ -1,6 +1,6 @@
 # Checklist del proyecto
 
-Estado al **2026-11-20** (prueba preliminar con la ventana completa de 24 meses para revisión interna del equipo el sábado 2026-11-21, D-09 y D-11). Se actualiza cada vez que cambie algo (con la fecha en la columna de notas).
+Estado al **2026-11-21** (versión final del análisis con la ventana completa de 24 meses, D-06). Se actualiza cada vez que cambie algo (con la fecha en la columna de notas).
 
 **Leyenda:** ✅ hecho · 🔄 en progreso · ⬜ pendiente · ⏸ bloqueado por una decisión (ver sección 8)
 
@@ -26,7 +26,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Actualizar el `README.md` (tema, estructura, entregables, Ask y Act, validación, reglas) | 🔄 | Solo se cambió el problema. Falta lo listado en la revisión del README. |
 | Aprobar la arquitectura del pipeline (`docs/arquitectura_pipeline.md`) | ⏸ | P-06. |
 | Hacer commit de D-08, la arquitectura y este checklist | ⬜ | Los cambios siguen sin commit. |
-| Recolectar `station_status` (~7 días, cada 5 min) | ⬜ | Descartado para la prueba preliminar (D-09, P-05): no alcanza el tiempo. Opcional más adelante. |
+| Recolectar `station_status` (~7 días, cada 5 min) | ⬜ | Descartado (D-09, P-05): no alcanza el tiempo. Opcional más adelante. |
 
 ## 3. Ask · Preguntar (10 pts)
 
@@ -35,7 +35,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Problema delimitado (corredor, horario, periodo) | 🔄 | Está en la propuesta. La franja quedó definida en D-13 (7:00 a 10:59); el texto de la propuesta aún no la refleja. |
 | Cinco porqués y análisis de brechas | 🔄 | Borrador en la propuesta. Los porqués 2 y 5 son hipótesis. |
 | Cuatro preguntas de investigación y unidad de análisis | ✅ | En la propuesta; revisar si el periodo cambia su redacción. |
-| Reemplazar las cifras preliminares por las recalculadas | ⬜ | Depende de `03_analisis.ipynb`. No usar las cifras actuales (D-08). |
+| Reemplazar las cifras de la propuesta por las recalculadas | ⬜ | Depende de `03_analisis.ipynb`. No usar las cifras actuales (D-08). |
 
 ## 4. Prepare · Preparar (10 pts)
 
@@ -69,7 +69,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Presión relativa (saldo ÷ capacidad) | ✅ | La capacidad del catálogo es la actual. Incluye el indicador indirecto "bicis necesarias". |
 | Matriz origen-destino del corredor Buenavista → Reforma | ✅ | "Reforma" definida por regla (24 estaciones, D-14). Solo ≈25 % de las salidas de Buenavista va a Reforma. Falta confirmar en el mapa el grupo de Buenavista (D-13). |
 | Comparación 2024-11→2025-10 contra 2025-11→2026-10 | ✅ | Notebook 03 (D-12, D-13). La caída de 014 se describe pero **no se explica** (D-14); explicarla requiere datos externos. |
-| Línea base con `station_status` | ⬜ | No se hace en la prueba preliminar; se usa el indicador indirecto. |
+| Línea base con `station_status` | ⬜ | No se hace; se usa el indicador indirecto (D-09, P-05). |
 | Redactar limitaciones y no confundir correlación con causalidad | ⬜ | |
 
 ## 7. Share (5 pts), Act (10 pts) y documentos de apoyo
@@ -97,7 +97,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | P-02 | Alcance de Streamlit | ✅ D-21 |
 | P-03 | Descartar formalmente la nube (Databricks / warehouse) | ⬜ |
 | P-04 | Cómo versionar gold (`.gitignore` excluye `*.parquet`) | ⬜ |
-| P-05 | Recolectar `station_status` | ✅ No para la preliminar (D-09) |
+| P-05 | Recolectar `station_status` | ✅ No se hace (D-09) |
 | P-06 | Aprobar la arquitectura del pipeline | ⬜ |
 | P-07 | Versión mínima de Python (3.11 o 3.10) | ⬜ |
 | P-08 | Definición de "día laborable" | ✅ D-13 |
@@ -106,6 +106,6 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 
 ## 9. Ruta crítica
 
-1. **Revisión de la prueba preliminar** con el equipo (sábado 2026-11-21).
+1. **Revisión de la versión final** con el equipo (sábado 2026-11-21).
 2. Decidir P-06 y confirmar en el mapa el grupo de Buenavista (D-13).
 3. Revisar las figuras `figuras/04_*.png` y usarlas en el documento, el video y el pitch con las cifras de D-12 a D-16 (no las de la propuesta).

@@ -33,7 +33,7 @@ con los datos abiertos de viajes del sistema de bicicletas compartidas **ECOBICI
 │   └── 04_visualizaciones.ipynb  # Share: gráficas finales para el documento y el video
 ├── figuras/                  # gráficas exportadas para el documento y la presentación
 └── docs/
-    ├── propuesta_proyecto.md  # el caso: problema, fuentes, análisis y acciones propuestas (cifras preliminares)
+    ├── propuesta_proyecto.md  # el caso: problema, fuentes, análisis y acciones propuestas (cifras iniciales de la propuesta; las vigentes están en los notebooks 03 y 04)
     ├── arquitectura_pipeline.md # diseño del pipeline (medallion local)
     ├── checklist_proyecto.md  # estado de tareas y entregables
     ├── diccionario_datos.md   # qué significa cada columna y qué problemas tiene
@@ -67,7 +67,7 @@ intérprete de `.venv`.
 
 ## Cómo reproducir todo, paso a paso
 
-**Atajo (prueba preliminar):** con el entorno activado, desde la carpeta del proyecto:
+**Atajo:** con el entorno activado, desde la carpeta del proyecto:
 
 ```bash
 python -m pipeline                              # todo: descarga + bronze + silver + gold + gráficas, y al final abre la aplicación

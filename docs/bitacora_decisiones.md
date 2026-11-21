@@ -470,6 +470,16 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
   ni el explorador, y la aplicación lo avisa. Solo se revisó visualmente en Edge, en Windows. Si se cambia la versión de Streamlit puede cambiar su aspecto. El estilo de las tablas está definido en `app/visor.py`.
 - **Consecuencia para el caso:** la presentación y el video pueden recorrer la aplicación etapa por etapa. No cambia ninguna cifra.
 
+### D-22 · Se retira el rótulo de «prueba preliminar»: versión final
+- **Fecha:** 2026-11-21
+- **Fase / notebook:** todas — banners de los notebooks 01 a 04, `app/app.py`, README, CLAUDE.md, checklist y propuesta.
+- **Decisión:** el equipo da por tomadas las decisiones del análisis y el proyecto pasa a ser la **versión final**. Los banners de «PRUEBA PRELIMINAR» de los notebooks se sustituyen por «VERSIÓN FINAL» (con las decisiones que aplican),
+  la aplicación deja de decir que las cifras deben revisarse antes de copiarse, y en la propuesta se aclara que sus cifras son las **iniciales** y que las vigentes están en los notebooks 03 y 04.
+- **Alternativa descartada:** reescribir también las entradas D-09 a D-12 de esta bitácora: describen lo que se hizo en su momento (la prueba preliminar de 2026-11-20) y deben conservarse tal cual como historia.
+- **Justificación:** el rótulo ya no corresponde al estado del trabajo y confundiría a quien califique.
+- **Registros afectados:** 0. No cambia ninguna cifra ni el código de análisis; solo textos (los notebooks se editaron sin reejecutarse, así que sus salidas siguen siendo las mismas).
+- **Limitaciones:** las decisiones pendientes de la lista de abajo (P-03, P-04, P-06, P-07, P-09) siguen figurando como no resueltas hasta que el equipo registre qué se decidió.
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |

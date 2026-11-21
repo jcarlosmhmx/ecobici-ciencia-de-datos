@@ -7,8 +7,8 @@ abiertos de viajes de ECOBICI CDMX (https://ecobici.cdmx.gob.mx/datos-abiertos/)
 Entregables: documento PDF 10–15 págs (60 pts), video del caso (25 pts), elevator pitch ≤3 min (15 pts).
 Rúbrica documento: Ask 10, Prepare 10, Process 10 (justificado, validado y REPRODUCIBLE), Analyze 15, Share 5, Act 10.
 Problema a investigar: DESBALANCE DE ESTACIONES, corredor Buenavista → Reforma (decisión D-02, 2026-11-20; detalle en
-`docs/propuesta_proyecto.md`). Evolución de la demanda solo como contexto. Las cifras de la propuesta son preliminares:
-recalcular en `03_analisis.ipynb`. Fuentes extra: catálogo GBFS `station_information` (capacidad) y `station_status` (opcional).
+`docs/propuesta_proyecto.md`). Evolución de la demanda solo como contexto. Las cifras de la propuesta son las iniciales:
+las vigentes están en `03_analisis.ipynb`, `04_visualizaciones.ipynb` y la bitácora (D-12 a D-19). Fuentes extra: catálogo GBFS `station_information` (capacidad) y `station_status` (opcional).
 
 ## Reglas de trabajo (importantes para la calificación)
 - Todo el trabajo se hace en notebooks Jupyter (.ipynb) que el equipo ejecuta localmente en VS Code; se guardan

@@ -112,7 +112,7 @@ Cualquier integrante debe poder explicar cualquier celda del proyecto.
   integrarla como etapa final de `python -m pipeline`; y dejar un comentario en el notebook 02 sobre la edad máxima de 162 años.
 - **Qué produjo:** `app/app.py` (pestañas Inicio, 01 a 04 y explorador de estaciones), `app/visor.py` (muestra un notebook ya ejecutado dentro de Streamlit), `.streamlit/config.toml`, la etapa `app` en `pipeline/__main__.py`
   (`--hasta visualizaciones` para no abrirla), `streamlit==1.67.0` en `requirements.txt`, la decisión D-21 en la bitácora, las actualizaciones de README, arquitectura y checklist,
-  y una celda de comentario en `notebooks/02_limpieza.ipynb` (la edad 162 viene así en el origen, 2 viajes de 2026-04; se considera un posible error de captura y no se corrige porque la edad no se usa, D-12).
+  el retiro del rótulo «prueba preliminar» en notebooks, app y documentos (D-22), y una celda de comentario en `notebooks/02_limpieza.ipynb` (la edad 162 viene así en el origen, 2 viajes de 2026-04; se considera un posible error de captura y no se corrige porque la edad no se usa, D-12).
 - **Cómo se probó (lo hizo la IA):** prueba automática de Streamlit sin errores, también sin `datos/gold`; revisión visual de las cinco pestañas en Edge (se corrigieron textos truncados en las tarjetas de Inicio);
   la etapa `app` responde en `http://localhost:8501` y `--hasta visualizaciones` no abre nada. **No** se probó el comando completo desde la descarga con la etapa `app`.
 - **Qué verificamos a mano:** _por completar por el equipo_. Sugerencias:

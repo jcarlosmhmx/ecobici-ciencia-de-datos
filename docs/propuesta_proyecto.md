@@ -1,11 +1,11 @@
 # Propuesta de proyecto: desbalance de estaciones ECOBICI (corredor Buenavista → Reforma)
 
 > **Estado:** tema **adoptado** el 2026-11-20 (bitácora D-02), condicionado a la cobertura de datos (ver D-02). Las cifras
-> y las metas siguen siendo preliminares (propuesta del 2026-11-18).
+> de este documento son las **iniciales** de la propuesta del 2026-11-18; las vigentes están en los notebooks 03 y 04.
 > **Base:** *Proyecto final: De los datos a la toma de decisiones* (Anáhuac Puebla) y *Pautas para la elaboración
 > de Estudios de Caso* (BID, 2011).
 >
-> **Importante:** las cifras de este documento salen de un **análisis exploratorio preliminar** hecho con IA (ver
+> **Importante:** las cifras de este documento salen de un **análisis exploratorio inicial** hecho con IA (ver
 > `docs/uso_ia.md`, IA-03). Antes de usarlas en el documento final hay que **recalcularlas en
 > `notebooks/03_analisis.ipynb`** con los datos ya limpios. Pueden cambiar un poco según las reglas de limpieza.
 
@@ -30,7 +30,7 @@
 Cada día laboral, las estaciones alrededor de **Buenavista** (salida del Tren Suburbano y del Metro) se vacían, y las de
 **Paseo de la Reforma** se saturan. Los usuarios pueden llegar a una estación sin bicis o sin lugar para dejarla.
 
-**Evidencia preliminar:**
+**Evidencia inicial (cifras de la propuesta, no las vigentes):**
 - En la estación **271-272** de Buenavista (capacidad 74), entre las 7 y las 10 h de un día laboral **salen en promedio 250 bicis
   más de las que llegan**.
 - En la **014 Reforma – Río de Plata** (capacidad 39) **llegan 243 bicis más de las que salen**: más de **6 veces su capacidad**.
