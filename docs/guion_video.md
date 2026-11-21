@@ -188,7 +188,7 @@
 
 🎥 Ranking de prioritarias.
 
-🗣️ Con estos datos elegimos **15 estaciones prioritarias**: las de mayor presión en las que el desbalance se repite en al menos el 80 % de los días. **Doce se llenan y solo tres se vacían.** Cuatro son de Reforma y dos de Buenavista, pero las otras nueve están en otras zonas de la ciudad.
+🗣️ Con estos datos elegimos **15 estaciones prioritarias**: las de mayor presión en las que el desbalance se repite en al menos el 80 % de los días. **Doce se llenan y solo tres se vacían.** Cuatro son de Reforma y dos de Buenavista, pero las otras nueve están en otras zonas: ocho de ellas en la alcaldía Miguel Hidalgo (Polanco, Anzures y alrededores).
 
 🎥 Línea base.
 

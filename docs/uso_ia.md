@@ -68,7 +68,7 @@ Cualquier integrante debe poder explicar cualquier celda del proyecto.
   mes por mes y validando el total (42,377,769).
 - **Qué verificamos a mano:** _por completar por el equipo_. Sugerencias:
   - [ ] Recalcular en `03_analisis.ipynb` las cifras clave (saldo matutino de 271-272 y de 014, 36 estaciones con saldo > capacidad).
-  - [ ] Confirmar en el mapa de ECOBICI que 266-267, 268-269, 271-272 y 273-274 están junto a Buenavista.
+  - [ ] Confirmar en el mapa de ECOBICI que 266-267, 268-269, 271-272 y 273-274 están junto a Buenavista (la IA lo comprobó con la capa de colonias, D-24; falta la revisión del equipo).
   - [ ] Revisar que las metas del plan de acción estén redactadas como propuestas y no como resultados.
 - **Qué cambiamos o rechazamos:** _por completar_
 - **Verificado por:** _por completar_
@@ -98,7 +98,7 @@ Cualquier integrante debe poder explicar cualquier celda del proyecto.
 - **Qué verificamos a mano:** _por completar por el equipo_. Sugerencias:
   - [ ] Contar las filas de 2 o 3 CSV con otra herramienta (`wc -l` o DuckDB) y compararlas con la tabla de `01_perfilado.ipynb`.
   - [ ] Recalcular a mano, con DuckDB o una hoja de cálculo sobre un mes, el saldo de la estación 014 entre las 7:00 y las 10:59 de un día laborable.
-  - [ ] Confirmar en el mapa de ECOBICI que 266-267, 268-269, 271-272 y 273-274 están junto a Buenavista.
+  - [ ] Confirmar en el mapa de ECOBICI que 266-267, 268-269, 271-272 y 273-274 están junto a Buenavista (la IA lo comprobó con la capa de colonias, D-24; falta la revisión del equipo).
   - [ ] Revisar cada regla de limpieza (D-10) y decidir si la aceptan; confirmar la franja (P-10) y el día laborable (P-08).
   - [ ] Ejecutar `python -m pipeline` en otra computadora siguiendo solo el README.
   - [ ] Que cada integrante pueda explicar qué hace cada notebook y por qué cambió el saldo de 014 entre periodos (sin atribuirle una causa que los datos no demuestran).
@@ -112,7 +112,7 @@ Cualquier integrante debe poder explicar cualquier celda del proyecto.
   integrarla como etapa final de `python -m pipeline`; y dejar un comentario en el notebook 02 sobre la edad máxima de 162 años.
 - **Qué produjo:** `app/app.py` (pestañas Inicio, 01 a 04 y explorador de estaciones), `app/visor.py` (muestra un notebook ya ejecutado dentro de Streamlit), `.streamlit/config.toml`, la etapa `app` en `pipeline/__main__.py`
   (`--hasta visualizaciones` para no abrirla), `streamlit==1.67.0` en `requirements.txt`, la decisión D-21 en la bitácora, las actualizaciones de README, arquitectura y checklist,
-  el retiro del rótulo «prueba preliminar» en notebooks, app y documentos (D-22), y una celda de comentario en `notebooks/02_limpieza.ipynb` (la edad 162 viene así en el origen, 2 viajes de 2026-04; se considera un posible error de captura y no se corrige porque la edad no se usa, D-12).
+  el retiro del rótulo «prueba preliminar» en notebooks, app y documentos (D-22), la ubicación de las estaciones por colonia (D-24, `datos/catalogo/colonias_estaciones_foco_2026-11-21.csv`), y una celda de comentario en `notebooks/02_limpieza.ipynb` (la edad 162 viene así en el origen, 2 viajes de 2026-04; se considera un posible error de captura y no se corrige porque la edad no se usa, D-12).
 - **Cómo se probó (lo hizo la IA):** prueba automática de Streamlit sin errores, también sin `datos/gold`; revisión visual de las cinco pestañas en Edge (se corrigieron textos truncados en las tarjetas de Inicio);
   la etapa `app` responde en `http://localhost:8501` y `--hasta visualizaciones` no abre nada. **No** se probó el comando completo desde la descarga con la etapa `app`.
 - **Qué verificamos a mano:** _por completar por el equipo_. Sugerencias:

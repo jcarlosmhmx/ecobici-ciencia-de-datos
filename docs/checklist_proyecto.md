@@ -67,7 +67,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Saldo neto por estación, hora y día | ✅ | `03_analisis.ipynb` (24 meses, dos periodos). |
 | Persistencia (% de días laborales con saldo ≥ umbral) | ✅ | |
 | Presión relativa (saldo ÷ capacidad) | ✅ | La capacidad del catálogo es la actual. Incluye el indicador indirecto "bicis necesarias". |
-| Matriz origen-destino del corredor Buenavista → Reforma | ✅ | "Reforma" definida por regla (24 estaciones, D-14). Solo ≈25 % de las salidas de Buenavista va a Reforma. Falta confirmar en el mapa el grupo de Buenavista (D-13). |
+| Matriz origen-destino del corredor Buenavista → Reforma | ✅ | "Reforma" definida por regla (24 estaciones, D-14). Solo ≈25 % de las salidas de Buenavista va a Reforma. El grupo de Buenavista se confirmó con la capa de colonias del SIEG (D-24). |
 | Comparación 2024-11→2025-10 contra 2025-11→2026-10 | ✅ | Notebook 03 (D-12, D-13). La caída de 014 se describe pero **no se explica** (D-14); explicarla requiere datos externos. |
 | Línea base con `station_status` | ⬜ | No se hace; se usa el indicador indirecto (D-09, P-05). |
 | Redactar limitaciones y no confundir correlación con causalidad | ⬜ | |
@@ -107,5 +107,5 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 ## 9. Ruta crítica
 
 1. **Revisión de la versión final** con el equipo (sábado 2026-11-21).
-2. Decidir P-06 (única decisión técnica abierta) y confirmar en el mapa el grupo de Buenavista (D-13).
+2. Decidir P-06 (única decisión técnica abierta). El grupo de Buenavista ya se confirmó (D-24).
 3. Revisar las figuras `figuras/04_*.png` y usarlas en el documento, el video y el pitch con las cifras de D-12 a D-16 (no las de la propuesta).

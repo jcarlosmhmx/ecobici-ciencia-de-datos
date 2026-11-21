@@ -288,7 +288,7 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
   4. **Reglas de limpieza de D-10** confirmadas sin cambios (duración mínima 60 s y máxima 24 h; retiros anteriores al mes previo; fechas inválidas).
   5. **Grupo de Buenavista:** *núcleo* = las 4 estaciones de la propuesta (266-267, 268-269, 271-272, 273-274); *ampliado* = núcleo + 548, 547 y 176, que son las tres
      más cercanas al punto de la estación (por coordenadas del catálogo; el punto de referencia es aproximado) y también pierden decenas de bicis cada mañana.
-     **El equipo debe confirmarlo en el mapa**; no se pudo comprobar aquí.
+     **El equipo debe confirmarlo en el mapa**; no se pudo comprobar aquí (**confirmado en D-24** con la capa de colonias del SIEG).
 - **Alternativa(s) descartada(s):** (a) franja 7:00–9:59 (no reproduce la cifra de la propuesta para la estación 014, D-08); (b) incluir como no laborables los días de poco
   tráfico que no son festivos oficiales (la definición sería arbitraria; se declara como limitación); (c) mantener el relleno con 0 (sesga los promedios de estaciones sin servicio ciertos días).
 - **Justificación:** los festivos oficiales tienen entre 8 % y 50 % del tráfico de un día laborable normal (comprobado en silver para la franja 7–10 h), así que mezclarlos distorsiona el promedio.
@@ -393,7 +393,7 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
      Por la tarde ocurre lo contrario: a Buenavista llegan muchas bicis (máximo hacia las 18:00, ≈330 y ≈275). Entre periodos el volumen baja más en 014 que en Buenavista.
   2. **Destinos:** 8 de los 10 destinos más frecuentes desde Buenavista son estaciones de Reforma, pero ninguna recibe más de ≈12 viajes por día; en total solo ≈25 % de las salidas termina en Reforma.
   3. **Línea base:** en las 15 prioritarias el saldo supera la capacidad entre 75 % y 98 % de los días laborables según la estación y el periodo.
-- **Limitaciones:** el mapa sin calles no muestra referencias geográficas (se añadió el contorno de la ciudad en D-18); para el documento puede convenir añadir a mano el nombre de las colonias. El grupo de Buenavista sigue pendiente de confirmarse en el mapa (D-13).
+- **Limitaciones:** el mapa sin calles no muestra referencias geográficas (se añadió el contorno de la ciudad en D-18); para el documento puede convenir añadir a mano el nombre de las colonias. El grupo de Buenavista se confirmó con la capa de colonias (D-24).
 - **Consecuencia para el caso:** el documento y el video pueden usar estas figuras directamente. La figura de la serie mensual de 014 sigue siendo `figuras/03_serie_014.png`.
 
 ### D-18 · Contorno de la Ciudad de México como fondo del mapa
@@ -494,6 +494,22 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 - **Limitaciones:** (1) sin `gold` generado, la app muestra los notebooks completos pero no las cifras de Inicio ni el explorador (D-21); quien clone el repositorio debe correr `python -m pipeline` una vez.
   (2) Los resultados solo se reprodujeron en Windows y con Python 3.12 (y 3.15); no se han probado macOS, Linux ni 3.11.
 - **P-06 (aprobar `docs/arquitectura_pipeline.md`)** sigue **pendiente**: el equipo no la ha aprobado.
+- **Responsable:** _por completar por el equipo_
+
+### D-24 · Ubicación de las estaciones por colonia: se confirma el grupo de Buenavista y la zona de las prioritarias
+- **Fecha:** 2026-11-21
+- **Fase / notebook:** Analyze y Share — `datos/catalogo/colonias_estaciones_foco_2026-11-21.csv`; guiones del video y del pitch
+- **Decisión:** se ubica cada estación de interés dentro de su colonia y alcaldía cruzando sus coordenadas (catálogo de estaciones) con la capa de colonias del SIEG de la CDMX (`geonode:im_colonia`, servicio WFS
+  `https://sieg.cdmx.gob.mx/geoserver/ows`, consulta `INTERSECTS(the_geom, POINT(lon lat))`). La tabla de 20 estaciones queda versionada con la fecha. No se agrega al pipeline: es una verificación puntual, no entra en ningún cálculo.
+  - **Buenavista (cierra la comprobación pendiente de D-13):** las 4 estaciones del **núcleo** (266-267, 268-269, 271-272, 273-274) y la 176 están en la colonia **Buenavista** (Cuauhtémoc). Las dos restantes del grupo **ampliado**,
+    548 y 547, están en **Santa María la Ribera**, la colonia contigua. El núcleo queda confirmado; el ampliado se mantiene como análisis de sensibilidad.
+  - **Reforma:** las 4 prioritarias (014, 015, 017, 018) están en la colonia Cuauhtémoc.
+  - **Las otras 9 prioritarias:** **8 están en la alcaldía Miguel Hidalgo** (Polanco: 208 y 217; Rincón del Bosque: 239 y 226; Anzures: 250 y 247; Granada: 242; Anáhuac: 474) y la 007 en la colonia Cuauhtémoc, junto a Reforma.
+- **Alternativa(s) descartada(s):** INEGI (el Marco Geoestadístico trae alcaldías y AGEB, no nombres de colonias); deducir la zona por el nombre de las calles (así se había hecho en una revisión previa de los guiones, sin respaldo en los datos).
+- **Justificación:** permitía describir con datos dónde están las estaciones y cerrar la duda sobre el grupo de Buenavista.
+- **Registros afectados:** 0. No cambia ninguna cifra.
+- **Limitaciones:** los polígonos de colonia de esa capa son aproximados (la capa es del índice de marginación 2020), así que una estación en el borde podría quedar en la colonia vecina; «Polanco» se usa en el lenguaje común
+  para varias colonias contiguas (Polanco, Rincón del Bosque, Anzures, Granada). La comprobación la hizo la IA con la capa oficial; el equipo puede repetirla mirando las coordenadas del CSV en un mapa.
 - **Responsable:** _por completar por el equipo_
 
 ## Decisiones pendientes (no tomadas)

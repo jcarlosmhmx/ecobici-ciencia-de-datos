@@ -49,7 +49,7 @@
 
 🗣️ Segundo: es crónico. En las 15 estaciones con más presión, el saldo de la mañana supera la capacidad en el 87 % de los días.
 
-🗣️ Tercero, y nos sorprendió: no es un solo corredor. Solo una de cada cuatro bicis que salen de Buenavista termina en Reforma, y 9 de las 15 estaciones prioritarias están en otras zonas de la ciudad.
+🗣️ Tercero, y nos sorprendió: no es un solo corredor. Solo una de cada cuatro bicis que salen de Buenavista termina en Reforma, y 9 de las 15 estaciones prioritarias están en otras zonas, 8 de ellas en Miguel Hidalgo (Polanco y Anzures).
 
 ### Bloque 4 · Recomendación e impacto esperado (2:00–2:45) — Day · ≈100 palabras
 
@@ -80,7 +80,7 @@
 | Explican brevemente la metodología | Bloque 2: seis fases, dos fuentes oficiales, validación, limpieza y medida de saldo contra capacidad, en 35 segundos |
 | Comunican los hallazgos más relevantes | Bloque 3: tamaño (014, 3 veces su capacidad), frecuencia (87 % de los días) y alcance (no es un solo corredor) |
 | Presentan su recomendación y el impacto esperado | Bloque 4: rebalanceo programado y capacidad, con el impacto como **esperado** y su indicador para medirlo |
-| El video no supera los tres minutos | Unas 420 palabras habladas ≈ 2:48; cada bloque lleva su tiempo |
+| El video no supera los tres minutos | Unas 425 palabras habladas ≈ 2:50; cada bloque lleva su tiempo |
 
 ---
 
