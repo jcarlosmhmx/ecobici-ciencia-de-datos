@@ -94,7 +94,7 @@ Cualquier integrante debe poder explicar cualquier celda del proyecto.
   y registrar las decisiones D-06 a D-12; borrar los archivos exploratorios de 2024–2025.
 - **Qué produjo:** `config/pipeline.toml`, el paquete `pipeline/`, `notebooks/01_perfilado.ipynb` a `03_analisis.ipynb` ejecutados, `datos/catalogo/`,
   `datos/perfil/calidad_por_mes.csv` y `limpieza_resumen.csv`, las figuras `figuras/01_viajes_por_mes.png`, `03_perfil_horario.png` y `03_ranking_presion.png`,
-  y los documentos `arquitectura_pipeline.md` y `checklist_proyecto.md`. Después añadió las definiciones D-13 y el análisis de la estación 014 y del corredor (D-14, secciones 7 y 8 del notebook 03, figura `03_serie_014.png`) la línea base del plan de acción (D-15, sección 9) la verificación de la capacidad con una captura histórica del catálogo (D-16) las cinco gráficas finales del notebook 04 (D-17), el contorno de la ciudad para el mapa (D-18), el cambio de colores (D-19), la prueba en limpio con reintentos de descarga y versiones fijas (D-20) y la aplicación Streamlit (D-21). También se detectó que los notebooks 01 y 02 se habían guardado sin salidas en commits anteriores (por un error de la IA al regenerarlos) y se volvieron a ejecutar con todas sus salidas. La IA buscó y descargó la capa del SIEG; el equipo debe revisar su fuente y licencia. La IA buscó la captura en el Internet Archive y la comparó; el equipo debe revisar que la fuente sea aceptable. Los notebooks se generaron con un script temporal (no incluido en el repo) y luego se ejecutaron.
+  y los documentos `arquitectura_pipeline.md` y `checklist_proyecto.md`. Después añadió las definiciones D-13 y el análisis de la estación 014 y del corredor (D-14, secciones 7 y 8 del notebook 03, figura `03_serie_014.png`) la línea base del plan de acción (D-15, sección 9) la verificación de la capacidad con una captura histórica del catálogo (D-16) las cinco gráficas finales del notebook 04 (D-17), el contorno de la ciudad para el mapa (D-18), el cambio de colores (D-19) y la prueba en limpio con reintentos de descarga y versiones fijas (D-20). La aplicación Streamlit se registra aparte en IA-06. También se detectó que los notebooks 01 y 02 se habían guardado sin salidas en commits anteriores (por un error de la IA al regenerarlos) y se volvieron a ejecutar con todas sus salidas. La IA buscó y descargó la capa del SIEG; el equipo debe revisar su fuente y licencia. La IA buscó la captura en el Internet Archive y la comparó; el equipo debe revisar que la fuente sea aceptable. Los notebooks se generaron con un script temporal (no incluido en el repo) y luego se ejecutaron.
 - **Qué verificamos a mano:** _por completar por el equipo_. Sugerencias:
   - [ ] Contar las filas de 2 o 3 CSV con otra herramienta (`wc -l` o DuckDB) y compararlas con la tabla de `01_perfilado.ipynb`.
   - [ ] Recalcular a mano, con DuckDB o una hoja de cálculo sobre un mes, el saldo de la estación 014 entre las 7:00 y las 10:59 de un día laborable.
@@ -103,4 +103,23 @@ Cualquier integrante debe poder explicar cualquier celda del proyecto.
   - [ ] Ejecutar `python -m pipeline` en otra computadora siguiendo solo el README.
   - [ ] Que cada integrante pueda explicar qué hace cada notebook y por qué cambió el saldo de 014 entre periodos (sin atribuirle una causa que los datos no demuestran).
 - **Qué cambiamos o rechazamos:** _por completar_. Observación: las cifras de la propuesta (IA-03) no se reproducen en su mayoría (D-08, D-12).
+- **Verificado por:** _por completar_
+
+### IA-06 · Aplicación Streamlit y etapa final del pipeline
+- **Fecha:** 2026-11-21
+- **Herramienta:** Claude Code (modelo Claude Sonnet 5.5).
+- **Qué se pidió:** presentar todo el proyecto en una aplicación Streamlit con una pestaña por etapa (notebooks 01 a 04); aclarar si se ejecuta junto con el pipeline y si cada parte puede correr por separado;
+  integrarla como etapa final de `python -m pipeline`; y dejar un comentario en el notebook 02 sobre la edad máxima de 162 años.
+- **Qué produjo:** `app/app.py` (pestañas Inicio, 01 a 04 y explorador de estaciones), `app/visor.py` (muestra un notebook ya ejecutado dentro de Streamlit), `.streamlit/config.toml`, la etapa `app` en `pipeline/__main__.py`
+  (`--hasta visualizaciones` para no abrirla), `streamlit==1.67.0` en `requirements.txt`, la decisión D-21 en la bitácora, las actualizaciones de README, arquitectura y checklist,
+  y una celda de comentario en `notebooks/02_limpieza.ipynb` (la edad 162 viene así en el origen, 2 viajes de 2026-04; se considera un posible error de captura y no se corrige porque la edad no se usa, D-12).
+- **Cómo se probó (lo hizo la IA):** prueba automática de Streamlit sin errores, también sin `datos/gold`; revisión visual de las cinco pestañas en Edge (se corrigieron textos truncados en las tarjetas de Inicio);
+  la etapa `app` responde en `http://localhost:8501` y `--hasta visualizaciones` no abre nada. **No** se probó el comando completo desde la descarga con la etapa `app`.
+- **Qué verificamos a mano:** _por completar por el equipo_. Sugerencias:
+  - [ ] Abrir la aplicación en su propia computadora (`streamlit run app/app.py`) y recorrer las cinco pestañas.
+  - [ ] Comparar las cuatro cifras de Inicio con las del notebook 03.
+  - [ ] Elegir 2 o 3 estaciones en el explorador y comparar sus valores con la tabla del notebook 03.
+  - [ ] Comprobar que el comando `python -m pipeline` abre la app al terminar y que `--hasta visualizaciones` no la abre.
+  - [ ] Confirmar, con una consulta propia, que la edad 162 aparece solo en 2 viajes.
+- **Qué cambiamos o rechazamos:** _por completar_
 - **Verificado por:** _por completar_
