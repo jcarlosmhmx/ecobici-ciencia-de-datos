@@ -493,7 +493,7 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 - **Registros afectados:** 0.
 - **Limitaciones:** (1) sin `gold` generado, la app muestra los notebooks completos pero no las cifras de Inicio ni el explorador (D-21); quien clone el repositorio debe correr `python -m pipeline` una vez.
   (2) Los resultados solo se reprodujeron en Windows y con Python 3.12 (y 3.15); no se han probado macOS, Linux ni 3.11.
-- **P-06 (aprobar `docs/arquitectura_pipeline.md`)** sigue **pendiente**: el equipo no la ha aprobado.
+- **P-06 (aprobar `docs/arquitectura_pipeline.md`)** estaba pendiente en ese momento; se aprobó después (D-25).
 - **Responsable:** _por completar por el equipo_
 
 ### D-24 · Ubicación de las estaciones por colonia: se confirma el grupo de Buenavista y la zona de las prioritarias
@@ -512,6 +512,16 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
   para varias colonias contiguas (Polanco, Rincón del Bosque, Anzures, Granada). La comprobación la hizo la IA con la capa oficial; el equipo puede repetirla mirando las coordenadas del CSV en un mapa.
 - **Responsable:** _por completar por el equipo_
 
+### D-25 · Se aprueba la arquitectura del pipeline (cierra P-06)
+- **Fecha:** 2026-11-21
+- **Fase / notebook:** Process — `docs/arquitectura_pipeline.md`
+- **Decisión (del equipo):** se aprueba la arquitectura del pipeline descrita en `docs/arquitectura_pipeline.md` (capas raw → bronze → silver → gold, carpetas, configuración en `config/pipeline.toml` y validaciones). Desde su propuesta (2026-11-20) el documento se corrigió para reflejar lo construido (D-21, D-23) y se complementó con `docs/capas_medallion.md`.
+- **Alternativa(s) descartada(s):** ninguna; se aprobó sin cambios de estructura adicionales.
+- **Justificación:** la arquitectura ya está implementada y reproducida (D-20); la aprobación cierra la última decisión técnica abierta.
+- **Registros afectados:** 0.
+- **Limitaciones:** la aprobación la comunicó el equipo al asistente de IA; falta anotar quién la dio.
+- **Responsable:** _por completar por el equipo_
+
 ## Decisiones pendientes (no tomadas)
 
 | # | Pregunta | Opciones | Nota |
@@ -520,7 +530,7 @@ Si una decisión se revierte, no la borres: agrega una entrada nueva que lo expl
 | P-03 | ~~¿Se descarta la nube?~~ | **Resuelta en D-23:** sí, se descarta | |
 | P-04 | ~~Gold en git~~ | **Resuelta en D-23:** no se versionan (siguen ignoradas) | |
 | P-05 | Recolectar `station_status` (~7 días) | **No se hace para la prueba preliminar** (D-09); queda opcional para después | La línea base de la acción 1 usará el indicador indirecto de los viajes. |
-| P-06 | Aprobar la estructura de `docs/arquitectura_pipeline.md` | Aprobar o ajustar | Propuesta del 2026-11-20 (capas, carpetas, configuración, validaciones). |
+| P-06 | ~~Aprobar la estructura de `docs/arquitectura_pipeline.md`~~ | **Resuelta en D-25:** aprobada | |
 | P-07 | ~~Versión mínima de Python~~ | **Resuelta en D-23:** Python 3.12 | |
 | P-08 | ~~Definición de "día laboral"~~ | **Resuelta en D-13** (lunes a viernes sin festivos oficiales) | |
 | P-10 | ~~Definición de la franja "mañana"~~ | **Resuelta en D-13** (horas 7 a 10, hasta 10:59) | |

@@ -24,7 +24,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | Probar el diseño con un prototipo | ✅ | D-08. Detectó que las cifras de la propuesta no se reproducen igual. |
 | Actualizar `CLAUDE.md` y la cabecera de la propuesta | ✅ | |
 | Actualizar el `README.md` (tema, estructura, entregables, Ask y Act, validación, reglas) | 🔄 | Solo se cambió el problema. Falta lo listado en la revisión del README. |
-| Aprobar la arquitectura del pipeline (`docs/arquitectura_pipeline.md`) | ⏸ | P-06. |
+| Aprobar la arquitectura del pipeline (`docs/arquitectura_pipeline.md`) | ✅ | Aprobada (D-25). |
 | Hacer commit de D-08, la arquitectura y este checklist | ⬜ | Los cambios siguen sin commit. |
 | Recolectar `station_status` (~7 días, cada 5 min) | ⬜ | Descartado (D-09, P-05): no alcanza el tiempo. Opcional más adelante. |
 
@@ -98,7 +98,7 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 | P-03 | Descartar formalmente la nube (Databricks / warehouse) | ✅ D-23 (se descarta) |
 | P-04 | Cómo versionar gold (`.gitignore` excluye `*.parquet`) | ✅ D-23 (no se versionan) |
 | P-05 | Recolectar `station_status` | ✅ No se hace (D-09) |
-| P-06 | Aprobar la arquitectura del pipeline | ⬜ |
+| P-06 | Aprobar la arquitectura del pipeline | ✅ D-25 (aprobada) |
 | P-07 | Versión mínima de Python | ✅ D-23 (3.12) |
 | P-08 | Definición de "día laborable" | ✅ D-13 |
 | P-09 | Versionar la copia fechada del catálogo | ✅ D-23 (sí) |
@@ -107,5 +107,5 @@ Las asignaciones de responsable están sin llenar a propósito: las define el eq
 ## 9. Ruta crítica
 
 1. **Revisión de la versión final** con el equipo (sábado 2026-11-21).
-2. Decidir P-06 (única decisión técnica abierta). El grupo de Buenavista ya se confirmó (D-24).
+2. No quedan decisiones técnicas abiertas (P-06 aprobada en D-25; el grupo de Buenavista se confirmó en D-24).
 3. Revisar las figuras `figuras/04_*.png` y usarlas en el documento, el video y el pitch con las cifras de D-12 a D-16 (no las de la propuesta).
