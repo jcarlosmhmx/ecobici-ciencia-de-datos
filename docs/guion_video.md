@@ -49,13 +49,13 @@
 
 ## 3. Guion
 
-> **Formato:** 🎥 = qué se ve · 🗣️ = qué se dice. El texto es una guía: díganlo con sus palabras, pero conserven las cifras exactas.
+> **Formato:** 🎥 = qué se ve · 🗣️ = qué se dice. · `[E00]` = código de escena (E01 a E40), para ubicar cada fragmento al grabar y editar. El texto es una guía: díganlo con sus palabras, pero conserven las cifras exactas.
 
 ### Bloque 0 · Apertura (0:00–1:00) — Los 4, habla Paulina Gallardo
 
 🎥 Los cuatro en cámara (galería de Zoom). Al terminar la presentación, Paulina Gallardo comparte la pestaña **Inicio** de la aplicación.
 
-🗣️ **Paulina Gallardo:** Hola, somos el equipo de Ciencia de Datos de la Maestría en Big Data e Inteligencia Artificial de la Universidad Anáhuac Puebla. Yo soy Paulina Gallardo…
+🗣️ `[E01]` **Paulina Gallardo:** Hola, somos el equipo de Ciencia de Datos de la Maestría en Big Data e Inteligencia Artificial de la Universidad Anáhuac Puebla. Yo soy Paulina Gallardo…
 
 🗣️ **Marcos:** …yo soy Marcos…
 
@@ -63,7 +63,7 @@
 
 🗣️ **Day:** …y yo soy Day.
 
-🗣️ **Paulina Gallardo:** En este video les contamos cómo llevamos casi 40 millones de viajes de ECOBICI, el sistema de bicicletas compartidas de la Ciudad de México, a una recomendación concreta. Trabajamos como consultores de datos para la operación del sistema y seguimos las seis fases del análisis de datos: preguntar, preparar, procesar, analizar, compartir y actuar. Usamos 24 meses de datos abiertos, de noviembre de 2024 a octubre de 2026.
+🗣️ `[E02]` **Paulina Gallardo:** En este video les contamos cómo llevamos casi 40 millones de viajes de ECOBICI, el sistema de bicicletas compartidas de la Ciudad de México, a una recomendación concreta. Trabajamos como consultores de datos para la operación del sistema y seguimos las seis fases del análisis de datos: preguntar, preparar, procesar, analizar, compartir y actuar. Usamos 24 meses de datos abiertos, de noviembre de 2024 a octubre de 2026.
 
 ---
 
@@ -71,22 +71,22 @@
 
 🎥 Pestaña **Inicio** de la aplicación (problema y cuatro cifras clave). Después, la figura `04_perfil_horario_corredor.png`.
 
-🗣️ **Paulina Gallardo:** Primero teníamos que elegir **qué** problema investigar. Consideramos tres temas: la caída de la demanda, la brecha de género entre usuarios y el desbalance de estaciones. Elegimos el **desbalance** por dos razones: es un patrón que se repite casi todos los días laborables, y permite proponer acciones concretas y medibles. Los otros dos temas exigían explicar causas que los datos de viajes no muestran, y corríamos el riesgo de confundir correlación con causalidad. Esa decisión está registrada en nuestra bitácora como D-02.
+🗣️ `[E03]` **Paulina Gallardo:** Primero teníamos que elegir **qué** problema investigar. Consideramos tres temas: la caída de la demanda, la brecha de género entre usuarios y el desbalance de estaciones. Elegimos el **desbalance** por dos razones: es un patrón que se repite casi todos los días laborables, y permite proponer acciones concretas y medibles. Los otros dos temas exigían explicar causas que los datos de viajes no muestran, y corríamos el riesgo de confundir correlación con causalidad. Esa decisión está registrada en nuestra bitácora como D-02.
 
-🗣️ El problema es este: cada mañana de día laborable, las estaciones alrededor de **Buenavista**, donde llegan el Tren Suburbano y el Metro, se **vacían**, y muchas estaciones de **Paseo de la Reforma** se **llenan**. Para un usuario eso significa llegar y no encontrar bici, o llegar a su destino y no tener dónde dejarla.
+🗣️ `[E04]` El problema es este: cada mañana de día laborable, las estaciones alrededor de **Buenavista**, donde llegan el Tren Suburbano y el Metro, se **vacían**, y muchas estaciones de **Paseo de la Reforma** se **llenan**. Para un usuario eso significa llegar y no encontrar bici, o llegar a su destino y no tener dónde dejarla.
 
 🎥 Mostrar la gráfica del perfil horario.
 
-🗣️ Lo delimitamos así: días laborables, de 7:00 a 10:59 de la mañana, de noviembre de 2024 a octubre de 2026.
+🗣️ `[E05]` Lo delimitamos así: días laborables, de 7:00 a 10:59 de la mañana, de noviembre de 2024 a octubre de 2026.
 
-🗣️ Usamos la técnica de los **cinco porqués**:
+🗣️ `[E06]` Usamos la técnica de los **cinco porqués**:
 1. ¿Por qué faltan bicis en Buenavista? Porque salen muchas más de las que llegan.
 2. ¿Por qué? Probablemente, quienes bajan del tren usan la bici para el último tramo hacia su trabajo. **Esto es una hipótesis**, no algo comprobado.
 3. ¿Por qué no regresan? Sí regresan, pero en la tarde: hacia las 6 de la tarde Buenavista recibe muchas bicis.
 4. ¿Por qué no alcanza? Porque la demanda de la mañana supera la capacidad de las estaciones.
 5. ¿Por qué no se compensa? Pensamos que el rebalanceo del operador no está alineado con la hora pico; también es una **hipótesis**.
 
-🗣️ Con eso planteamos cuatro preguntas de investigación: ¿qué estaciones y horarios concentran el desbalance y qué tan seguido se repite?, ¿qué tan grande es comparado con la capacidad de cada estación?, ¿qué rutas lo explican?, y ¿cambió entre el primer y el segundo año? Le paso la palabra a Marcos, que explica de dónde salieron los datos.
+🗣️ `[E07]` Con eso planteamos cuatro preguntas de investigación: ¿qué estaciones y horarios concentran el desbalance y qué tan seguido se repite?, ¿qué tan grande es comparado con la capacidad de cada estación?, ¿qué rutas lo explican?, y ¿cambió entre el primer y el segundo año? Le paso la palabra a Marcos, que explica de dónde salieron los datos.
 
 ---
 
@@ -94,23 +94,23 @@
 
 🎥 `README.md` (sección "Estructura del repositorio"), después `config/pipeline.toml`, después la terminal y el notebook `01_perfilado.ipynb`.
 
-🗣️ **Marcos:** Usamos dos fuentes oficiales. La primera son los **viajes**, del portal de datos abiertos de ECOBICI: 24 archivos CSV, uno por mes, unos 2.4 GB y **39,235,386 viajes**. Cada fila es un viaje con la estación y la hora de salida, la estación y la hora de llegada, y la edad y el género del usuario. La segunda es el **catálogo de estaciones** (GBFS `station_information`), que nos da la **capacidad** y las coordenadas de las 677 estaciones. Sin la capacidad no podríamos decir si un desbalance es grande o pequeño.
+🗣️ `[E08]` **Marcos:** Usamos dos fuentes oficiales. La primera son los **viajes**, del portal de datos abiertos de ECOBICI: 24 archivos CSV, uno por mes, unos 2.4 GB y **39,235,386 viajes**. Cada fila es un viaje con la estación y la hora de salida, la estación y la hora de llegada, y la edad y el género del usuario. La segunda es el **catálogo de estaciones** (GBFS `station_information`), que nos da la **capacidad** y las coordenadas de las 677 estaciones. Sin la capacidad no podríamos decir si un desbalance es grande o pequeño.
 
 🎥 `config/pipeline.toml`, sección `[ventana]`.
 
-🗣️ El periodo no está escrito dentro del código, sino en este archivo de configuración: de 2024-11 a 2026-10. Elegimos una ventana **fija** de 24 meses para poder comparar dos años completos de 12 meses, y para que, si el profesor ejecuta el proyecto dentro de seis meses, obtenga los mismos números del documento.
+🗣️ `[E09]` El periodo no está escrito dentro del código, sino en este archivo de configuración: de 2024-11 a 2026-10. Elegimos una ventana **fija** de 24 meses para poder comparar dos años completos de 12 meses, y para que, si el profesor ejecuta el proyecto dentro de seis meses, obtenga los mismos números del documento.
 
 🎥 `pipeline/descarga.py` y la terminal.
 
-🗣️ La descarga es automática. Un detalle: los nombres de los archivos del portal no siguen un patrón, unos se llaman `2024-02.csv` y otros `public_data_web_2026-06.csv`. Por eso el script **lee la página del portal y extrae los enlaces**, en lugar de tener 24 direcciones escritas a mano. Además reintenta si la red falla y no vuelve a bajar lo que ya está completo.
+🗣️ `[E10]` La descarga es automática. Un detalle: los nombres de los archivos del portal no siguen un patrón, unos se llaman `2024-02.csv` y otros `public_data_web_2026-06.csv`. Por eso el script **lee la página del portal y extrae los enlaces**, en lugar de tener 24 direcciones escritas a mano. Además reintenta si la red falla y no vuelve a bajar lo que ya está completo.
 
 🎥 Notebook 01, secciones 2 y 3 (tabla de calidad por mes).
 
-🗣️ Organizamos los datos en tres capas, lo que se llama arquitectura **medallion**: *bronze* son los datos tal como vienen, pero en formato Parquet; *silver*, los datos limpios; y *gold*, las tablas resumidas para el análisis. En la capa bronze leemos **todo como texto**. ¿Por qué? Porque los códigos de estación llevan ceros a la izquierda, como `015`; si los convertimos a número se vuelven `15` y ya no coinciden con el catálogo.
+🗣️ `[E11]` Organizamos los datos en tres capas, lo que se llama arquitectura **medallion**: *bronze* son los datos tal como vienen, pero en formato Parquet; *silver*, los datos limpios; y *gold*, las tablas resumidas para el análisis. En la capa bronze leemos **todo como texto**. ¿Por qué? Porque los códigos de estación llevan ceros a la izquierda, como `015`; si los convertimos a número se vuelven `15` y ya no coinciden con el catálogo.
 
-🗣️ Aquí aprendimos una lección importante. En la exploración inicial leímos todos los CSV de una sola vez con DuckDB, y **se perdieron sin aviso dos meses completos**, unos 3.7 millones de viajes, porque esos archivos traían todos los campos entre comillas. Desde entonces leemos **mes por mes** y validamos que el número de filas del Parquet sea igual al del CSV original en cada mes. Está en la bitácora como D-03.
+🗣️ `[E12]` Aquí aprendimos una lección importante. En la exploración inicial leímos todos los CSV de una sola vez con DuckDB, y **se perdieron sin aviso dos meses completos**, unos 3.7 millones de viajes, porque esos archivos traían todos los campos entre comillas. Desde entonces leemos **mes por mes** y validamos que el número de filas del Parquet sea igual al del CSV original en cada mes. Está en la bitácora como D-03.
 
-🗣️ En el perfilado medimos la calidad **sin corregir nada**: no hay celdas vacías ni duplicados; desde junio de 2026 la edad viene con decimal, "26.0" en vez de "26"; hay códigos dobles como `271-272`, que son estaciones contiguas; y hay edades imposibles, de más de 100 años. Juan explica cómo los tratamos.
+🗣️ `[E13]` En el perfilado medimos la calidad **sin corregir nada**: no hay celdas vacías ni duplicados; desde junio de 2026 la edad viene con decimal, "26.0" en vez de "26"; hay códigos dobles como `271-272`, que son estaciones contiguas; y hay edades imposibles, de más de 100 años. Juan explica cómo los tratamos.
 
 ---
 
@@ -118,23 +118,23 @@
 
 🎥 Notebook `02_limpieza.ipynb` (sección 1, reglas, y sección 2, conteos). Luego `docs/bitacora_decisiones.md` abierto en D-13. Luego la terminal.
 
-🗣️ **Juan:** En la limpieza seguimos una regla: cada decisión tiene que estar **justificada, contada y registrada**. Aplicamos cinco reglas en orden, y un viaje se excluye en la primera que incumple: fecha u hora que no se puede leer; llegada anterior a la salida; duración menor a 1 minuto; duración mayor a 24 horas; y retiros demasiado antiguos para el archivo.
+🗣️ `[E14]` **Juan:** En la limpieza seguimos una regla: cada decisión tiene que estar **justificada, contada y registrada**. Aplicamos cinco reglas en orden, y un viaje se excluye en la primera que incumple: fecha u hora que no se puede leer; llegada anterior a la salida; duración menor a 1 minuto; duración mayor a 24 horas; y retiros demasiado antiguos para el archivo.
 
 🎥 Tabla de conteos del notebook 02 (o `datos/perfil/limpieza_resumen.csv`).
 
-🗣️ El resultado: conservamos **39,229,201 viajes, el 99.984 %**. Excluimos 5,027 viajes de menos de un minuto, que suelen ser alguien que saca la bici y la regresa de inmediato, y 1,158 de más de 24 horas, que son errores o bicis que no se devolvieron. Como es tan poco, la limpieza no cambia la forma del análisis, pero sí evita que esos casos distorsionen los conteos.
+🗣️ `[E15]` El resultado: conservamos **39,229,201 viajes, el 99.984 %**. Excluimos 5,027 viajes de menos de un minuto, que suelen ser alguien que saca la bici y la regresa de inmediato, y 1,158 de más de 24 horas, que son errores o bicis que no se devolvieron. Como es tan poco, la limpieza no cambia la forma del análisis, pero sí evita que esos casos distorsionen los conteos.
 
-🗣️ Igual de importante es lo que **no** excluimos. No quitamos los viajes que regresan a la misma estación, porque son uso real. Tampoco corregimos las edades imposibles: la edad no interviene en el análisis de desbalance, así que solo dejamos constancia.
+🗣️ `[E16]` Igual de importante es lo que **no** excluimos. No quitamos los viajes que regresan a la misma estación, porque son uso real. Tampoco corregimos las edades imposibles: la edad no interviene en el análisis de desbalance, así que solo dejamos constancia.
 
 🎥 `config/pipeline.toml`, secciones `[limpieza]` y `[analisis]`; después la bitácora en D-13.
 
-🗣️ Tuvimos que definir dos cosas que parecen obvias y no lo son. **La franja de la mañana**: de 7:00 a 10:59. Probamos de 7 a 9:59, pero con la franja hasta las 10:59 se reproduce la cifra de la exploración inicial para la estación 014. Y **el día laborable**: lunes a viernes, **sin los 14 días de descanso obligatorio** de la Ley Federal del Trabajo, porque esos días tienen entre 8 % y 50 % del tráfico normal y bajarían el promedio. Quedan 254 y 253 días laborables en cada año.
+🗣️ `[E17]` Tuvimos que definir dos cosas que parecen obvias y no lo son. **La franja de la mañana**: de 7:00 a 10:59. Probamos de 7 a 9:59, pero con la franja hasta las 10:59 se reproduce la cifra de la exploración inicial para la estación 014. Y **el día laborable**: lunes a viernes, **sin los 14 días de descanso obligatorio** de la Ley Federal del Trabajo, porque esos días tienen entre 8 % y 50 % del tráfico normal y bajarían el promedio. Quedan 254 y 253 días laborables en cada año.
 
-🗣️ Cada decisión está en la bitácora con la fecha, lo que decidimos, la alternativa que descartamos, por qué, y cuántos registros afecta. Hay 23 entradas.
+🗣️ `[E18]` Cada decisión está en la bitácora con la fecha, lo que decidimos, la alternativa que descartamos, por qué, y cuántos registros afecta. Hay 23 entradas.
 
 🎥 Terminal: `python -m pipeline --hasta visualizaciones` (pueden mostrar una ejecución grabada antes y acelerada).
 
-🗣️ Por último, la **reproducibilidad**. Todo el proyecto se reproduce con un solo comando: `python -m pipeline`. Descarga, crea las tres capas, ejecuta los cuatro notebooks y genera las gráficas. Lo probamos desde cero en una carpeta nueva. En esa prueba encontramos que una versión más nueva de DuckDB cambiaba tres valores en el último decimal, así que **fijamos las versiones exactas** de todas las librerías; con ellas, las 11 tablas resultantes salen idénticas al dígito. Marcos explica el análisis.
+🗣️ `[E19]` Por último, la **reproducibilidad**. Todo el proyecto se reproduce con un solo comando: `python -m pipeline`. Descarga, crea las tres capas, ejecuta los cuatro notebooks y genera las gráficas. Lo probamos desde cero en una carpeta nueva. En esa prueba encontramos que una versión más nueva de DuckDB cambiaba tres valores en el último decimal, así que **fijamos las versiones exactas** de todas las librerías; con ellas, las 11 tablas resultantes salen idénticas al dígito. Marcos explica el análisis.
 
 ---
 
@@ -144,7 +144,7 @@
 
 🎥 Notebook `03_analisis.ipynb`, secciones 2, 4 y 5.
 
-🗣️ **Marcos:** Construimos cuatro medidas, una por pregunta de investigación.
+🗣️ `[E20]` **Marcos:** Construimos cuatro medidas, una por pregunta de investigación.
 
 🗣️ Primero, el **saldo**: llegadas menos salidas de cada estación entre las 7 y las 11 de la mañana. Si es positivo, la estación se llena; si es negativo, se vacía.
 
@@ -156,23 +156,23 @@
 
 🗣️ Una decisión de método: solo contamos los días en que la estación tuvo actividad. Al principio rellenábamos con cero los días sin viajes, y eso subestimaba el desbalance (D-13).
 
-🗣️ Los resultados del periodo más reciente, noviembre de 2025 a octubre de 2026: la estación **014, Reforma y Río de Plata**, con capacidad de 39 bicis, **gana en promedio 121 bicis cada mañana**: una presión de 3.1, la más alta del sistema. Recibe más de lo que sale el 100 % de los días laborables. En el lado contrario, la **271-272 de Buenavista**, con capacidad de 74, **pierde 151 bicis** en promedio (saldo). Y en todo el sistema, **34 estaciones** tienen un saldo mayor que su capacidad completa.
+🗣️ `[E21]` Los resultados del periodo más reciente, noviembre de 2025 a octubre de 2026: la estación **014, Reforma y Río de Plata**, con capacidad de 39 bicis, **gana en promedio 121 bicis cada mañana**: una presión de 3.1, la más alta del sistema. Recibe más de lo que sale el 100 % de los días laborables. En el lado contrario, la **271-272 de Buenavista**, con capacidad de 74, **pierde 151 bicis** en promedio (saldo). Y en todo el sistema, **34 estaciones** tienen un saldo mayor que su capacidad completa.
 
 #### 4b · Lo que cambió y lo que corregimos (Juan, 9:15–10:45)
 
 🎥 Notebook 03, sección 6 (tabla de comparación), luego `figuras/03_serie_014.png`, luego `figuras/04_destinos_buenavista.png`.
 
-🗣️ **Juan:** La cuarta pregunta era si el desbalance cambió entre los dos años. Sí cambió: el saldo de la estación 014 **bajó a la mitad**, de 247 a 121 bicis por mañana. Las salidas del núcleo de Buenavista bajaron de 565 a 453 diarias.
+🗣️ `[E22]` **Juan:** La cuarta pregunta era si el desbalance cambió entre los dos años. Sí cambió: el saldo de la estación 014 **bajó a la mitad**, de 247 a 121 bicis por mañana. Las salidas del núcleo de Buenavista bajaron de 565 a 453 diarias.
 
 🎥 Serie mensual de 014.
 
-🗣️ Quisimos saber por qué, y aquí hay que ser honestos. Revisamos tres cosas: la serie mes a mes, las estaciones vecinas y de dónde vienen las bicis que llegan a 014. Las llegadas a 014 cayeron **44 %**, mientras que el sistema completo cayó **8 %**, y las vecinas no absorbieron esa demanda. **Los datos de viajes no nos permiten saber por qué**: puede ser una obra, una oficina que cerró o un cambio operativo. Lo declaramos así, sin inventar una causa.
+🗣️ `[E23]` Quisimos saber por qué, y aquí hay que ser honestos. Revisamos tres cosas: la serie mes a mes, las estaciones vecinas y de dónde vienen las bicis que llegan a 014. Las llegadas a 014 cayeron **44 %**, mientras que el sistema completo cayó **8 %**, y las vecinas no absorbieron esa demanda. **Los datos de viajes no nos permiten saber por qué**: puede ser una obra, una oficina que cerró o un cambio operativo. Lo declaramos así, sin inventar una causa.
 
 🎥 Gráfica de destinos desde Buenavista.
 
-🗣️ El hallazgo más importante para el caso es que **la historia inicial era una simplificación**. Solo **25 %** de las bicis que salen de Buenavista termina en Reforma; el resto se reparte entre muchísimos destinos. Y solo cerca del **9 %** de las bicis que llegan a 014 viene de Buenavista (entre 7.6 % y 9.6 % según el grupo de estaciones que se cuente). Hay un movimiento de Buenavista a Reforma, pero el desbalance es un problema **de muchas estaciones**, no de un solo corredor.
+🗣️ `[E24]` El hallazgo más importante para el caso es que **la historia inicial era una simplificación**. Solo **25 %** de las bicis que salen de Buenavista termina en Reforma; el resto se reparte entre muchísimos destinos. Y solo cerca del **9 %** de las bicis que llegan a 014 viene de Buenavista (entre 7.6 % y 9.6 % según el grupo de estaciones que se cuente). Hay un movimiento de Buenavista a Reforma, pero el desbalance es un problema **de muchas estaciones**, no de un solo corredor.
 
-🗣️ Esto también nos sirvió para **verificar el trabajo inicial hecho con inteligencia artificial**. Recalculamos las cifras de la propuesta: el +243 de la estación 014 sí se reprodujo; pero el −250 de Buenavista no salió con ninguna definición, y los "580 viajes diarios hacia Reforma" se parecen a las salidas **totales** de Buenavista (565 al día), pero no sabemos de dónde salió esa cifra. Todo el uso de IA y lo que verificamos está registrado en `docs/uso_ia.md`.
+🗣️ `[E25]` Esto también nos sirvió para **verificar el trabajo inicial hecho con inteligencia artificial**. Recalculamos las cifras de la propuesta: el +243 de la estación 014 sí se reprodujo; pero el −250 de Buenavista no salió con ninguna definición, y los "580 viajes diarios hacia Reforma" se parecen a las salidas **totales** de Buenavista (565 al día), pero no sabemos de dónde salió esa cifra. Todo el uso de IA y lo que verificamos está registrado en `docs/uso_ia.md`.
 
 ---
 
@@ -180,23 +180,23 @@
 
 🎥 `figuras/04_mapa_saldo.png`, luego `04_ranking_prioritarias.png`, luego `04_linea_base_prioritarias.png`, y al final la aplicación (pestaña **04 · Visualizaciones**, explorador de estaciones).
 
-🗣️ **Day:** Para comunicar los resultados hicimos cinco gráficas con una sola regla de color: **rojo** significa que la estación **se llena** y **azul** que **se vacía**. Cada gráfica tiene como título la idea que muestra.
+🗣️ `[E26]` **Day:** Para comunicar los resultados hicimos cinco gráficas con una sola regla de color: **rojo** significa que la estación **se llena** y **azul** que **se vacía**. Cada gráfica tiene como título la idea que muestra.
 
 🎥 Mapa.
 
-🗣️ En el mapa, cada punto es una estación: el color indica su saldo de la mañana y el tamaño, su capacidad. El primer panel muestra que ECOBICI cubre solo la zona central de la ciudad. En el acercamiento se ve Buenavista en azul y Reforma en rojo, pero también hay puntos rojos lejos de esa zona: **el desbalance no se limita al corredor**.
+🗣️ `[E27]` En el mapa, cada punto es una estación: el color indica su saldo de la mañana y el tamaño, su capacidad. El primer panel muestra que ECOBICI cubre solo la zona central de la ciudad. En el acercamiento se ve Buenavista en azul y Reforma en rojo, pero también hay puntos rojos lejos de esa zona: **el desbalance no se limita al corredor**.
 
 🎥 Ranking de prioritarias.
 
-🗣️ Con estos datos elegimos **15 estaciones prioritarias**: las de mayor presión en las que el desbalance se repite en al menos el 80 % de los días. **Doce se llenan y solo tres se vacían.** Cuatro son de Reforma y dos de Buenavista, pero las otras nueve están en otras zonas: ocho de ellas en la alcaldía Miguel Hidalgo (Polanco, Anzures y alrededores).
+🗣️ `[E28]` Con estos datos elegimos **15 estaciones prioritarias**: las de mayor presión en las que el desbalance se repite en al menos el 80 % de los días. **Doce se llenan y solo tres se vacían.** Cuatro son de Reforma y dos de Buenavista, pero las otras nueve están en otras zonas: ocho de ellas en la alcaldía Miguel Hidalgo (Polanco, Anzures y alrededores).
 
 🎥 Línea base.
 
-🗣️ Esta gráfica es la **línea base**: en las 15 prioritarias, el saldo de la mañana supera la capacidad de la estación en el **87 % de los días laborables**, y el año anterior era 89 %. Es decir, casi nueve de cada diez días. No es algo ocasional.
+🗣️ `[E29]` Esta gráfica es la **línea base**: en las 15 prioritarias, el saldo de la mañana supera la capacidad de la estación en el **87 % de los días laborables**, y el año anterior era 89 %. Es decir, casi nueve de cada diez días. No es algo ocasional.
 
 🎥 Aplicación: elegir la estación 014 en el explorador y mostrar su serie y su perfil por hora.
 
-🗣️ Además, hicimos una **aplicación** que muestra el proyecto etapa por etapa, con los notebooks ya ejecutados, y un explorador donde se elige cualquier estación y se ven sus indicadores. Por ejemplo, aquí está la 014: llegadas en rojo, concentradas entre las 8 y las 9 de la mañana.
+🗣️ `[E30]` Además, hicimos una **aplicación** que muestra el proyecto etapa por etapa, con los notebooks ya ejecutados, y un explorador donde se elige cualquier estación y se ven sus indicadores. Por ejemplo, aquí está la 014: llegadas en rojo, concentradas entre las 8 y las 9 de la mañana.
 
 ---
 
@@ -213,17 +213,17 @@
 \* Las metas las propone el equipo (están pendientes en el checklist). El impacto es **esperado, no comprobado**.
 En la acción 2 las cantidades son las **bicis necesarias** (indicador indirecto), por eso 271-272 es 152 y no 151, que es su saldo medio.
 
-🗣️ **Paulina Gallardo:** Con base en lo que encontramos, proponemos tres acciones. Cada una tiene un indicador, una línea base que ya medimos, un responsable y una frecuencia.
+🗣️ `[E31]` **Paulina Gallardo:** Con base en lo que encontramos, proponemos tres acciones. Cada una tiene un indicador, una línea base que ya medimos, un responsable y una frecuencia.
 
-🗣️ La **primera** es un **rebalanceo programado** en las 15 estaciones prioritarias: llevar bicis a las que se vacían antes de las 7 de la mañana y retirar bicis de las que se llenan entre las 9 y las 10. Se mide con el porcentaje de días en que el saldo supera la capacidad; hoy es 87 %.
+🗣️ `[E32]` La **primera** es un **rebalanceo programado** en las 15 estaciones prioritarias: llevar bicis a las que se vacían antes de las 7 de la mañana y retirar bicis de las que se llenan entre las 9 y las 10. Se mide con el porcentaje de días en que el saldo supera la capacidad; hoy es 87 %.
 
-🗣️ La **segunda** es **más capacidad**, o un servicio de resguardo temporal, en las estaciones con el desbalance más grande: la 014 necesitaría en promedio 121 espacios más cada mañana, y la 271-272 de Buenavista, 152 bicis más (medida indirecta: las que harían falta a las 7:00 para que no se vacíe).
+🗣️ `[E33]` La **segunda** es **más capacidad**, o un servicio de resguardo temporal, en las estaciones con el desbalance más grande: la 014 necesitaría en promedio 121 espacios más cada mañana, y la 271-272 de Buenavista, 152 bicis más (medida indirecta: las que harían falta a las 7:00 para que no se vacíe).
 
-🗣️ **Day:** La **tercera** es **medir el inventario real**. Nuestros datos muestran viajes, no cuántas bicis había en cada estación. El catálogo de ECOBICI publica el estado de cada estación en tiempo real; si el operador lo registra cada 5 minutos, puede saber cuántos minutos pasa una estación vacía o llena, y comprobar si las acciones 1 y 2 funcionan.
+🗣️ `[E34]` **Day:** La **tercera** es **medir el inventario real**. Nuestros datos muestran viajes, no cuántas bicis había en cada estación. El catálogo de ECOBICI publica el estado de cada estación en tiempo real; si el operador lo registra cada 5 minutos, puede saber cuántos minutos pasa una estación vacía o llena, y comprobar si las acciones 1 y 2 funcionan.
 
-🗣️ También **descartamos** una idea que parecía buena: dar incentivos a quien viaje en sentido contrario, de Reforma a Buenavista. Los datos muestran que ese contraflujo es de apenas **6 viajes al día**, contra **112** en el sentido principal. Aunque se duplicara, no compensaría el flujo. Así los datos nos ayudaron a descartar una acción, no solo a proponerlas.
+🗣️ `[E35]` También **descartamos** una idea que parecía buena: dar incentivos a quien viaje en sentido contrario, de Reforma a Buenavista. Los datos muestran que ese contraflujo es de apenas **6 viajes al día**, contra **112** en el sentido principal. Aunque se duplicara, no compensaría el flujo. Así los datos nos ayudaron a descartar una acción, no solo a proponerlas.
 
-🗣️ Importante: todas las mejoras son **esperadas, no comprobadas**. Por eso cada acción trae su línea base, para medir antes y después.
+🗣️ `[E36]` Importante: todas las mejoras son **esperadas, no comprobadas**. Por eso cada acción trae su línea base, para medir antes y después.
 
 ---
 
@@ -231,13 +231,13 @@ En la acción 2 las cantidades son las **bicis necesarias** (indicador indirecto
 
 🎥 Los cuatro en cámara.
 
-🗣️ **Marcos:** Tenemos tres limitaciones. No hay datos de inventario, así que vemos flujos y no estaciones vacías. La capacidad es la actual del catálogo, aunque comprobamos con una captura de 2024 que solo cambió en 9 de 677 estaciones, y en ninguna prioritaria.
+🗣️ `[E37]` **Marcos:** Tenemos tres limitaciones. No hay datos de inventario, así que vemos flujos y no estaciones vacías. La capacidad es la actual del catálogo, aunque comprobamos con una captura de 2024 que solo cambió en 9 de 677 estaciones, y en ninguna prioritaria.
 
-🗣️ **Juan:** Y la más importante: **correlación no es causalidad**. El patrón coincide con la hipótesis del tren en Buenavista, pero no la demuestra. Todo el proyecto se puede reproducir con un solo comando y cada decisión está en la bitácora.
+🗣️ `[E38]` **Juan:** Y la más importante: **correlación no es causalidad**. El patrón coincide con la hipótesis del tren en Buenavista, pero no la demuestra. Todo el proyecto se puede reproducir con un solo comando y cada decisión está en la bitácora.
 
-🗣️ **Day:** En resumen: el desbalance de ECOBICI es **crónico**, se repite casi nueve de cada diez días en las estaciones prioritarias, y **está en muchas estaciones**, no solo en un corredor.
+🗣️ `[E39]` **Day:** En resumen: el desbalance de ECOBICI es **crónico**, se repite casi nueve de cada diez días en las estaciones prioritarias, y **está en muchas estaciones**, no solo en un corredor.
 
-🗣️ **Paulina Gallardo:** Por eso recomendamos actuar sobre 15 estaciones concretas y medir el resultado. Gracias.
+🗣️ `[E40]` **Paulina Gallardo:** Por eso recomendamos actuar sobre 15 estaciones concretas y medir el resultado. Gracias.
 
 ---
 
